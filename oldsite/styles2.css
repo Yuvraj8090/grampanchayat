@@ -1,0 +1,30 @@
+html,body{margin:0;padding:0; background-image:url('back.png');}
+body{ font-size:12px;font:sans-serif; text-align:center;}
+body p{ margin:0 0 0 0 ;}
+.cl{clear:both;}
+p{ text-align:justify;}
+#containerboxl ul { border-bottom:px solid #000;list-style:none; margin-left:0px;border:1px solid #000;  }
+#containerboxl ul li{  list-style:none; width:140px; margin-left:-40px; border-bottom:1px solid #000;    }
+#containerboxr ul li{ list-style:none; width:250px; margin-left:-40px; border-bottom:1px solid #000;   }
+h2{ margin-top:0px; font-size:22px; width:100%}
+
+#containermenu  ul  li{  display:inline; width:200px !important; border:2px solid #000; font-size:12px;  position:relative; padding:5px 25px 5px 25px; }
+#title{margin:0px; background-color:#ABE99E; }
+#headertop{ width:100%;  border:px solid #000;  margin:auto; background-color:#3D3D3D; height:30px; z-index:-1; } 
+#headertop1{ width:100%;  border:px solid #000;  margin:auto; background-image:url('banner.jpg'); height:100px; z-index:-1; opacity:0.4;} 
+#wrapper{ width:1000px;   border-left:2px solid #000; border-right:2px solid #000;  margin:auto; margin-top:-132px; z-index:1 } 
+#header{ width:980px;  border:1px solid #000;  margin:auto; margin-top:5px;}
+
+#headerleft{ width:400px; float:left; position:relative; font-size:14px; display:inline;  border:1px solid #000;  margin:auto; color:#D6D6D6;}
+#headerright{ width:450px; float:right; position:relative; display:inline;  border:1px solid #000;  margin:auto; color:#D6D6D6;}
+#container{ width:990px;  border:1px solid #000;  margin:auto; margin-top:2px; background-color:#fff;}
+#containermenu{ width:990px; height:30px; border:1px solid #000;  margin:auto;  margin-top:10px; height:40px; background-color:#fff;}
+#containersearch{ width:950px;  border:1px solid #000;  margin:auto; margin-top:2px; padding:20px; background-color:#fff;}
+#containerleft{ width:500px; float:left; position:relative; display:inline;  border:1px solid #000;  margin:auto; font-size:12px;}
+#containerright{ width:400px; float:right; position:relative; display:inline;  border:1px solid #000;  margin:auto;}
+#containerboxl{ width:140px; float:left; position:relative; display:inline;  border:1px solid #000;  margin:auto;}
+#containerboxc{ width:590px; float:left; padding:2px; position:relative; display:inline;  border:1px solid #000;  margin:auto;}
+#containerboxr{ width:250px; float:right; position:relative; display:inline;  border:1px solid #000;  margin:auto;}
+
+#selectbox{ width:180px; padding:2px; height:40px;  border:2px solid #000; font-size:14px; }
+#submit{ width:150px; padding:2px; height:40px;  border:px solid  #000;  }

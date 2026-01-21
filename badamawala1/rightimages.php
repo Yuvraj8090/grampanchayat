@@ -1,0 +1,1 @@
+<img src="../ads/sb-college.jpg" />

@@ -1,0 +1,4 @@
+[24-Dec-2023 10:07:50 UTC] PHP Fatal error:  Uncaught Error: Class 'WP_Customize_Image_Control' not found in /home4/grampanc/public_html/info/wp-includes/customize/class-wp-customize-background-image-control.php:17
+Stack trace:
+#0 {main}
+  thrown in /home4/grampanc/public_html/info/wp-includes/customize/class-wp-customize-background-image-control.php on line 17

@@ -1,0 +1,8 @@
+[17-Mar-2024 15:13:03 UTC] PHP Fatal error:  Uncaught Error: Call to undefined function get_header() in /home4/grampanc/public_html/info/wp-content/themes/twentysixteen/index.php:17
+Stack trace:
+#0 {main}
+  thrown in /home4/grampanc/public_html/info/wp-content/themes/twentysixteen/index.php on line 17
+[22-Mar-2024 04:44:39 UTC] PHP Fatal error:  Uncaught Error: Call to undefined function get_header() in /home4/grampanc/public_html/info/wp-content/themes/twentysixteen/index.php:17
+Stack trace:
+#0 {main}
+  thrown in /home4/grampanc/public_html/info/wp-content/themes/twentysixteen/index.php on line 17

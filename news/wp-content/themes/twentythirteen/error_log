@@ -1,0 +1,16 @@
+[09-Dec-2024 20:21:28 UTC] PHP Fatal error:  Uncaught Error: Call to undefined function get_template_directory() in /home4/grampanc/public_html/news/wp-content/themes/twentythirteen/functions.php:37
+Stack trace:
+#0 {main}
+  thrown in /home4/grampanc/public_html/news/wp-content/themes/twentythirteen/functions.php on line 37
+[09-Dec-2024 21:31:00 UTC] PHP Fatal error:  Uncaught Error: Call to undefined function get_template_directory() in /home4/grampanc/public_html/news/wp-content/themes/twentythirteen/functions.php:37
+Stack trace:
+#0 {main}
+  thrown in /home4/grampanc/public_html/news/wp-content/themes/twentythirteen/functions.php on line 37
+[18-Dec-2024 21:09:05 UTC] PHP Fatal error:  Uncaught Error: Call to undefined function get_template_directory() in /home4/grampanc/public_html/news/wp-content/themes/twentythirteen/functions.php:37
+Stack trace:
+#0 {main}
+  thrown in /home4/grampanc/public_html/news/wp-content/themes/twentythirteen/functions.php on line 37
+[18-Dec-2024 21:32:37 UTC] PHP Fatal error:  Uncaught Error: Call to undefined function get_template_directory() in /home4/grampanc/public_html/news/wp-content/themes/twentythirteen/functions.php:37
+Stack trace:
+#0 {main}
+  thrown in /home4/grampanc/public_html/news/wp-content/themes/twentythirteen/functions.php on line 37

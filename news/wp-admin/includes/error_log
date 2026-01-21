@@ -1,0 +1,8 @@
+[20-Feb-2024 07:50:46 UTC] PHP Fatal error:  Uncaught Error: Call to undefined function __() in /home4/grampanc/public_html/news/wp-admin/includes/file.php:16
+Stack trace:
+#0 {main}
+  thrown in /home4/grampanc/public_html/news/wp-admin/includes/file.php on line 16
+[24-May-2024 19:36:22 UTC] PHP Fatal error:  Uncaught Error: Call to undefined function __() in /home4/grampanc/public_html/news/wp-admin/includes/file.php:16
+Stack trace:
+#0 {main}
+  thrown in /home4/grampanc/public_html/news/wp-admin/includes/file.php on line 16

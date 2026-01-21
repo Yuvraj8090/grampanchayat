@@ -1,0 +1,2 @@
+[27-Sep-2023 05:04:02 UTC] PHP Fatal error:  Cannot redeclare App\Http\Controllers\Auth\ForgotPasswordController::__construct() in /home4/grampanc/gramlara/app/Http/Controllers/Auth/ForgotPasswordController.php on line 39
+[27-Sep-2023 05:04:04 UTC] PHP Fatal error:  Cannot redeclare App\Http\Controllers\Auth\ForgotPasswordController::__construct() in /home4/grampanc/gramlara/app/Http/Controllers/Auth/ForgotPasswordController.php on line 39

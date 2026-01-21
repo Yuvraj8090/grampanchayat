@@ -1,0 +1,92 @@
+[22-Jun-2022 16:32:36 UTC] PHP Fatal error:  Uncaught Error: Call to undefined function get_magic_quotes_gpc() in /home4/grampanc/public_html/info/wp-includes/load.php:651
+Stack trace:
+#0 /home4/grampanc/public_html/info/wp-settings.php(333): wp_magic_quotes()
+#1 /home4/grampanc/public_html/info/wp-config.php(89): require_once('/home4/grampanc...')
+#2 /home4/grampanc/public_html/info/wp-load.php(37): require_once('/home4/grampanc...')
+#3 /home4/grampanc/public_html/info/wp-blog-header.php(13): require_once('/home4/grampanc...')
+#4 /home4/grampanc/public_html/info/index.php(17): require('/home4/grampanc...')
+#5 {main}
+  thrown in /home4/grampanc/public_html/info/wp-includes/load.php on line 651
+[01-Aug-2023 16:02:22 UTC] PHP Fatal error:  Uncaught Error: Call to undefined function get_magic_quotes_gpc() in /home4/grampanc/public_html/info/wp-includes/load.php:651
+Stack trace:
+#0 /home4/grampanc/public_html/info/wp-settings.php(333): wp_magic_quotes()
+#1 /home4/grampanc/public_html/info/wp-config.php(89): require_once('/home4/grampanc...')
+#2 /home4/grampanc/public_html/info/wp-load.php(37): require_once('/home4/grampanc...')
+#3 /home4/grampanc/public_html/info/wp-blog-header.php(13): require_once('/home4/grampanc...')
+#4 /home4/grampanc/public_html/info/index.php(17): require('/home4/grampanc...')
+#5 {main}
+  thrown in /home4/grampanc/public_html/info/wp-includes/load.php on line 651
+[01-Aug-2023 16:02:23 UTC] PHP Fatal error:  Uncaught Error: Call to undefined function get_magic_quotes_gpc() in /home4/grampanc/public_html/info/wp-includes/load.php:651
+Stack trace:
+#0 /home4/grampanc/public_html/info/wp-settings.php(333): wp_magic_quotes()
+#1 /home4/grampanc/public_html/info/wp-config.php(89): require_once('/home4/grampanc...')
+#2 /home4/grampanc/public_html/info/wp-load.php(37): require_once('/home4/grampanc...')
+#3 /home4/grampanc/public_html/info/wp-blog-header.php(13): require_once('/home4/grampanc...')
+#4 /home4/grampanc/public_html/info/index.php(17): require('/home4/grampanc...')
+#5 {main}
+  thrown in /home4/grampanc/public_html/info/wp-includes/load.php on line 651
+[01-Aug-2023 16:02:24 UTC] PHP Fatal error:  Uncaught Error: Call to undefined function get_magic_quotes_gpc() in /home4/grampanc/public_html/info/wp-includes/load.php:651
+Stack trace:
+#0 /home4/grampanc/public_html/info/wp-settings.php(333): wp_magic_quotes()
+#1 /home4/grampanc/public_html/info/wp-config.php(89): require_once('/home4/grampanc...')
+#2 /home4/grampanc/public_html/info/wp-load.php(37): require_once('/home4/grampanc...')
+#3 /home4/grampanc/public_html/info/wp-blog-header.php(13): require_once('/home4/grampanc...')
+#4 /home4/grampanc/public_html/info/index.php(17): require('/home4/grampanc...')
+#5 {main}
+  thrown in /home4/grampanc/public_html/info/wp-includes/load.php on line 651
+[24-Dec-2023 10:05:33 UTC] PHP Warning:  Use of undefined constant ABSPATH - assumed 'ABSPATH' (this will throw an Error in a future version of PHP) in /home4/grampanc/public_html/info/wp-settings.php on line 19
+[24-Dec-2023 10:05:33 UTC] PHP Warning:  require(ABSPATHwp-includes/load.php): failed to open stream: No such file or directory in /home4/grampanc/public_html/info/wp-settings.php on line 19
+[24-Dec-2023 10:05:33 UTC] PHP Warning:  require(ABSPATHwp-includes/load.php): failed to open stream: No such file or directory in /home4/grampanc/public_html/info/wp-settings.php on line 19
+[24-Dec-2023 10:05:33 UTC] PHP Fatal error:  require(): Failed opening required 'ABSPATHwp-includes/load.php' (include_path='.:/opt/cpanel/ea-php74/root/usr/share/pear') in /home4/grampanc/public_html/info/wp-settings.php on line 19
+[29-Dec-2023 01:00:12 UTC] PHP Warning:  Use of undefined constant ABSPATH - assumed 'ABSPATH' (this will throw an Error in a future version of PHP) in /home4/grampanc/public_html/info/wp-settings.php on line 19
+[29-Dec-2023 01:00:12 UTC] PHP Warning:  require(ABSPATHwp-includes/load.php): failed to open stream: No such file or directory in /home4/grampanc/public_html/info/wp-settings.php on line 19
+[29-Dec-2023 01:00:12 UTC] PHP Warning:  require(ABSPATHwp-includes/load.php): failed to open stream: No such file or directory in /home4/grampanc/public_html/info/wp-settings.php on line 19
+[29-Dec-2023 01:00:12 UTC] PHP Fatal error:  require(): Failed opening required 'ABSPATHwp-includes/load.php' (include_path='.:/opt/cpanel/ea-php74/root/usr/share/pear') in /home4/grampanc/public_html/info/wp-settings.php on line 19
+[13-Jan-2024 12:59:35 UTC] PHP Warning:  Use of undefined constant ABSPATH - assumed 'ABSPATH' (this will throw an Error in a future version of PHP) in /home4/grampanc/public_html/info/wp-settings.php on line 19
+[13-Jan-2024 12:59:35 UTC] PHP Warning:  require(ABSPATHwp-includes/load.php): failed to open stream: No such file or directory in /home4/grampanc/public_html/info/wp-settings.php on line 19
+[13-Jan-2024 12:59:35 UTC] PHP Warning:  require(ABSPATHwp-includes/load.php): failed to open stream: No such file or directory in /home4/grampanc/public_html/info/wp-settings.php on line 19
+[13-Jan-2024 12:59:35 UTC] PHP Fatal error:  require(): Failed opening required 'ABSPATHwp-includes/load.php' (include_path='.:/opt/cpanel/ea-php74/root/usr/share/pear') in /home4/grampanc/public_html/info/wp-settings.php on line 19
+[20-Jan-2024 01:58:57 UTC] PHP Warning:  Use of undefined constant ABSPATH - assumed 'ABSPATH' (this will throw an Error in a future version of PHP) in /home4/grampanc/public_html/info/wp-settings.php on line 19
+[20-Jan-2024 01:58:57 UTC] PHP Warning:  require(ABSPATHwp-includes/load.php): failed to open stream: No such file or directory in /home4/grampanc/public_html/info/wp-settings.php on line 19
+[20-Jan-2024 01:58:57 UTC] PHP Warning:  require(ABSPATHwp-includes/load.php): failed to open stream: No such file or directory in /home4/grampanc/public_html/info/wp-settings.php on line 19
+[20-Jan-2024 01:58:57 UTC] PHP Fatal error:  require(): Failed opening required 'ABSPATHwp-includes/load.php' (include_path='.:/opt/cpanel/ea-php74/root/usr/share/pear') in /home4/grampanc/public_html/info/wp-settings.php on line 19
+[20-Jan-2024 11:50:14 UTC] PHP Warning:  Use of undefined constant ABSPATH - assumed 'ABSPATH' (this will throw an Error in a future version of PHP) in /home4/grampanc/public_html/info/wp-settings.php on line 19
+[20-Jan-2024 11:50:14 UTC] PHP Warning:  require(ABSPATHwp-includes/load.php): failed to open stream: No such file or directory in /home4/grampanc/public_html/info/wp-settings.php on line 19
+[20-Jan-2024 11:50:14 UTC] PHP Warning:  require(ABSPATHwp-includes/load.php): failed to open stream: No such file or directory in /home4/grampanc/public_html/info/wp-settings.php on line 19
+[20-Jan-2024 11:50:14 UTC] PHP Fatal error:  require(): Failed opening required 'ABSPATHwp-includes/load.php' (include_path='.:/opt/cpanel/ea-php74/root/usr/share/pear') in /home4/grampanc/public_html/info/wp-settings.php on line 19
+[25-Jan-2024 09:40:52 UTC] PHP Warning:  Use of undefined constant ABSPATH - assumed 'ABSPATH' (this will throw an Error in a future version of PHP) in /home4/grampanc/public_html/info/wp-settings.php on line 19
+[25-Jan-2024 09:40:52 UTC] PHP Warning:  require(ABSPATHwp-includes/load.php): failed to open stream: No such file or directory in /home4/grampanc/public_html/info/wp-settings.php on line 19
+[25-Jan-2024 09:40:52 UTC] PHP Warning:  require(ABSPATHwp-includes/load.php): failed to open stream: No such file or directory in /home4/grampanc/public_html/info/wp-settings.php on line 19
+[25-Jan-2024 09:40:52 UTC] PHP Fatal error:  require(): Failed opening required 'ABSPATHwp-includes/load.php' (include_path='.:/opt/cpanel/ea-php74/root/usr/share/pear') in /home4/grampanc/public_html/info/wp-settings.php on line 19
+[28-Jan-2024 19:44:53 UTC] PHP Warning:  Use of undefined constant ABSPATH - assumed 'ABSPATH' (this will throw an Error in a future version of PHP) in /home4/grampanc/public_html/info/wp-settings.php on line 19
+[28-Jan-2024 19:44:53 UTC] PHP Warning:  require(ABSPATHwp-includes/load.php): failed to open stream: No such file or directory in /home4/grampanc/public_html/info/wp-settings.php on line 19
+[28-Jan-2024 19:44:53 UTC] PHP Warning:  require(ABSPATHwp-includes/load.php): failed to open stream: No such file or directory in /home4/grampanc/public_html/info/wp-settings.php on line 19
+[28-Jan-2024 19:44:53 UTC] PHP Fatal error:  require(): Failed opening required 'ABSPATHwp-includes/load.php' (include_path='.:/opt/cpanel/ea-php74/root/usr/share/pear') in /home4/grampanc/public_html/info/wp-settings.php on line 19
+[29-Feb-2024 13:27:14 UTC] PHP Warning:  Use of undefined constant ABSPATH - assumed 'ABSPATH' (this will throw an Error in a future version of PHP) in /home4/grampanc/public_html/info/wp-settings.php on line 19
+[29-Feb-2024 13:27:14 UTC] PHP Warning:  require(ABSPATHwp-includes/load.php): failed to open stream: No such file or directory in /home4/grampanc/public_html/info/wp-settings.php on line 19
+[29-Feb-2024 13:27:14 UTC] PHP Warning:  require(ABSPATHwp-includes/load.php): failed to open stream: No such file or directory in /home4/grampanc/public_html/info/wp-settings.php on line 19
+[29-Feb-2024 13:27:14 UTC] PHP Fatal error:  require(): Failed opening required 'ABSPATHwp-includes/load.php' (include_path='.:/opt/cpanel/ea-php74/root/usr/share/pear') in /home4/grampanc/public_html/info/wp-settings.php on line 19
+[16-Jun-2024 07:44:36 UTC] PHP Warning:  Use of undefined constant ABSPATH - assumed 'ABSPATH' (this will throw an Error in a future version of PHP) in /home4/grampanc/public_html/info/wp-settings.php on line 19
+[16-Jun-2024 07:44:36 UTC] PHP Warning:  require(ABSPATHwp-includes/load.php): failed to open stream: No such file or directory in /home4/grampanc/public_html/info/wp-settings.php on line 19
+[16-Jun-2024 07:44:36 UTC] PHP Warning:  require(ABSPATHwp-includes/load.php): failed to open stream: No such file or directory in /home4/grampanc/public_html/info/wp-settings.php on line 19
+[16-Jun-2024 07:44:36 UTC] PHP Fatal error:  require(): Failed opening required 'ABSPATHwp-includes/load.php' (include_path='.:/opt/cpanel/ea-php74/root/usr/share/pear') in /home4/grampanc/public_html/info/wp-settings.php on line 19
+[22-Jun-2024 23:52:14 UTC] PHP Warning:  Use of undefined constant ABSPATH - assumed 'ABSPATH' (this will throw an Error in a future version of PHP) in /home4/grampanc/public_html/info/wp-settings.php on line 19
+[22-Jun-2024 23:52:14 UTC] PHP Warning:  require(ABSPATHwp-includes/load.php): failed to open stream: No such file or directory in /home4/grampanc/public_html/info/wp-settings.php on line 19
+[22-Jun-2024 23:52:14 UTC] PHP Warning:  require(ABSPATHwp-includes/load.php): failed to open stream: No such file or directory in /home4/grampanc/public_html/info/wp-settings.php on line 19
+[22-Jun-2024 23:52:14 UTC] PHP Fatal error:  require(): Failed opening required 'ABSPATHwp-includes/load.php' (include_path='.:/opt/cpanel/ea-php74/root/usr/share/pear') in /home4/grampanc/public_html/info/wp-settings.php on line 19
+[13-Jul-2024 16:20:49 UTC] PHP Warning:  Use of undefined constant ABSPATH - assumed 'ABSPATH' (this will throw an Error in a future version of PHP) in /home4/grampanc/public_html/info/wp-settings.php on line 19
+[13-Jul-2024 16:20:49 UTC] PHP Warning:  require(ABSPATHwp-includes/load.php): failed to open stream: No such file or directory in /home4/grampanc/public_html/info/wp-settings.php on line 19
+[13-Jul-2024 16:20:49 UTC] PHP Warning:  require(ABSPATHwp-includes/load.php): failed to open stream: No such file or directory in /home4/grampanc/public_html/info/wp-settings.php on line 19
+[13-Jul-2024 16:20:49 UTC] PHP Fatal error:  require(): Failed opening required 'ABSPATHwp-includes/load.php' (include_path='.:/opt/cpanel/ea-php74/root/usr/share/pear') in /home4/grampanc/public_html/info/wp-settings.php on line 19
+[15-Jul-2024 21:56:24 UTC] PHP Warning:  Use of undefined constant ABSPATH - assumed 'ABSPATH' (this will throw an Error in a future version of PHP) in /home4/grampanc/public_html/info/wp-settings.php on line 19
+[15-Jul-2024 21:56:24 UTC] PHP Warning:  require(ABSPATHwp-includes/load.php): failed to open stream: No such file or directory in /home4/grampanc/public_html/info/wp-settings.php on line 19
+[15-Jul-2024 21:56:24 UTC] PHP Warning:  require(ABSPATHwp-includes/load.php): failed to open stream: No such file or directory in /home4/grampanc/public_html/info/wp-settings.php on line 19
+[15-Jul-2024 21:56:24 UTC] PHP Fatal error:  require(): Failed opening required 'ABSPATHwp-includes/load.php' (include_path='.:/opt/cpanel/ea-php74/root/usr/share/pear') in /home4/grampanc/public_html/info/wp-settings.php on line 19
+[23-Aug-2024 09:50:17 UTC] PHP Warning:  Use of undefined constant ABSPATH - assumed 'ABSPATH' (this will throw an Error in a future version of PHP) in /home4/grampanc/public_html/info/wp-settings.php on line 19
+[23-Aug-2024 09:50:17 UTC] PHP Warning:  require(ABSPATHwp-includes/load.php): failed to open stream: No such file or directory in /home4/grampanc/public_html/info/wp-settings.php on line 19
+[23-Aug-2024 09:50:17 UTC] PHP Warning:  require(ABSPATHwp-includes/load.php): failed to open stream: No such file or directory in /home4/grampanc/public_html/info/wp-settings.php on line 19
+[23-Aug-2024 09:50:17 UTC] PHP Fatal error:  require(): Failed opening required 'ABSPATHwp-includes/load.php' (include_path='.:/opt/cpanel/ea-php74/root/usr/share/pear') in /home4/grampanc/public_html/info/wp-settings.php on line 19
+[19-Nov-2024 20:00:01 UTC] PHP Warning:  Use of undefined constant ABSPATH - assumed 'ABSPATH' (this will throw an Error in a future version of PHP) in /home4/grampanc/public_html/info/wp-settings.php on line 19
+[19-Nov-2024 20:00:01 UTC] PHP Warning:  require(ABSPATHwp-includes/load.php): failed to open stream: No such file or directory in /home4/grampanc/public_html/info/wp-settings.php on line 19
+[19-Nov-2024 20:00:01 UTC] PHP Warning:  require(ABSPATHwp-includes/load.php): failed to open stream: No such file or directory in /home4/grampanc/public_html/info/wp-settings.php on line 19
+[19-Nov-2024 20:00:01 UTC] PHP Fatal error:  require(): Failed opening required 'ABSPATHwp-includes/load.php' (include_path='.:/opt/cpanel/ea-php74/root/usr/share/pear') in /home4/grampanc/public_html/info/wp-settings.php on line 19
