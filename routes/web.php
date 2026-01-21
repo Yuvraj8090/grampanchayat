@@ -3,6 +3,45 @@
 use App\User;
 use App\ListName;
 use App\{ImporantTitle};
+use App\Brave;
+use App\JanPartinidhi;
+use Illuminate\Support\Facades\Route;
+use Laravel\Fortify\Features;
+
+use App\Http\Controllers\AdminUser;
+use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\MainIndex;
+
+use App\Http\Controllers\AdminImportantController;
+use App\Http\Controllers\AdminPartinidhiController;
+use App\Http\Controllers\AdminJanController;
+use App\Http\Controllers\Test;
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\UserIndex;
+use App\Http\Controllers\UserMedia;
+use App\Http\Controllers\UserGallery;
+use App\Http\Controllers\UserIntro;
+use App\Http\Controllers\UserFact;
+use App\Http\Controllers\UserPmsg;
+use App\Http\Controllers\UserVideo;
+use App\Http\Controllers\UserWork;
+use App\Http\Controllers\UserAddress;
+use App\Http\Controllers\UserLocation;
+use App\Http\Controllers\UserList;
+use App\Http\Controllers\UserEmail;
+use App\Http\Controllers\UserPlaces;
+use App\Http\Controllers\UserPlacesIntro;
+use App\Http\Controllers\UserBusiness;
+use App\Http\Controllers\UserBusinessIntro;
+use App\Http\Controllers\UserRegister;
+use App\Http\Controllers\BraveController;
+use App\Http\Controllers\GovtController;
+use App\Http\Controllers\Auth\ForgotPasswordController;
+use App\Http\Controllers\Auth\ResetPasswordController;
+use App\Http\Middleware\Admin;
+
+
+
 
 /*
 |--------------------------------------------------------------------------
@@ -23,7 +62,9 @@ Route::post('/excel-upload','AdminUser@upload');
 
 Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home.index');
+        
 
 Route::get('contact-us', function() {
     return view('page.contact');
@@ -74,7 +115,7 @@ Route::group(array('domain' => '{slug}.grampanchayat.org'), function (){
 });
 
 
-Route::group(['middleware'=>'admin'], function(){
+Route::group(['middleware' => \App\Http\Middleware\Admin::class], function(){
     
     Route::get('important/delete/{id}', 'AdminImportantController@delete');
     Route::resource('/important', 'AdminImportantController');
@@ -114,20 +155,20 @@ Route::group(['middleware'=>'admin'], function(){
 		return view('admin.index');
 	});
 
-    Route::resource('/admin-user', 'AdminUser');
+    Route::resource('/admin-user',AdminUser::class);
 });
 
-Route::group(['middleware'=>'user'], function(){
+Route::group(['middleware' => \App\Http\Middleware\User::class], function(){
     
     Route::resource('/govtfacility', 'GovtController');
      Route::get('/govtfacility/delete/{id}', 'GovtController@delete');
     Route::post('/govtfacility/update/{id}', 'GovtController@update1');
 
-	Route::resource('/dashboard', 'UserIndex');
+	Route::resource('/dashboard', UserIndex::class);
 
-    Route::resource('/user-media', 'UserMedia');
+    Route::resource('/user-media', UserMedia::class);
 
-    Route::resource('/user-gallery', 'UserGallery');
+    Route::resource('/user-gallery', UserGallery::class);
 
     Route::resource('/user-introduction', 'UserIntro');
 

@@ -1,8 +1,10 @@
 <?php
 
 namespace App\Http\Middleware;
-use Illuminate\Support\Facades\Auth;
+
 use Closure;
+use Illuminate\Support\Facades\Auth;
+use App\User;
 
 class Admin
 {
@@ -15,14 +17,18 @@ class Admin
      */
     public function handle($request, Closure $next)
     {
-        if (Auth::check()) 
-        {
-            if (Auth::user()->isAdmin()) 
-            {
+        // 1. Check if the user is currently logged in
+        if (Auth::check()) {
+            
+            // 2. Check if the logged-in user has Admin privileges.
+            // Note: This requires an 'isAdmin()' method in your 'App\User' model.
+            if (Auth::user()->isAdmin()) {
                 return $next($request);       
             }
         }
 
+        // 3. If user is not logged in OR is not an admin, redirect them.
+        // You can also add ->with('error', 'Access Denied') if you have alert messages set up.
         return redirect('/login');
     }
 }

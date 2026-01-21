@@ -56,9 +56,14 @@
                     <td>
                         <a href="{{route('admin-user.edit', $users->id)}}" class="btn btn-success btn-sm pull-left">
                             <i class="fa fa-edit"></i> Edit</a>
-                        {!! Form::open(['method'=>'DELETE', 'action'=>['AdminUser@destroy', $users->id]]) !!}
-                        <button class="btn btn-danger btn-sm pull-left" style="margin-left:10px;"><i class="fa fa-trash"> Delete</i></button>
-                        {!! Form::close() !!}
+                       <form method="POST" action="{{ route('admin-user.destroy', $users->id) }}" style="display:inline">
+    @csrf
+    @method('DELETE')
+    
+    <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this?')">
+        Delete
+    </button>
+</form>
                     </td>
                 </tr>
                 <?php $i++; ?>
