@@ -1,9 +1,0 @@
-body{
-    margin: 0; padding: 0; top: 0;left: 0;right: 0; bottom: 0;
-}
-.cl{clear: both;}
-#maincontainer{ border: 1px solid #003399; width: 1000px; height: auto; position: relative; margin: auto; padding: 2px;}
-#header{border: 1px solid #003399; width: 99%; height: auto; position: relative; margin: auto;}
-#logo{border: 1px solid #003399; width: 100px; height: 100px; display: inline; position: relative; float: left;}
-#midle{border: 1px solid #003399; width: 100px; height: 100px; display: inline; position: relative; float: left;}
-#right{border: 1px solid #003399; width: 100px; height: 100px; display: inline; position: relative; float: left;}

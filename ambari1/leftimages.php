@@ -1,1 +1,0 @@
-<img src="http://grampanchayat.org/ads/sb-college.jpg" />
