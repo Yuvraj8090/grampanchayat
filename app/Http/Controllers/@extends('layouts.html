@@ -1,0 +1,74 @@
+@extends('layouts.admin')
+
+@section('content')
+<div class="app-main__inner">
+    <div class="app-page-title">
+        <div class="page-title-wrapper">
+            <div class="page-title-heading">
+                <div class="page-title-icon">
+                    <i class="pe-7s-graph icon-gradient bg-mean-fruit">
+                    </i>
+                </div>
+                <div>
+                    Add Banner
+                </div>
+            </div>
+        </div>
+    </div>
+    <a href="{{route('admin-Banners.index')}}" class="btn btn-primary btn-sm"><i class="fa fa-arrow-left fa-fw"></i> Go
+        Back</a>
+    <br /><br />
+    <div class="main-card mb-3 card">
+        <div class="card-body">
+            <!-- <h5 class="card-title">Simple table</h5> -->
+            {!! Form::open(['method'=>'POST', 'action'=>'BannersController@store', 'files'=>true]) !!}
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>Banner Name</label>
+                        <input type="text" name="name" placeholder="Banner Name"
+                            class="form-control @error('name') is-invalid @enderror" required="required"
+                            value="{{old('name')}}">
+                        @error('name')
+                        <span class="invalid-feedback" role="alert">
+                            <strong>{{ $message }}</strong>
+                        </span>
+                        @enderror
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>Banner Link</label>
+                        <input type="text" name="Link" placeholder="Link"
+                            class="form-control @error('link') is-invalid @enderror" value="{{old('keyword')}}">
+                        @error('link')
+                        <span class="invalid-feedback" role="alert">
+                            <strong>{{ $message }}</strong>
+                        </span>
+                        @enderror
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="form-group">
+                <label>Banner Image</label>
+                <input type="file" name="image" placeholder="Banner "
+                    class="form-control @error('image') is-invalid @enderror" value="{{old('image')}}">
+                @error('image')
+                <span class="invalid-feedback" role="alert">
+                    <strong>{{ $message }}</strong>
+                </span>
+                @enderror
+            </div>
+
+
+            <div class="form-group">
+                <center><button class="btn btn-primary">Submit</button></center>
+            </div>
+            {!! Form::close() !!}
+        </div>
+    </div>
+</div>
+
+@stop
