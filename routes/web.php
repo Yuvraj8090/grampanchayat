@@ -63,7 +63,7 @@ Route::post('/excel-upload','AdminUser@upload');
 Auth::routes();
 
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home.index');
+Route::get('/home', [HomeController::class, 'index'])->name('home.index');
         
 
 Route::get('contact-us', function() {
@@ -117,9 +117,9 @@ Route::group(array('domain' => '{slug}.grampanchayat.org'), function (){
 
 Route::group(['middleware' => \App\Http\Middleware\Admin::class], function(){
     
-    Route::get('important/delete/{id}', 'AdminImportantController@delete');
-    Route::resource('/important', 'AdminImportantController');
-    Route::resource('/points', 'AdminPartinidhiController');
+    Route::get('important/delete/{id}', [AdminImportantController::class,'delete']);
+    Route::resource('/important', AdminImportantController::class);
+    Route::resource('/points', AdminPartinidhiController::class);
 
     Route::get('jan-partinidhi/excelUpload', 'AdminJanController@excelupload');
     Route::post('jan-partinidhi/excel/upload', 'AdminJanController@store1');
