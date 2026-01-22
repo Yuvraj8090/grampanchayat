@@ -29,9 +29,11 @@
                                 <td>{{$videos->about}}</td>
                                 <td>
                                     <a href="{{route('user-video.edit', $videos->id)}}" class="btn btn-success btn-xs pull-left"><i class="fa fa-edit"></i> Edit</a>
-                                    {!! Form::open(['method'=>'DELETE', 'action'=>['UserVideo@destroy', $videos->id]]) !!}
+                                    <form method="POST" action="{{ route('user-video.destroy',$videos->id) }}">
+                                        @csrf
+                                        @method('DELETE')
                                         <button class="btn btn-danger btn-xs pull-left" style="margin-left:10px;"><i class="fa fa-trash"></i> Delete</button>
-                                    {!! Form::close() !!}
+                                    </form>
                                 </td>
                             </tr>
                             <?php $i++; ?>
