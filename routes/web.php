@@ -53,12 +53,12 @@ use App\Http\Middleware\Admin;
 | contains the "web" middleware group. Now create something great!
 |
 */
-Route::get('/password/resets', 'Auth\ForgotPasswordController@showLinkRequestForm')->name('password.requests');
-Route::post('/password/emails/reset', 'Auth\ForgotPasswordController@sendResetLinkEmailCustom')->name('password.emails.reset');
-Route::get('/password/reset/{token}', 'Auth\ResetPasswordController@showResetForm')->name('password.reset');
-Route::post('/password/reset/password', 'Auth\ResetPasswordController@resetCustom')->name('password.update.request');
+Route::get('/password/resets', [ForgotPasswordController::class,'showLinkRequestForm'])->name('password.requests');
+Route::post('/password/emails/reset', [ForgotPasswordController::class,'sendResetLinkEmailCustom'])->name('password.emails.reset');
+Route::get('/password/reset/{token}', [ResetPasswordController::class,'showResetForm'])->name('password.reset');
+Route::post('/password/reset/password', [ResetPasswordController::class,'resetCustom'])->name('password.update.request');
 
-Route::post('/excel-upload','AdminUser@upload');
+Route::post('/excel-upload',[AdminUser::class,'upload'])->name('excel@upload');
 
 Auth::routes();
 
@@ -74,43 +74,64 @@ Route::get('privacy-policy', function() {
     return view('page.privacy');
 });
 
-    Route::get('/disticts', 'MainIndex@getDistrictByState');
-    Route::get('/blocks', 'MainIndex@getBlockByDistrict');
+    Route::get('/disticts', [MainIndex::class, 'getDistrictByState']);
+    Route::get('/blocks', [MainIndex::class, 'getBlockByDistrict']);
 
 
-Route::group(array('domain' => '{slug}.grampanchayat.org'), function (){
-    Route::get('/', 'MainIndex@show');
-    Route::get('/admin', 'MainIndex@create');
-    Route::get('/pradhan-message', 'MainIndex@message');
-    Route::get('/tourist-place', 'MainIndex@place');
-    Route::get('/gallery', 'MainIndex@gallery');
-    Route::get('/video', 'MainIndex@video');
-    Route::get('/panchyat-business', 'MainIndex@business');
-    Route::get('/gram-panchayat-leaders', 'MainIndex@lead');
-    Route::get('/contact-us', 'MainIndex@contact');
-    Route::get('/gram-panchayat-development-works', 'MainIndex@work');
-    Route::get('/registers', 'MainIndex@re');
-    
-    Route::post('/resgister/store', 'MainIndex@store');
-    
+Route::domain('{slug}.localhost:8000')->group(function () {
 
-    Route::get('/important-information', function($slug){
-        $user = User::whereSlug($slug)->firstOrFail();
-        $name = ListName::where('user_id', '=', $user->id)->where('position', '=', 'प्रधान')->first();
-        $data = ImporantTitle::with('posts')->get();
-        return view('user.important', compact('user', 'name','data'));
+    // --- Main Public Interface (MainIndex Controller) ---
+    Route::controller(MainIndex::class)->name('subdomain.')->group(function () {
+        
+        Route::get('/', 'show')->name('home');
+        Route::get('/admin', 'create')->name('admin.create'); // Possibly the admin login page
+        
+        // Content Pages
+        Route::get('/pradhan-message', 'message')->name('message');
+        Route::get('/tourist-place', 'place')->name('tourist-place');
+        Route::get('/gallery', 'gallery')->name('gallery');
+        Route::get('/video', 'video')->name('video');
+        Route::get('/panchyat-business', 'business')->name('business');
+        Route::get('/gram-panchayat-leaders', 'lead')->name('leaders');
+        Route::get('/contact-us', 'contact')->name('contact');
+        Route::get('/gram-panchayat-development-works', 'work')->name('development-works');
+        Route::get('/registers', 're')->name('registers');
+        
+        // Actions
+        // Fixed typo: 'resgister' -> 'register'
+        Route::post('/register/store', 'store')->name('register.store');
+
+        // AJAX / Helpers
+        // Fixed typo: 'disticts' -> 'districts'
+        Route::get('/districts', 'getDistrictByState')->name('get.districts');
+        Route::get('/blocks', 'getBlockByDistrict')->name('get.blocks');
     });
-    
-    Route::get('/disticts', 'MainIndex@getDistrictByState');
-    Route::get('/blocks', 'MainIndex@getBlockByDistrict');
 
-    
-    Route::get('/testingdata', 'HomeController@index')->name('home');
-    Route::get('/api/panch-bussiness', 'Test@business');
-    Route::get('/api/prad-msg', 'Test@msg');
-    Route::get('/api/photos', 'Test@photos');
-    Route::get('/api/createDomain', 'Test@createDomain');
-    Route::get('/api/deleteDomain', 'Test@deleteDomain');
+    // --- Important Information (Closure) ---
+    Route::get('/important-information', function ($slug) {
+        $user = User::whereSlug($slug)->firstOrFail();
+        
+        // Assuming 'ListName' and 'ImporantTitle' are your models
+        $name = ListName::where('user_id', $user->id)
+                        ->where('position', 'प्रधान')
+                        ->first();
+                        
+        $data = ImporantTitle::with('posts')->get();
+
+        return view('user.important', compact('user', 'name', 'data'));
+    })->name('subdomain.important');
+
+
+    // --- Testing & API (Test Controller) ---
+    Route::get('/testingdata', [HomeController::class, 'index'])->name('testing.home');
+
+    Route::controller(Test::class)->prefix('api')->name('api.')->group(function () {
+        Route::get('/panch-bussiness', 'business')->name('panch-business');
+        Route::get('/prad-msg', 'msg')->name('prad-msg');
+        Route::get('/photos', 'photos')->name('photos');
+        Route::get('/createDomain', 'createDomain')->name('domain.create');
+        Route::get('/deleteDomain', 'deleteDomain')->name('domain.delete');
+    });
 
 });
 
