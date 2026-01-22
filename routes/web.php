@@ -115,54 +115,69 @@ Route::group(array('domain' => '{slug}.grampanchayat.org'), function (){
 });
 
 
-Route::group(['middleware' => \App\Http\Middleware\Admin::class], function(){
-    
-    Route::get('important/delete/{id}', [AdminImportantController::class,'delete']);
-    Route::resource('/important', AdminImportantController::class);
-    Route::resource('/points', AdminPartinidhiController::class);
 
-    Route::get('jan-partinidhi/excelUpload', 'AdminJanController@excelupload');
-    Route::post('jan-partinidhi/excel/upload', 'AdminJanController@store1');
+Route::middleware(Admin::class)->group(function () {
 
-    Route::resource('/jan-partinidhi', 'AdminJanController');
-    
-    Route::resource('/bravee', 'BraveController');
-    Route::post('/bravee/update/{id}', 'BraveController@update1');
-    Route::get('/bravee/delete/{id}', 'BraveController@delete');
+    // --- Admin Dashboard ---
+    Route::get('/admin', function () {
+        return view('admin.index');
+    })->name('admin.dashboard');
 
+    // --- Important Module ---
+    // Custom routes must come BEFORE resource routes
+    Route::get('important/delete/{id}', [AdminImportantController::class, 'delete'])->name('important.delete');
+    Route::resource('important', AdminImportantController::class);
 
+    // --- Points (Partinidhi) Module ---
+    Route::controller(AdminPartinidhiController::class)->prefix('points')->name('points.')->group(function () {
+        Route::get('delete/{id}', 'delete')->name('delete');
+        Route::get('edit/{id}', 'edit')->name('edit_custom'); // Renamed to avoid conflict with resource 'edit'
+        Route::get('index/{id}', 'index')->name('index_custom');
+    });
+    // Note: If you use the controller group above, you might not need this resource line if the methods clash.
+    // If you need the standard CRUD as well:
+    Route::resource('points', AdminPartinidhiController::class);
 
-    Route::get('/jan-partinidhi/delete/{id}', 'AdminJanController@delete');
-    Route::post('/jan-partinidhi/update/{id}', 'AdminJanController@update1');
+    // --- Jan Partinidhi Module ---
+    Route::controller(AdminJanController::class)->prefix('jan-partinidhi')->name('jan-partinidhi.')->group(function () {
+        Route::get('excelUpload', 'excelupload')->name('excel.create');
+        Route::post('excel/upload', 'store1')->name('excel.store');
+        Route::get('delete/{id}', 'delete')->name('delete');
+        Route::post('update/{id}', 'update1')->name('update_custom');
+    });
+    Route::resource('jan-partinidhi', AdminJanController::class);
 
-    Route::get('points/delete/{id}', 'AdminPartinidhiController@delete');
-    
-    Route::get('points/edit/{id}', 'AdminPartinidhiController@edit');
-    
-    Route::get('points/index/{id}', 'AdminPartinidhiController@index');
-    
-    Route::get('/setting','AdminUser@settingView');
-    Route::post('/change/password','AdminUser@changePassword');
+    // --- Bravee Module ---
+    Route::controller(BraveController::class)->prefix('bravee')->name('bravee.')->group(function () {
+        Route::post('update/{id}', 'update1')->name('update_custom');
+        Route::get('delete/{id}', 'delete')->name('delete');
+    });
+    Route::resource('bravee', BraveController::class);
 
-    Route::get('/panchayat/excel','AdminUser@excel');
-    Route::post('/panchayat/excel','AdminUser@excelUpload');
+    // --- Settings & Profile ---
+    Route::controller(AdminUser::class)->group(function () {
+        Route::get('/setting', 'settingView')->name('admin.setting');
+        Route::post('/change/password', 'changePassword')->name('admin.change-password');
+        
+        // Panchayat Excel
+        Route::get('/panchayat/excel', 'excel')->name('panchayat.excel.view');
+        Route::post('/panchayat/excel', 'excelUpload')->name('panchayat.excel.store');
 
-    Route::get('/feebacks','AdminUser@feeback');
-    
-    Route::get('/deletefeedback/{id}','AdminUser@deletefeedback');
+        // Feedback
+        // Fixed typo 'feebacks' to 'feedbacks'
+        Route::get('/feedbacks', 'feeback')->name('feedbacks.index'); 
+        Route::get('/feedbacks/delete/{id}', 'deletefeedback')->name('feedbacks.delete');
+    });
 
-	Route::get('/admin', function(){
-		return view('admin.index');
-	});
+    // --- Admin User Resource ---
+    Route::resource('admin-user', AdminUser::class);
 
-    Route::resource('/admin-user',AdminUser::class);
 });
-
 Route::group(['middleware' => \App\Http\Middleware\User::class], function(){
     
-    Route::resource('/govtfacility', 'GovtController');
-     Route::get('/govtfacility/delete/{id}', 'GovtController@delete');
-    Route::post('/govtfacility/update/{id}', 'GovtController@update1');
+    Route::resource('/govtfacility', GovtController::class);
+     Route::get('/govtfacility/delete/{id}', [GovtController::class,'delete']);
+    Route::post('/govtfacility/update/{id}', [GovtController::class,'update1']);
 
 	Route::resource('/dashboard', UserIndex::class);
 
