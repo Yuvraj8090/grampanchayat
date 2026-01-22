@@ -24,7 +24,7 @@ Route::middleware([
     Route::prefix('admin')->name('admin.')->group(function () {
 
 
-        Route::resource('users', UserController::class)->only(['show']);
-        Route::resource('roles', RoleController::class)->only(['show']);
+        Route::resource('users', UserController::class)->except(['show']);
+        Route::resource('roles', RoleController::class)->except(['show']);
     });
 });
