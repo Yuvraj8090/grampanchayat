@@ -1,118 +1,79 @@
-<x-app-layout>
+<x-app-layout title="Create User">
     <x-slot name="header">
-        <div class="flex items-center space-x-4">
-            <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
-                <i class="fas fa-user-plus mr-2"></i> Create New User
-            </h2>
-        </div>
+        {{ __('Create New User') }}
     </x-slot>
 
-    <div class="py-6 container mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden border border-gray-200 dark:border-gray-700">
-            <div class="px-6 py-4 bg-gradient-to-r from-indigo-500 to-purple-600">
-                <h3 class="text-lg font-medium text-white flex items-center">
-                    <i class="fas fa-user mr-2"></i> User Details
-                </h3>
+    <div class="container-fluid">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h2 class="h4 mb-0 text-dark">
+                <i class="fas fa-user-plus me-2 text-primary"></i> Add User
+            </h2>
+            <div class="btn-group shadow-sm">
+                <a href="{{ route('admin.users.index') }}" class="btn btn-outline-secondary">
+                    <i class="fas fa-arrow-left me-1"></i> Back to List
+                </a>
             </div>
+        </div>
 
-            <!-- Flash Messages -->
-            @if (session('success'))
-                <div class="m-6 p-4 rounded-lg bg-green-100 text-green-800 font-medium border border-green-300 flex items-center">
-                    <i class="fas fa-check-circle mr-2"></i> {{ session('success') }}
-                </div>
-            @endif
+        <div class="card shadow-sm border-0">
+            <div class="card-header bg-white py-3 border-bottom">
+                <h5 class="mb-0 card-title">Account Details</h5>
+            </div>
+            
+            <div class="card-body p-4">
+                <form action="{{ route('admin.users.store') }}" method="POST">
+                    @csrf
+                    
+                    <div class="row g-4">
+                        <div class="col-md-6">
+                            <label for="name" class="form-label fw-bold text-secondary">Full Name <span class="text-danger">*</span></label>
+                            <input type="text" name="name" id="name" value="{{ old('name') }}" 
+                                   class="form-control @error('name') is-invalid @enderror" required placeholder="Enter full name">
+                            @error('name') <div class="invalid-feedback">{{ $message }}</div> @enderror
+                        </div>
 
-            @if ($errors->any())
-                <div class="m-6 p-4 rounded-lg bg-red-100 text-red-800 font-medium border border-red-300">
-                    <i class="fas fa-exclamation-triangle mr-2"></i> There were some errors with your submission:
-                    <ul class="mt-2 list-disc list-inside text-sm">
-                        @foreach ($errors->all() as $error)
-                            <li>{{ $error }}</li>
-                        @endforeach
-                    </ul>
-                </div>
-            @endif
+                        <div class="col-md-6">
+                            <label for="email" class="form-label fw-bold text-secondary">Email Address <span class="text-danger">*</span></label>
+                            <input type="email" name="email" id="email" value="{{ old('email') }}" 
+                                   class="form-control @error('email') is-invalid @enderror" required placeholder="name@example.com">
+                            @error('email') <div class="invalid-feedback">{{ $message }}</div> @enderror
+                        </div>
 
-            <form action="{{ route('admin.users.store') }}" method="POST" class="p-6 space-y-6">
-                @csrf
+                        <div class="col-md-6">
+                            <label for="role_id" class="form-label fw-bold text-secondary">Assigned Role <span class="text-danger">*</span></label>
+                            <select name="role_id" id="role_id" class="form-select @error('role_id') is-invalid @enderror" required>
+                                <option value="" selected disabled>Choose a role...</option>
+                                @foreach($roles as $role)
+                                    <option value="{{ $role->id }}" {{ old('role_id') == $role->id ? 'selected' : '' }}>{{ $role->name }}</option>
+                                @endforeach
+                            </select>
+                            @error('role_id') <div class="invalid-feedback">{{ $message }}</div> @enderror
+                        </div>
 
-                <!-- Name -->
-                <div>
-                    <label for="name" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                        <i class="fas fa-user mr-1 text-indigo-500"></i> Name
-                    </label>
-                    <input type="text" name="name" id="name" value="{{ old('name') }}" 
-                        class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg shadow-sm focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 dark:bg-gray-700 dark:text-white transition duration-200" 
-                        placeholder="Enter full name">
-                </div>
+                        <div class="col-md-6">
+                            <label for="password" class="form-label fw-bold text-secondary">Password <span class="text-danger">*</span></label>
+                            <input type="password" name="password" id="password" 
+                                   class="form-control @error('password') is-invalid @enderror" required autocomplete="new-password" placeholder="Minimum 8 characters">
+                            @error('password') <div class="invalid-feedback">{{ $message }}</div> @enderror
+                        </div>
 
-                <!-- Email -->
-                <div>
-                    <label for="email" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                        <i class="fas fa-envelope mr-1 text-indigo-500"></i> Email
-                    </label>
-                    <input type="email" name="email" id="email" value="{{ old('email') }}" 
-                        class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg shadow-sm focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 dark:bg-gray-700 dark:text-white transition duration-200" 
-                        placeholder="Enter email address">
-                </div>
+                        <div class="col-md-6">
+                            <label for="password_confirmation" class="form-label fw-bold text-secondary">Confirm Password <span class="text-danger">*</span></label>
+                            <input type="password" name="password_confirmation" id="password_confirmation" 
+                                   class="form-control" required placeholder="Re-enter password">
+                        </div>
 
-                <!-- Password -->
-                <div>
-                    <label for="password" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                        <i class="fas fa-lock mr-1 text-indigo-500"></i> Password
-                    </label>
-                    <input type="password" name="password" id="password" 
-                        class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg shadow-sm focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 dark:bg-gray-700 dark:text-white transition duration-200" 
-                        placeholder="Enter password">
-                </div>
-
-                <!-- Confirm Password -->
-                <div>
-                    <label for="password_confirmation" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                        <i class="fas fa-lock mr-1 text-indigo-500"></i> Confirm Password
-                    </label>
-                    <input type="password" name="password_confirmation" id="password_confirmation" 
-                        class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg shadow-sm focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 dark:bg-gray-700 dark:text-white transition duration-200" 
-                        placeholder="Confirm password">
-                </div>
-
-                <!-- Role -->
-                <div>
-                    <label for="role_id" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                        <i class="fas fa-user-tag mr-1 text-indigo-500"></i> Role
-                    </label>
-                    <select name="role_id" id="role_id" 
-                        class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg shadow-sm focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 dark:bg-gray-700 dark:text-white transition duration-200">
-                        <option value="">-- Select Role --</option>
-                        @foreach($roles as $role)
-                            <option value="{{ $role->id }}" {{ old('role_id') == $role->id ? 'selected' : '' }}>
-                                {{ $role->name }}
-                            </option>
-                        @endforeach
-                    </select>
-                </div>
-
-                <!-- Last Service Date -->
-                <div>
-                    <label for="last_service_date" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                        <i class="fas fa-calendar-alt mr-1 text-indigo-500"></i> Last Service Date
-                    </label>
-                    <input type="date" name="last_service_date" id="last_service_date" value="{{ old('last_service_date') }}" 
-                        class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg shadow-sm focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 dark:bg-gray-700 dark:text-white transition duration-200">
-                </div>
-
-                <!-- Actions -->
-                <div class="flex justify-end space-x-3 pt-4">
-                    <a href="{{ route('admin.users.index') }}" 
-                        class="px-6 py-3 bg-gray-500 text-white rounded-lg shadow hover:bg-gray-600 transition-all duration-200">
-                        Cancel
-                    </a>
-                    <button type="submit" 
-                        class="px-6 py-3 bg-gradient-to-r from-indigo-500 to-purple-600 text-white rounded-lg shadow hover:from-indigo-600 hover:to-purple-700 transition-all duration-200">
-                        <i class="fas fa-user-plus mr-2"></i> Create User
-                    </button>
-                </div>
-            </form>
+                        <div class="col-12 mt-4">
+                            <div class="d-flex justify-content-end gap-2">
+                                <a href="{{ route('admin.users.index') }}" class="btn btn-light border px-4">Cancel</a>
+                                <button type="submit" class="btn btn-primary px-4 shadow-sm">
+                                    <i class="fas fa-save me-1"></i> Create User
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
         </div>
     </div>
 </x-app-layout>
