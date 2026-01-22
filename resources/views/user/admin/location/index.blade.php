@@ -30,9 +30,12 @@
                                 <td>{{$loc->distance}}</td>
                                 <td>
                                     <a href="{{route('user-location.edit', $loc->id)}}" class="btn btn-success btn-xs pull-left"><i class="fa fa-edit"></i> Edit</a>
-                                    {!! Form::open(['method'=>'DELETE', 'action'=>['UserLocation@destroy', $loc->id]]) !!}
+                                   
+                                    <form action={{ route('user-location.destroy', $loc->id) }} method="POST">
+                                        @csrf
+                                        @method('DELETE')
                                         <button class="btn btn-danger btn-xs pull-left" style="margin-left:10px;"><i class="fa fa-trash"> Delete</i></button>
-                                    {!! Form::close() !!}
+                                    </form>
                                 </td>
                             </tr>
                             <?php $i++; ?>

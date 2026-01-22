@@ -30,9 +30,12 @@
                                 <td>{{$places->about}}</td>
                                 <td>
                                     <a href="{{route('user-places.edit', $places->id)}}" class="btn btn-success btn-xs pull-left"><i class="fa fa-edit"></i> Edit</a>
-                                    {!! Form::open(['method'=>'DELETE', 'action'=>['UserPlaces@destroy', $places->id]]) !!}
+                                    
+                                    <form method="POST" action="{{ route('user-places.destroy',$places->id) }}">
+                                        @csrf
+                                        @method('DELETE')
                                         <button class="btn btn-danger btn-xs pull-left" style="margin-left:10px;"><i class="fa fa-trash"> Delete</i></button>
-                                    {!! Form::close() !!}
+                                    </form>
                                 </td>
                             </tr>
                             <?php $i++; ?>

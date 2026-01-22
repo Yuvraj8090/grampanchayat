@@ -5,7 +5,9 @@
 <a href="{{route('user-address.index')}}" class="btn btn-primary btn-xs"><i class="fa fa-arrow-left fa-fw"></i> Go Back</a>
     <br/><br/>
     <div class="container">
-    {!! Form::model($add, ['method'=>'PATCH', 'action'=>['UserAddress@update', $add->id]]) !!}
+    <form action="{{ route('user-address.update',$add->id) }}" method="POST" enctype="multipart/form-data">
+        @csrf
+        @method('PATCH')
 
         <div class="form-group{{ $errors->has('address') ? ' has-error' : '' }}">
             <label>Address</label>
@@ -29,6 +31,6 @@
             <center><button class="btn btn-success btn-sm">Submit</button></center>
         </div>
 
-    {!! Form::close() !!}
+    </form>
     </div> 
 @endsection

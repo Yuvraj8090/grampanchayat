@@ -28,10 +28,12 @@
                                 </td>
                                 <td>{{$photos->alt}}</td>
                                 <td>
+<form method="POST" action="{{ route('user-gallery.destroy',$photos->id) }}">
+                                        @csrf
+                                        @method('DELETE')
 
-                                    {!! Form::open(['method'=>'DELETE', 'action'=>['UserGallery@destroy', $photos->id]]) !!}
                                         <button class="btn btn-danger btn-xs"><i class="fa fa-trash"></i> Delete</button>
-                                    {!! Form::close() !!}
+</form>
                                 </td>
                             </tr>
                             <?php $i++; ?>

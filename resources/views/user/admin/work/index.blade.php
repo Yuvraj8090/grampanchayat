@@ -35,9 +35,12 @@
                                 <td>{{$works->place}}</td>
                                 <td>
                                     <a href="{{route('user-work.edit', $works->id)}}" class="btn btn-success btn-xs pull-left"><i class="fa fa-edit"></i> Edit</a>
-                                    {!! Form::open(['method'=>'DELETE', 'action'=>['UserWork@destroy', $works->id]]) !!}
+                                   
+                                    <form action="{{ route('user-work.destroy',$works->id) }}" method="POST" >
+                                        @csrf
+                                        @method('DELETE')
                                         <button class="btn btn-danger btn-xs pull-left" style="margin-left:10px;"><i class="fa fa-trash"></i> Delete</button>
-                                    {!! Form::close() !!}
+                                    </form>
                                 </td>
                             </tr>
                             <?php $i++; ?>
