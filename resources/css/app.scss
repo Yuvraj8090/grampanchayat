@@ -1,0 +1,18 @@
+/* 1. Fonts (Keep existing or import) */
+@import url('https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap');
+
+/* 2. Bootstrap */
+@import 'bootstrap/scss/bootstrap';
+
+/* 3. Font Awesome */
+@import '@fortawesome/fontawesome-free/css/all.css';
+
+/* 4. DataTables for Bootstrap 5 */
+@import 'datatables.net-bs5/css/dataTables.bootstrap5.min.css';
+
+/* 5. Custom Styles */
+// Add your custom overrides here
+
+[x-cloak] {
+    display: none;
+}
