@@ -11,7 +11,7 @@ class RoleController extends Controller
     public function index()
 {
     // Fetch 10 roles per page
-    $roles = Role::orderBy('created_at', 'desc')->paginate(10);
+    $roles = Role::orderBy('created_at', 'desc')->get();
     
     return view('roles.index', compact('roles'));
 }

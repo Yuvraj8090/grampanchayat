@@ -2,6 +2,9 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\DistrictController;
+use App\Http\Controllers\BlockController;
+use App\Http\Controllers\PanchayatController;
 use App\Http\Controllers\RoleController;
 
 
@@ -25,6 +28,10 @@ Route::middleware([
 
 
         Route::resource('users', UserController::class)->except(['show']);
+        Route::resource('districts', DistrictController::class)->except(['show']);
+        Route::resource('blocks', BlockController::class)->except(['show']);
+        Route::resource('panchayats', PanchayatController::class)->except(['show']);
+
         Route::resource('roles', RoleController::class)->except(['show']);
     });
 });

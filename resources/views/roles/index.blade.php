@@ -82,11 +82,7 @@
                 </div>
             </div>
 
-            @if($roles->hasPages())
-                <div class="card-footer bg-white py-3">
-                    {{ $roles->links('pagination::bootstrap-5') }}
-                </div>
-            @endif
+
         </div>
     </div>
 </x-app-layout>

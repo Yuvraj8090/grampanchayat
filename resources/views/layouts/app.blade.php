@@ -1,22 +1,27 @@
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <title>
-        @if (isset($header) && $header) 
-           {{ $header }} - {{ 'Gram Panchayat Admin' }}
+        @if (isset($header) && $header)
+        {{ $header }} - {{ 'Gram Panchayat Admin' }}
         @else
-          Gram Panchayat Admin
+        Gram Panchayat Admin
         @endif
     </title>
 
     <link rel="preconnect" href="https://fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
 
+
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+
     @vite(['resources/css/app.scss', 'resources/js/app.js'])
+
 
     <style>
         body {
@@ -67,11 +72,13 @@
             background-color: #343a40;
             color: #fff;
             font-weight: 600;
-            border-left-color: #0d6efd; /* Highlight active link */
+            border-left-color: #0d6efd;
+            /* Highlight active link */
         }
-        
+
         #sidebar-wrapper .list-group-item i {
-            width: 25px; /* Align icons */
+            width: 25px;
+            /* Align icons */
         }
 
         /* Navbar & Content */
@@ -81,9 +88,9 @@
             flex-direction: column;
             min-height: 100vh;
         }
-        
+
         .navbar {
-            box-shadow: 0 2px 4px rgba(0,0,0,.05);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, .05);
         }
 
         /* Responsive Toggling */
@@ -95,10 +102,12 @@
             #sidebar-wrapper {
                 margin-left: 0;
             }
+
             #page-content-wrapper {
                 min-width: 0;
                 width: 100%;
             }
+
             #wrapper.toggled #sidebar-wrapper {
                 margin-left: -15rem;
             }
@@ -107,26 +116,53 @@
 
     @livewireStyles
 </head>
+
 <body>
 
     <div class="d-flex" id="wrapper">
-        
+
         <div id="sidebar-wrapper">
             <div class="sidebar-heading text-center">
                 <i class="fa-solid fa-landmark me-2"></i> Panchayat Admin
             </div>
+
             <div class="list-group list-group-flush mt-2">
-                <a href="{{ route('dashboard') }}" class="list-group-item list-group-item-action {{ request()->routeIs('dashboard') ? 'active' : '' }}">
+                <a href="{{ route('dashboard') }}"
+                    class="list-group-item list-group-item-action {{ request()->routeIs('dashboard') ? 'active' : '' }}">
                     <i class="fa-solid fa-gauge"></i> Dashboard
                 </a>
-                
-                <a href="{{ route('admin.users.index') }}" class="list-group-item list-group-item-action {{ request()->routeIs('admin.users.*') ? 'active' : '' }}">
+
+                <div class="sidebar-subheading text-muted text-uppercase small fw-bold px-3 mt-3 mb-1">Access Control
+                </div>
+
+                <a href="{{ route('admin.users.index') }}"
+                    class="list-group-item list-group-item-action {{ request()->routeIs('admin.users.*') ? 'active' : '' }}">
                     <i class="fa-solid fa-users"></i> Users
                 </a>
 
-                <a href="{{ route('admin.roles.index') }}" class="list-group-item list-group-item-action {{ request()->routeIs('admin.roles.*') ? 'active' : '' }}">
+                <a href="{{ route('admin.roles.index') }}"
+                    class="list-group-item list-group-item-action {{ request()->routeIs('admin.roles.*') ? 'active' : '' }}">
                     <i class="fa-solid fa-shield-halved"></i> Roles
                 </a>
+
+                <div class="sidebar-subheading text-muted text-uppercase small fw-bold px-3 mt-3 mb-1">Master Data</div>
+
+                <a href="{{ route('admin.districts.index') }}"
+                    class="list-group-item list-group-item-action {{ request()->routeIs('admin.districts.*') ? 'active' : '' }}">
+                    <i class="fa-solid fa-map-location-dot"></i> Districts
+                </a>
+
+                <a href="{{ route('admin.blocks.index') }}"
+                    class="list-group-item list-group-item-action {{ request()->routeIs('admin.blocks.*') ? 'active' : '' }}">
+                    <i class="fa-solid fa-cubes-stacked"></i> Blocks
+                </a>
+
+                <a href="{{ route('admin.panchayats.index') }}"
+                    class="list-group-item list-group-item-action {{ request()->routeIs('admin.panchayats.*') ? 'active' : '' }}">
+                    <i class="fa-solid fa-gopuram"></i> Panchayats
+                </a>
+
+                <div class="sidebar-subheading text-muted text-uppercase small fw-bold px-3 mt-3 mb-1">Services</div>
 
                 <a href="#" class="list-group-item list-group-item-action">
                     <i class="fa-solid fa-file-contract"></i> Certificates
@@ -144,41 +180,50 @@
                         <i class="fa-solid fa-bars"></i>
                     </button>
 
-                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent">
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#navbarSupportedContent">
                         <span class="navbar-toggler-icon"></span>
                     </button>
 
                     <div class="collapse navbar-collapse" id="navbarSupportedContent">
                         <ul class="navbar-nav ms-auto mt-2 mt-lg-0 align-items-center">
-                            
+
                             <li class="nav-item me-3">
                                 <a class="nav-link position-relative" href="#">
                                     <i class="fa-regular fa-bell fa-lg"></i>
-                                    <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" style="font-size: 0.6rem;">
+                                    <span
+                                        class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
+                                        style="font-size: 0.6rem;">
                                         3
                                     </span>
                                 </a>
                             </li>
 
                             <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                <a class="nav-link dropdown-toggle d-flex align-items-center" href="#"
+                                    id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                     @if (Laravel\Jetstream\Jetstream::managesProfilePhotos())
-                                        <img class="rounded-circle me-2 border" style="width:32px; height:32px; object-fit:cover;" src="{{ Auth::user()->profile_photo_url }}" alt="{{ Auth::user()->name }}" />
+                                    <img class="rounded-circle me-2 border"
+                                        style="width:32px; height:32px; object-fit:cover;"
+                                        src="{{ Auth::user()->profile_photo_url }}" alt="{{ Auth::user()->name }}" />
                                     @else
-                                        <div class="rounded-circle bg-secondary text-white d-flex justify-content-center align-items-center me-2" style="width:32px; height:32px; font-size: 14px;">
-                                            {{ substr(Auth::user()->name, 0, 1) }}
-                                        </div>
+                                    <div class="rounded-circle bg-secondary text-white d-flex justify-content-center align-items-center me-2"
+                                        style="width:32px; height:32px; font-size: 14px;">
+                                        {{ substr(Auth::user()->name, 0, 1) }}
+                                    </div>
                                     @endif
                                     <span class="fw-semibold text-dark">{{ Auth::user()->name }}</span>
                                 </a>
                                 <ul class="dropdown-menu dropdown-menu-end shadow-sm" aria-labelledby="navbarDropdown">
                                     <li><a class="dropdown-item" href="{{ route('profile.show') }}">Profile</a></li>
-                                    <li><hr class="dropdown-divider"></li>
+                                    <li>
+                                        <hr class="dropdown-divider">
+                                    </li>
                                     <li>
                                         <form method="POST" action="{{ route('logout') }}">
                                             @csrf
                                             <a class="dropdown-item text-danger" href="{{ route('logout') }}"
-                                               onclick="event.preventDefault(); this.closest('form').submit();">
+                                                onclick="event.preventDefault(); this.closest('form').submit();">
                                                 <i class="fa-solid fa-right-from-bracket me-2"></i> Log Out
                                             </a>
                                         </form>
@@ -191,15 +236,15 @@
             </nav>
 
             @if (isset($header))
-                <div class="bg-white shadow-sm border-bottom py-3">
-                    <div class="container-fluid">
-                        <h5 class="m-0 fw-bold text-dark">{{ $header }}</h5>
-                    </div>
+            <div class="bg-white shadow-sm border-bottom py-3">
+                <div class="container-fluid">
+                    <h5 class="m-0 fw-bold text-dark">{{ $header }}</h5>
                 </div>
+            </div>
             @endif
 
             <div class="container-fluid p-4">
-                <x-banner /> 
+                <x-banner />
                 {{ $slot }}
             </div>
         </div>
@@ -221,4 +266,5 @@
         });
     </script>
 </body>
+
 </html>
