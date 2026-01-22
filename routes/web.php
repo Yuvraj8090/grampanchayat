@@ -170,33 +170,33 @@ Route::group(['middleware' => \App\Http\Middleware\User::class], function(){
 
     Route::resource('/user-gallery', UserGallery::class);
 
-    Route::resource('/user-introduction', 'UserIntro');
+    Route::resource('/user-introduction', UserIntro::class);
 
-    Route::resource('/user-facts', 'UserFact');
+    Route::resource('/user-facts', UserFact::class);
 
-    Route::resource('/user-p-message', 'UserPmsg');
+    Route::resource('/user-p-message', UserPmsg::class);
 
-    Route::resource('/user-video', 'UserVideo');
+    Route::resource('/user-video', UserVideo::class);
 
-    Route::resource('/user-work', 'UserWork');
+    Route::resource('/user-work', UserWork::class);
 
-    Route::resource('/user-address', 'UserAddress');
+    Route::resource('/user-address', UserAddress::class);
 
-    Route::resource('/user-location', 'UserLocation');
+    Route::resource('/user-location', UserLocation::class);
 
-    Route::resource('/user-list', 'UserList');
+    Route::resource('/user-list', UserList::class);
 
-    Route::resource('/user-email', 'UserEmail');
+    Route::resource('/user-email', UserEmail::class);
     
-    Route::resource('/user-places', 'UserPlaces');
+    Route::resource('/user-places', UserPlaces::class);
 
-    Route::resource('/user-places-intro', 'UserPlacesIntro');
+    Route::resource('/user-places-intro', UserPlacesIntro::class);
 
-    Route::resource('/user-business', 'UserBusiness');
+    Route::resource('/user-business', UserBusiness::class);
 
-    Route::resource('/user-business-intro', 'UserBusinessIntro');
+    Route::resource('/user-business-intro', UserBusinessIntro::class);
 
-    Route::resource('/user-register', 'UserRegister');
+    Route::resource('/user-register', UserRegister::class);
     
 
 
