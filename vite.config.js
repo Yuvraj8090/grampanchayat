@@ -1,18 +1,31 @@
 import { defineConfig } from 'vite';
 import laravel from 'laravel-vite-plugin';
-import tailwindcss from '@tailwindcss/vite';
 
 export default defineConfig({
     plugins: [
         laravel({
-            input: ['resources/css/app.css', 'resources/js/app.js'],
+            input: ['resources/css/app.scss', 'resources/js/app.js'], // Ensure this matches your files
             refresh: true,
         }),
-        tailwindcss(),
     ],
-    server: {
-        watch: {
-            ignored: ['**/storage/framework/views/**'],
+    css: {
+        preprocessorOptions: {
+            scss: {
+                api: 'modern-compiler', // Use the modern Sass API
+                silenceDeprecations: [
+                    'mixed-decls', 
+                    'color-functions', 
+                    'global-builtin', 
+                    'import', 
+                    'legacy-js-api'
+                ],
+            },
+        },
+    },
+    resolve: {
+        alias: {
+            '$': 'jquery',
+            'jQuery': 'jquery',
         },
     },
 });

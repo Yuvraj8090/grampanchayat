@@ -1,4 +1,5 @@
 {
+    "$schema": "https://getcomposer.org/schema.json",
     "name": "laravel/laravel",
     "type": "project",
     "description": "The skeleton application for the Laravel framework.",
@@ -7,10 +8,11 @@
     "require": {
         "php": "^8.2",
         "laravel/framework": "^12.0",
+        "laravel/jetstream": "^5.4",
+        "laravel/sanctum": "^4.0",
         "laravel/tinker": "^2.10.1",
-        "laravel/ui": "^4.5",
-        "phpoffice/phpspreadsheet": "^1.29",
-        "spatie/laravel-html": "^3.12"
+        "livewire/livewire": "^3.6.4",
+        "yajra/laravel-datatables": "^12.0"
     },
     "require-dev": {
         "fakerphp/faker": "^1.23",
