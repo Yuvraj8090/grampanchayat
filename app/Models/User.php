@@ -9,7 +9,7 @@ use Illuminate\Notifications\Notifiable;
 use Laravel\Fortify\TwoFactorAuthenticatable;
 use Laravel\Jetstream\HasProfilePhoto;
 use Laravel\Sanctum\HasApiTokens;
-use Illuminate\Database\Eloquent\Relations\BelongsTo; 
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 use App\Models\Role;
 
@@ -76,11 +76,33 @@ class User extends Authenticatable
     {
         return $this->belongsTo(Role::class);
     }
-    
+
     // Helper to check role safely
     public function hasRole($roleName)
     {
         return $this->role && $this->role->name === $roleName;
     }
 
+    // Inside App\Models\User.php
+
+    public function locations()
+    {
+        return $this->hasMany(UserLocation::class);
+    }
+
+    // Optional: Helper to check if user covers a specific area
+    public function hasAccessToDistrict($districtId)
+    {
+        return $this->locations()
+            ->where(function ($query) use ($districtId) {
+                // User has this specific district assigned
+                $query->where('district_id', $districtId)
+                    // OR User has the parent State assigned (which covers all districts)
+                    ->orWhere(function ($q) {
+                        $q->whereNull('district_id'); // Implies State level
+                        // You might need to check state_id matching the district's state here
+                    });
+            })
+            ->exists();
+    }
 }
