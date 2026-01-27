@@ -1,227 +1,9 @@
-<!DOCTYPE html>
-<html lang="hi">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ $panchayat->name }} | ग्राम पंचायत</title>
-
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Hind:wght@400;500;700&family=Poppins:wght@400;600&display=swap"
-        rel="stylesheet">
-
-    <style>
-        body {
-            font-family: 'Poppins', 'Hind', sans-serif;
-            background-color: #f8f9fa;
-        }
-
-        /* Top Bar */
-        .top-bar {
-            background: #f1f1f1;
-            font-size: 0.85rem;
-            border-bottom: 1px solid #ddd;
-        }
-
-        .accessibility-links a {
-            color: #333;
-            text-decoration: none;
-            margin-left: 10px;
-        }
-
-        /* Branding Header */
-        .brand-header {
-            background: #fff;
-
-            border-bottom: 4px solid #ff9933;
-            /* Saffron Border */
-        }
-
-        .emblem {
-            height: 60px;
-        }
-
-        /* Navigation */
-        .navbar-custom {
-            background: #1a4a8d;
-            /* Govt Blue */
-        }
-
-        .navbar-custom .nav-link {
-            color: #fff !important;
-            font-weight: 500;
-            padding: 12px 15px;
-        }
-
-        .navbar-custom .nav-link:hover {
-            background: rgba(255, 255, 255, 0.1);
-            color: #ff9933 !important;
-        }
-
-        /* Marquee / Ticker */
-        .news-ticker {
-            background: #2c3e50;
-            color: #fff;
-            padding: 8px 0;
-        }
-
-        .ticker-title {
-            background: #e74c3c;
-            padding: 5px 15px;
-            font-weight: bold;
-            font-size: 0.9rem;
-        }
-
-        /* Hero Section */
-        .pradhan-card {
-            background: linear-gradient(135deg, #1a4a8d 0%, #2980b9 100%);
-            color: white;
-            border-radius: 10px;
-        }
-
-        /* Stat Cards */
-        .stat-card {
-            background: #fff;
-            border-left: 4px solid #1a4a8d;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
-            transition: transform 0.2s;
-        }
-
-        .stat-card:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-        }
-
-        .stat-icon {
-            font-size: 2rem;
-            color: #ddd;
-        }
-
-        /* Sidebar Links */
-        .sidebar-box {
-            background: #fff;
-            border: 1px solid #e9ecef;
-            border-top: 3px solid #1a4a8d;
-            margin-bottom: 20px;
-        }
-
-        .sidebar-title {
-            background: #f1f1f1;
-            padding: 10px 15px;
-            font-weight: 700;
-            color: #1a4a8d;
-            border-bottom: 1px solid #ddd;
-        }
-
-        .sidebar-link {
-            display: block;
-            padding: 10px 15px;
-            color: #444;
-            text-decoration: none;
-            border-bottom: 1px solid #f8f9fa;
-            transition: all 0.2s;
-        }
-
-        .sidebar-link:hover {
-            background: #e9ecef;
-            color: #1a4a8d;
-            padding-left: 20px;
-        }
-
-        .new-badge {
-            font-size: 0.7rem;
-            animation: blink 1s infinite;
-        }
-
-        @keyframes blink {
-            50% {
-                opacity: 0;
-            }
-        }
-
-        /* Footer */
-        .footer {
-            background: #1b1b1b;
-            color: #bbb;
-            padding-top: 40px;
-            border-top: 5px solid #138808;
-            /* Green Border */
-        }
-
-        .footer a {
-            color: #bbb;
-            text-decoration: none;
-        }
-
-        .footer a:hover {
-            color: #fff;
-        }
-    </style>
-</head>
-
-<body>
-
-    <div class="top-bar py-1 d-none d-md-block ">
-        <div class="container d-flex justify-content-between align-items-center">
-            <div class="text-muted">
-                <small><i class="fas fa-calendar-alt me-1"></i> <span id="currentDate"></span></small>
-            </div>
-            <div class="accessibility-links">
-                <a href="#" class="small">Skip to Main Content</a>
-                <a href="#" class="small">Screen Reader Access</a>
-                <a href="#" class="fw-bold">A+</a>
-                <a href="#" class="fw-bold">A-</a>
-                <a href="#" class="badge bg-secondary text-white ms-2">English / हिंदी</a>
-            </div>
-        </div>
-    </div>
-
-    <header class="brand-header">
-        <div class="container">
-            <div class="row align-items-center"
-                style="background: url('https://grampanchayat.org/images/back.jpg') no-repeat center center; 
-            background-size: cover; 
-            min-height: 150px;">
-
-                <div class="col-md-9 d-flex align-items-center gap-3">
-                    <div class="p-3 rounded">
-                        <h2 class="mb-0 fw-bold text-dark" style="line-height: 1.2;">
-                            {{ $panchayat->name }}
-                        </h2>
-                        <h5 class="text-secondary mb-0">
-                            ब्लॉक: {{ $panchayat->block?->name ?? 'N/A' }} |
-                            ज़िला: {{ $panchayat->block?->district?->name ?? 'N/A' }}
-                        </h5>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </header>
-
-
-    <nav class="navbar navbar-expand-lg navbar-custom sticky-top shadow-sm">
-        <div class="container">
-            <button class="navbar-toggler bg-light" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="mainNav">
-                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                    <li class="nav-item"><a class="nav-link active" href="#"><i class="fas fa-home me-1"></i>
-                            होम</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#">पंचायत परिचय</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#">पर्यटन स्थल</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#">विकास कार्य</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#">प्रतिनिधि मंडल</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#">फोटो गैलरी</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#">संपर्क करें</a></li>
-                </ul>
-                <div class="d-flex">
-                    <a href="{{ route('login') }}" class="btn btn-outline-light btn-sm me-2">Login</a>
-                </div>
-            </div>
-        </div>
-    </nav>
+<x-guest-layout>
+    <x-slot name="header">
+        {{ $panchayat->name }}
+    </x-slot>
+    
+    <x-navbar-gram :panchayat="$panchayat" />
 
     <div class="news-ticker">
         <div class="container d-flex align-items-center">
@@ -265,9 +47,7 @@
 
                                 <h6 class="fw-bold mb-0">{{ $details->pradhan_name ?? 'Pradhan Name' }}</h6>
                                 <small class="d-block text-white-50">ग्राम प्रधान</small>
-                                <div class="mt-2 text-warning small">
-                                    <i class="fas fa-phone-alt"></i> {{ $details->contact_phone ?? 'N/A' }}
-                                </div>
+
                             </div>
                         </div>
                     </div>
@@ -465,8 +245,8 @@
         </div>
         <div class="bg-black py-3 text-center small">
             <div class="container">
-                &copy; {{ date('Y') }} {{ $panchayat->name }}. Developed by <span class="text-warning">Universal
-                    Web Solutions</span>.
+                &copy; {{ date('Y') }} {{ $panchayat->name }}. Developed by <span class="text-warning">Yuvraj
+                    Kohli</span>.
             </div>
         </div>
     </footer>
@@ -482,6 +262,5 @@
         };
         document.getElementById('currentDate').textContent = new Date().toLocaleDateString('hi-IN', dateOptions);
     </script>
-</body>
 
-</html>
+</x-guest-layout>

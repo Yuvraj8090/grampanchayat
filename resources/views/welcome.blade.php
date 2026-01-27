@@ -1,403 +1,153 @@
-<!DOCTYPE html>
-<html lang="hi">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sorna Gram Panchayat | Govt of Uttarakhand</title>
-    
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Hind:wght@400;500;700&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+<x-guest-layout>
 
     <style>
         body {
-            font-family: 'Poppins', 'Hind', sans-serif;
+            font-family: 'Inter', sans-serif;
             background-color: #f8f9fa;
         }
 
-        /* Top Bar */
-        .top-bar {
-            background: #f1f1f1;
-            font-size: 0.85rem;
-            border-bottom: 1px solid #ddd;
-        }
-        .accessibility-links a {
-            color: #333;
-            text-decoration: none;
-            margin-left: 10px;
-        }
-
-        /* Branding Header */
-        .brand-header {
-            background: #fff;
-            padding: 15px 0;
-            border-bottom: 4px solid #ff9933; /* Saffron Border */
-        }
-        .emblem {
-            height: 60px;
-        }
-
-        /* Navigation */
-        .navbar-custom {
-            background: #1a4a8d; /* Govt Blue */
-        }
-        .navbar-custom .nav-link {
-            color: #fff !important;
-            font-weight: 500;
-            padding: 12px 15px;
-        }
-        .navbar-custom .nav-link:hover {
-            background: rgba(255, 255, 255, 0.1);
-            color: #ff9933 !important;
-        }
-
-        /* Marquee / Ticker */
-        .news-ticker {
-            background: #2c3e50;
-            color: #fff;
-            padding: 8px 0;
-        }
-        .ticker-title {
-            background: #e74c3c;
-            padding: 5px 15px;
-            font-weight: bold;
-            font-size: 0.9rem;
-        }
-
-        /* Hero Section */
-        .pradhan-card {
-            background: linear-gradient(135deg, #1a4a8d 0%, #2980b9 100%);
+        .hero-section {
+            background: linear-gradient(135deg, #0d6efd 0%, #0a58ca 100%);
             color: white;
-            border-radius: 10px;
+            padding: 100px 0;
+            clip-path: polygon(0 0, 100% 0, 100% 85%, 0 100%);
         }
 
-        /* Stat Cards (Replaces the old Table) */
-        .stat-card {
-            background: #fff;
-            border-left: 4px solid #1a4a8d;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
-            transition: transform 0.2s;
+        .feature-icon {
+            width: 60px;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
         }
-        .stat-card:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-        }
-        .stat-icon {
-            font-size: 2rem;
-            color: #ddd;
-        }
-
-        /* Sidebar Links */
-        .sidebar-box {
-            background: #fff;
-            border: 1px solid #e9ecef;
-            border-top: 3px solid #1a4a8d;
-            margin-bottom: 20px;
-        }
-        .sidebar-title {
-            background: #f1f1f1;
-            padding: 10px 15px;
-            font-weight: 700;
-            color: #1a4a8d;
-            border-bottom: 1px solid #ddd;
-        }
-        .sidebar-link {
-            display: block;
-            padding: 10px 15px;
-            color: #444;
-            text-decoration: none;
-            border-bottom: 1px solid #f8f9fa;
-            transition: all 0.2s;
-        }
-        .sidebar-link:hover {
-            background: #e9ecef;
-            color: #1a4a8d;
-            padding-left: 20px;
-        }
-        .new-badge {
-            font-size: 0.7rem;
-            animation: blink 1s infinite;
-        }
-        @keyframes blink { 50% { opacity: 0; } }
-
-        /* Footer */
-        .footer {
-            background: #1b1b1b;
-            color: #bbb;
-            padding-top: 40px;
-            border-top: 5px solid #138808; /* Green Border */
-        }
-        .footer a { color: #bbb; text-decoration: none; }
-        .footer a:hover { color: #fff; }
     </style>
-</head>
-<body>
 
-    <div class="top-bar py-1 d-none d-md-block">
-        <div class="container d-flex justify-content-between align-items-center">
-            <div class="text-muted">
-                <small><i class="fas fa-calendar-alt me-1"></i> <span id="currentDate"></span></small>
-            </div>
-            <div class="accessibility-links">
-                <a href="#" class="small">Skip to Main Content</a>
-                <a href="#" class="small">Screen Reader Access</a>
-                <a href="#" class="fw-bold">A+</a>
-                <a href="#" class="fw-bold">A-</a>
-                <a href="#" class="badge bg-secondary text-white ms-2">English / हिंदी</a>
-            </div>
-        </div>
-    </div>
 
-    <header class="brand-header">
+    <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm fixed-top">
         <div class="container">
-            <div class="row align-items-center">
-                <div class="col-md-8 d-flex align-items-center gap-3">
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/5/55/Emblem_of_India.svg" alt="Emblem" class="emblem">
-                    <div>
-                        <h2 class="mb-0 fw-bold text-dark" style="line-height: 1.2;">ग्राम पंचायत सोरना</h2>
-                        <h5 class="text-secondary mb-0">विकास खंड - डोईवाला, देहरादून (उत्तराखंड)</h5>
-                    </div>
-                </div>
-                <div class="col-md-4 text-end d-none d-md-block">
-                    <img src="https://upload.wikimedia.org/wikipedia/en/9/95/Digital_India_logo.svg" alt="Digital India" style="height: 50px;">
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/3/32/Swachh_Bharat_Mission_Logo.svg" alt="Swachh Bharat" style="height: 50px; margin-left: 10px;">
-                </div>
-            </div>
-        </div>
-    </header>
-
-    <nav class="navbar navbar-expand-lg navbar-custom sticky-top shadow-sm">
-        <div class="container">
-            <button class="navbar-toggler bg-light" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav">
+            <a class="navbar-brand fw-bold text-primary" href="#">
+                <i class="fas fa-building me-2"></i> Panchayat<span class="text-dark">MIS</span>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <span class="navbar-toggler-icon"></span>
             </button>
-            <div class="collapse navbar-collapse" id="mainNav">
-                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                    <li class="nav-item"><a class="nav-link active" href="#"><i class="fas fa-home me-1"></i> होम</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#">पंचायत परिचय</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#">पर्यटन स्थल</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#">विकास कार्य</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#">प्रतिनिधि मंडल</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#">फोटो गैलरी</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#">संपर्क करें</a></li>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto align-items-center">
+                    @if (Route::has('login'))
+                        @auth
+                            <li class="nav-item">
+                                <a href="{{ url('/dashboard') }}" class="btn btn-primary btn-sm px-4 rounded-pill">
+                                    <i class="fas fa-tachometer-alt me-2"></i>Go to Dashboard
+                                </a>
+                            </li>
+                        @else
+                            <li class="nav-item me-2">
+                                <a href="{{ route('login') }}" class="nav-link fw-semibold text-dark">Log in</a>
+                            </li>
+                            @if (Route::has('register'))
+                                <li class="nav-item">
+                                    <a href="{{ route('register') }}"
+                                        class="btn btn-outline-primary btn-sm px-4 rounded-pill">Register</a>
+                                </li>
+                            @endif
+                        @endauth
+                    @endif
                 </ul>
-                <div class="d-flex">
-                    <a href="#" class="btn btn-outline-light btn-sm me-2">Login</a>
-                </div>
             </div>
         </div>
     </nav>
 
-    <div class="news-ticker">
-        <div class="container d-flex align-items-center">
-            <span class="ticker-title rounded shadow-sm">ताज़ा ख़बरें</span>
-            <marquee class="ms-3" onmouseover="this.stop();" onmouseout="this.start();">
-                <i class="fas fa-bullhorn text-warning me-2"></i> प्रधानमंत्री आवास योजना की नई सूची जारी कर दी गई है। &nbsp;&nbsp;|&nbsp;&nbsp; 
-                <i class="fas fa-bullhorn text-warning me-2"></i> 25 जनवरी को ग्राम सभा की बैठक पंचायत भवन में आयोजित की जाएगी। &nbsp;&nbsp;|&nbsp;&nbsp;
-                <i class="fas fa-bullhorn text-warning me-2"></i> किसान सम्मान निधि की 16वीं किस्त जल्द जारी होगी।
-            </marquee>
-        </div>
-    </div>
-
-    <div class="container my-5">
-        <div class="row g-4">
-            
-            <div class="col-lg-8">
-                
-                <div class="card shadow-sm border-0 mb-4">
-                    <div class="card-body p-4">
-                        <div class="d-flex flex-column flex-md-row gap-4 align-items-start">
-                            <div class="flex-grow-1">
-                                <h3 class="text-primary fw-bold mb-3 border-bottom pb-2 d-inline-block">ग्राम पंचायत में आपका स्वागत है</h3>
-                                <p class="text-muted text-justify">
-                                    यह सोरना ग्राम पंचायत की आधिकारिक वेबसाइट है। यह वेबसाइट प्रधान जी (श्रीमती नसरीन W/O कासिम अली) के सहयोग से निर्मित की गई है। 
-                                    इसका उद्देश्य ग्राम पंचायत के पर्यटन स्थल, मुख्य व्यवसाय और विकास कार्यों को डिजिटल रूप से प्रदर्शित करना है।
-                                </p>
-                                <p class="text-muted">
-                                    सोरना ग्राम पंचायत उत्तराखंड की एक आदर्श और स्वच्छ ग्राम सभा है। प्रकृति के मनोरम दृश्य यहां देखने को मिलते हैं।
-                                </p>
-                            </div>
-                            <div class="pradhan-card p-3 text-center shadow" style="min-width: 200px;">
-                                <img src="https://placehold.co/100x100" class="rounded-circle border border-3 border-white mb-2" alt="Pradhan">
-                                <h6 class="fw-bold mb-0">श्रीमती नसरीन</h6>
-                                <small class="d-block text-white-50">ग्राम प्रधान</small>
-                                <div class="mt-2 text-warning small">
-                                    <i class="fas fa-phone-alt"></i> +91-96340XXXXX
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <h4 class="mb-3 fw-bold text-secondary"><i class="fas fa-chart-pie me-2"></i> पंचायत सांख्यिकी (Statistics)</h4>
-                <div class="row g-3 mb-4">
-                    <div class="col-md-4 col-6">
-                        <div class="stat-card p-3 d-flex justify-content-between align-items-center rounded">
-                            <div>
-                                <h3 class="fw-bold text-primary mb-0">2116</h3>
-                                <small class="text-muted">कुल जनसंख्या</small>
-                            </div>
-                            <i class="fas fa-users stat-icon text-primary opacity-25"></i>
-                        </div>
-                    </div>
-                    <div class="col-md-4 col-6">
-                        <div class="stat-card p-3 d-flex justify-content-between align-items-center rounded">
-                            <div>
-                                <h3 class="fw-bold text-success mb-0">1083</h3>
-                                <small class="text-muted">पुरुष जनसंख्या</small>
-                            </div>
-                            <i class="fas fa-male stat-icon text-success opacity-25"></i>
-                        </div>
-                    </div>
-                    <div class="col-md-4 col-6">
-                        <div class="stat-card p-3 d-flex justify-content-between align-items-center rounded">
-                            <div>
-                                <h3 class="fw-bold text-info mb-0">1033</h3>
-                                <small class="text-muted">महिला जनसंख्या</small>
-                            </div>
-                            <i class="fas fa-female stat-icon text-info opacity-25"></i>
-                        </div>
-                    </div>
-                    <div class="col-md-4 col-6">
-                        <div class="stat-card p-3 d-flex justify-content-between align-items-center rounded">
-                            <div>
-                                <h3 class="fw-bold text-warning mb-0">90%</h3>
-                                <small class="text-muted">साक्षरता दर</small>
-                            </div>
-                            <i class="fas fa-book-reader stat-icon text-warning opacity-25"></i>
-                        </div>
-                    </div>
-                    <div class="col-md-4 col-6">
-                        <div class="stat-card p-3 d-flex justify-content-between align-items-center rounded">
-                            <div>
-                                <h3 class="fw-bold text-danger mb-0">393</h3>
-                                <small class="text-muted">कुल परिवार</small>
-                            </div>
-                            <i class="fas fa-home stat-icon text-danger opacity-25"></i>
-                        </div>
-                    </div>
-                    <div class="col-md-4 col-6">
-                        <div class="stat-card p-3 d-flex justify-content-between align-items-center rounded">
-                            <div>
-                                <h3 class="fw-bold text-dark mb-0">3</h3>
-                                <small class="text-muted">प्राथमिक विद्यालय</small>
-                            </div>
-                            <i class="fas fa-school stat-icon text-dark opacity-25"></i>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="card shadow-sm border-0">
-                    <div class="card-header bg-white fw-bold"><i class="fas fa-video me-2"></i> वीडियो गैलरी</div>
-                    <div class="card-body">
-                        <div class="ratio ratio-16x9 rounded overflow-hidden">
-                            <iframe width="420" height="345" src="https://www.youtube.com/embed/tgbNymZ7vqY" title="YouTube video player" frameborder="0">
-</iframe>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-
-            <div class="col-lg-4">
-                
-                <div class="sidebar-box shadow-sm rounded overflow-hidden">
-                    <div class="sidebar-title">
-                        <i class="fas fa-tasks me-2"></i> संचालित योजनाएं (Schemes)
-                    </div>
-                    <div class="list-group list-group-flush">
-                        <a href="#" class="sidebar-link">
-                            <span class="badge bg-danger new-badge me-1">New</span>
-                            प्रधानमंत्री आवास योजना आवेदन <i class="fas fa-external-link-alt float-end small mt-1"></i>
+    <section class="hero-section text-center">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-8">
+                    <h1 class="display-4 fw-bold mb-3">Panchayati Raj Management System</h1>
+                    <p class="lead mb-5 opacity-75">
+                        A centralized digital platform to manage Districts, Blocks, and Gram Panchayats efficiently.
+                        Empowering governance through data transparency.
+                    </p>
+                    @auth
+                        <a href="{{ url('/dashboard') }}" class="btn btn-light btn-lg px-5 text-primary fw-bold shadow">
+                            Access Portal
                         </a>
-                        <a href="#" class="sidebar-link">
-                            प्रधानमंत्री ग्रामीण आवास योजना
+                    @else
+                        <a href="{{ route('login') }}" class="btn btn-light btn-lg px-5 text-primary fw-bold shadow">
+                            Login to Continue
                         </a>
-                        <a href="#" class="sidebar-link">
-                            फसल बीमा योजना (Agri Insurance)
-                        </a>
-                        <a href="#" class="sidebar-link">
-                            स्वच्छ भारत मिशन (ग्रामीण)
-                        </a>
-                    </div>
+                    @endauth
                 </div>
-
-                <div class="sidebar-box shadow-sm rounded overflow-hidden">
-                    <div class="sidebar-title bg-light border-bottom">
-                        <i class="fas fa-link me-2"></i> महत्वपूर्ण लिंक
-                    </div>
-                    <div class="list-group list-group-flush">
-                        <a href="#" class="sidebar-link">CM हेल्पलाइन (1905)</a>
-                        <a href="#" class="sidebar-link">उत्तराखंड शासन (Govt of UK)</a>
-                        <a href="#" class="sidebar-link">PMAY लाभार्थी सूची देखें</a>
-                        <a href="#" class="sidebar-link">मनरेगा जॉब कार्ड सूची</a>
-                    </div>
-                </div>
-
-                <div class="card shadow-sm border-0 bg-primary text-white">
-                    <div class="card-body">
-                        <h5 class="fw-bold"><i class="fas fa-headset me-2"></i> सहायता केंद्र</h5>
-                        <p class="small mb-2">किसी भी समस्या के लिए संपर्क करें:</p>
-                        <h4 class="fw-bold mb-0">1800-180-XXXX</h4>
-                        <small>सोम - शनि (10 AM - 5 PM)</small>
-                    </div>
-                </div>
-
             </div>
         </div>
-    </div>
+    </section>
 
-    <footer class="footer">
-        <div class="container pb-4">
+    <section class="py-5">
+        <div class="container">
+            <div class="row text-center mb-5">
+                <div class="col-12">
+                    <h2 class="fw-bold text-secondary">Administrative Structure</h2>
+                    <p class="text-muted">Organized hierarchical data management</p>
+                </div>
+            </div>
+
             <div class="row g-4">
                 <div class="col-md-4">
-                    <h5 class="text-white mb-3 border-start border-4 border-warning ps-2">सोरना ग्राम पंचायत</h5>
-                    <p class="small text-justify">
-                        सोरना ग्राम पंचायत, उत्तराखंड सरकार के पंचायती राज अधिनियम के अंतर्गत कार्य करती है। हमारा लक्ष्य गांव का सर्वांगीण विकास है।
-                    </p>
-                    <div class="d-flex gap-3 mt-3">
-                        <a href="#" class="text-white"><i class="fab fa-facebook fa-lg"></i></a>
-                        <a href="#" class="text-white"><i class="fab fa-twitter fa-lg"></i></a>
-                        <a href="#" class="text-white"><i class="fab fa-youtube fa-lg"></i></a>
+                    <div class="card h-100 border-0 shadow-sm hover-top">
+                        <div class="card-body text-center p-4">
+                            <div class="feature-icon bg-primary bg-opacity-10 text-primary mx-auto">
+                                <i class="fas fa-map"></i>
+                            </div>
+                            <h5 class="card-title fw-bold mt-3">Districts</h5>
+                            <p class="card-text text-muted small">
+                                Manage Zila Parishad level data. Oversee all blocks and development activities within
+                                the district boundaries.
+                            </p>
+                        </div>
                     </div>
                 </div>
-                <div class="col-md-2">
-                    <h6 class="text-white mb-3">त्वरित लिंक</h6>
-                    <ul class="list-unstyled small">
-                        <li class="mb-2"><a href="#">मुख्य पृष्ठ</a></li>
-                        <li class="mb-2"><a href="#">हमारे बारे में</a></li>
-                        <li class="mb-2"><a href="#">सूचना का अधिकार</a></li>
-                        <li class="mb-2"><a href="#">संपर्क विवरण</a></li>
-                    </ul>
+
+                <div class="col-md-4">
+                    <div class="card h-100 border-0 shadow-sm hover-top">
+                        <div class="card-body text-center p-4">
+                            <div class="feature-icon bg-success bg-opacity-10 text-success mx-auto">
+                                <i class="fas fa-layer-group"></i>
+                            </div>
+                            <h5 class="card-title fw-bold mt-3">Blocks</h5>
+                            <p class="card-text text-muted small">
+                                Intermediate Panchayat Samiti level. Connects the district administration to the village
+                                panchayats.
+                            </p>
+                        </div>
+                    </div>
                 </div>
-                <div class="col-md-3">
-                    <h6 class="text-white mb-3">संपर्क करें</h6>
-                    <ul class="list-unstyled small">
-                        <li class="mb-2"><i class="fas fa-map-marker-alt me-2 text-warning"></i> ग्राम पंचायत सोरना, डोईवाला</li>
-                        <li class="mb-2"><i class="fas fa-envelope me-2 text-warning"></i> contact@sornapanchayat.org</li>
-                        <li class="mb-2"><i class="fas fa-phone me-2 text-warning"></i> +91 96340XXXXX</li>
-                    </ul>
-                </div>
-                <div class="col-md-3">
-                    <h6 class="text-white mb-3">लोकेशन</h6>
-                    <div class="bg-secondary rounded d-flex align-items-center justify-content-center" style="height: 100px;">
-                        <span class="small">Google Map Embed Here</span>
+
+                <div class="col-md-4">
+                    <div class="card h-100 border-0 shadow-sm hover-top">
+                        <div class="card-body text-center p-4">
+                            <div class="feature-icon bg-warning bg-opacity-10 text-warning mx-auto">
+                                <i class="fas fa-landmark"></i>
+                            </div>
+                            <h5 class="card-title fw-bold mt-3">Gram Panchayats</h5>
+                            <p class="card-text text-muted small">
+                                The foundational unit of local self-government. Manage village-specific data, IDs, and
+                                statuses.
+                            </p>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="bg-black py-3 text-center small">
-            <div class="container">
-                &copy; 2026 Sorna Gram Panchayat. Developed by <span class="text-warning">Universal Web Solutions</span>.
-            </div>
+    </section>
+
+    <footer class="bg-white py-4 mt-auto border-top">
+        <div class="container text-center">
+            <p class="text-muted small mb-0">
+                &copy; {{ date('Y') }} <strong>Panchayat MIS</strong>. All rights reserved. <br>
+                Designed for Administrative Governance.
+            </p>
         </div>
     </footer>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script>
-        // Set Current Date
-        const dateOptions = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-        document.getElementById('currentDate').textContent = new Date().toLocaleDateString('hi-IN', dateOptions);
-    </script>
-</body>
-</html>
+</x-guest-layout>

@@ -1,6 +1,9 @@
 /* 1. Fonts (Keep existing or import) */
 @import url('https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap');
-
+.navbar-nav .nav-link.active, .navbar-nav .nav-link.show {
+    background: rgba(255, 255, 255, 0.1) !important;
+    color: #ff9933 !important ;
+}
 /* 2. Bootstrap */
 @import 'bootstrap/scss/bootstrap';
 
