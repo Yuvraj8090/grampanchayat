@@ -21,9 +21,106 @@
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 
     @vite(['resources/css/app.scss', 'resources/js/app.js'])
+    <script>
+        window.showToast = function(type, message) {
+    // 1. Choose Icon based on type
+    let icon = type === 'success' ? '<i class="fas fa-check-circle"></i>' : '<i class="fas fa-exclamation-circle"></i>';
+    
+    // 2. Create HTML Element
+    let toastHtml = `
+        <div class="toast-notification toast-${type}">
+            <div class="toast-icon fs-4">${icon}</div>
+            <div class="toast-text">${message}</div>
+        </div>
+    `;
 
+    // 3. Append to Container
+    let $toast = $(toastHtml);
+    $('#toast-container').append($toast);
+
+    // 4. Auto Remove after 3 seconds
+    setTimeout(() => {
+        $toast.addClass('toast-hiding'); // Fade out CSS
+        setTimeout(() => $toast.remove(), 300); // Remove from DOM
+    }, 3000);
+};
+    </script>
 
     <style>
+        /* Toast Container - Fixed to Top Right */
+        #toast-container {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1055;
+            /* Above Bootstrap Modals */
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        /* Individual Toast Styling */
+        .toast-notification {
+            min-width: 300px;
+            background: white;
+            padding: 15px 20px;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
+            border-left: 5px solid #ccc;
+            /* Default border */
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            animation: slideIn 0.3s ease-out forwards;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        /* Toast Types */
+        .toast-success {
+            border-left-color: #198754;
+            /* Bootstrap Success Green */
+        }
+
+        .toast-success .toast-icon {
+            color: #198754;
+        }
+
+        .toast-error {
+            border-left-color: #dc3545;
+            /* Bootstrap Danger Red */
+        }
+
+        .toast-error .toast-icon {
+            color: #dc3545;
+        }
+
+        /* Text Styling */
+        .toast-text {
+            font-weight: 500;
+            color: #333;
+            margin-left: 10px;
+            flex-grow: 1;
+        }
+
+        /* Animations */
+        @keyframes slideIn {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        .toast-hiding {
+            opacity: 0;
+            transform: translateX(20px);
+        }
+
         body {
             font-family: 'Figtree', sans-serif;
             background-color: #f8f9fa;
@@ -147,6 +244,10 @@
 
                 <div class="sidebar-subheading text-muted text-uppercase small fw-bold px-3 mt-3 mb-1">Master Data</div>
 
+                <a href="{{ route('admin.states.index') }}"
+                    class="list-group-item list-group-item-action {{ request()->routeIs('admin.states.*') ? 'active' : '' }}">
+                    <i class="fa-solid fa-map-location-dot"></i> States
+                </a>
                 <a href="{{ route('admin.districts.index') }}"
                     class="list-group-item list-group-item-action {{ request()->routeIs('admin.districts.*') ? 'active' : '' }}">
                     <i class="fa-solid fa-map-location-dot"></i> Districts
@@ -249,7 +350,7 @@
             </div>
         </div>
     </div>
-
+    <div id="toast-container"></div>
     @stack('modals')
 
     @livewireScripts

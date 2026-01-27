@@ -13,8 +13,10 @@
             </button>
         </div>
 
+        {{-- Added 'state_name' to columns array --}}
         <x-datatable id="district-table" :route="route('admin.districts.index')" :columns="[
-            ['data' => 'id', 'title' => 'No', 'orderable' => false],
+            ['data' => 'DT_RowIndex', 'title' => 'No', 'orderable' => false, 'searchable' => false],
+            ['data' => 'state_name', 'title' => 'State'], 
             ['data' => 'name', 'title' => 'District Name'],
             ['data' => 'district_code', 'title' => 'Census Code'],
             ['data' => 'is_active', 'title' => 'Status'],
@@ -32,13 +34,25 @@
                 <form id="districtForm">
                     <div class="modal-body">
                         <input type="hidden" name="district_id" id="district_id">
+
                         <div class="mb-3">
-                            <label class="form-label fw-bold">District Name</label>
+                            <label class="form-label fw-bold">State <span class="text-danger">*</span></label>
+                            <select name="state_id" id="state_id" class="form-select" required>
+                                <option value="">-- Select State --</option>
+                                @foreach($states as $state)
+                                    <option value="{{ $state->id }}">{{ $state->name }}</option>
+                                @endforeach
+                            </select>
+                            <span class="text-danger small" id="stateIdError"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">District Name <span class="text-danger">*</span></label>
                             <input type="text" class="form-control" id="name" name="name" required>
                             <span class="text-danger small" id="nameError"></span>
                         </div>
                         <div class="mb-3">
-                            <label class="form-label fw-bold">Census Code</label>
+                            <label class="form-label fw-bold">Census Code <span class="text-danger">*</span></label>
                             <input type="text" class="form-control" id="district_code" name="district_code" required>
                             <span class="text-danger small" id="districtCodeError"></span>
                         </div>
@@ -52,8 +66,6 @@
         </div>
     </div>
 
-
-    {{-- ✅ FIX: Add type="module" to force this script to wait for app.js --}}
     <script type="module">
         $(function () {
             // Setup CSRF Token
@@ -61,7 +73,7 @@
                 headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') }
             });
 
-            // Initialize Bootstrap Modal Native API
+            // Initialize Bootstrap Modal
             const districtModal = new bootstrap.Modal(document.getElementById('districtModal'));
             const getTable = () => window.LaravelDataTables["district-table"];
 
@@ -75,7 +87,7 @@
                 districtModal.show();
             });
 
-            // --- 2. OPEN EDIT MODAL (FIXED) ---
+            // --- 2. OPEN EDIT MODAL ---
             $('body').on('click', '.editDistrict', function () {
                 const id = $(this).data('id');
                 const url = "{{ route('admin.districts.index') }}" + '/' + id + '/edit';
@@ -83,15 +95,13 @@
                 $.get(url, function (data) {
                     $('#modalHeading').html("Edit District");
                     
-                    // ❌ REMOVED BAD LINE: $('#districtModal').modal('show'); 
-                    
                     // Fill form data
                     $('#district_id').val(data.id);
+                    $('#state_id').val(data.state_id); // Fill State Dropdown
                     $('#name').val(data.name);
                     $('#district_code').val(data.district_code);
                     $('.text-danger').text('');
                     
-                    // ✅ CORRECT: Use the native instance we created
                     districtModal.show();
                 });
             });
@@ -99,7 +109,7 @@
             // --- 3. STORE & UPDATE ---
             $('#districtForm').on('submit', function (e) {
                 e.preventDefault();
-                $('#saveBtn').html('Saving...').prop('disabled', true);
+                $('#saveBtn').html('<i class="fas fa-spinner fa-spin"></i> Saving...').prop('disabled', true);
                 $('.text-danger').text('');
 
                 $.ajax({
@@ -111,12 +121,15 @@
                         districtModal.hide();
                         getTable().draw();
                         $('#saveBtn').html('Save Changes').prop('disabled', false);
+                        
+                        // Optional: Toast or SweetAlert here
                         alert(data.success);
                     },
                     error: function (xhr) {
                         $('#saveBtn').html('Save Changes').prop('disabled', false);
                         if (xhr.status === 422) {
                             var errors = xhr.responseJSON.errors;
+                            if (errors.state_id) $('#stateIdError').text(errors.state_id[0]);
                             if (errors.name) $('#nameError').text(errors.name[0]);
                             if (errors.district_code) $('#districtCodeError').text(errors.district_code[0]);
                         } else {
