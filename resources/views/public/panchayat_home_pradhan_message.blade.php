@@ -245,10 +245,9 @@
                     <div class="card-body p-4">
                         <div class="d-flex flex-column flex-md-row gap-4 align-items-start">
                             <div class="flex-grow-1">
-                                <h3 class="text-primary fw-bold mb-3 border-bottom pb-2 d-inline-block">ग्राम पंचायत में
-                                    आपका स्वागत है</h3>
+                                <h3 class="text-primary fw-bold mb-3 border-bottom pb-2 d-inline-block">प्रधान संदेश</h3>
                                 <p class="text-muted text-justify">
-                                    {!! $details->about_text !!}
+                                    {!! $details->pradhan_message !!}
                                 </p>
                             </div>
 
@@ -265,101 +264,13 @@
 
                                 <h6 class="fw-bold mb-0">{{ $details->pradhan_name ?? 'Pradhan Name' }}</h6>
                                 <small class="d-block text-white-50">ग्राम प्रधान</small>
-                                <div class="mt-2 text-warning small">
-                                    <i class="fas fa-phone-alt"></i> {{ $details->contact_phone ?? 'N/A' }}
-                                </div>
+                                
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <h4 class="mb-3 fw-bold text-secondary"><i class="fas fa-chart-pie me-2"></i> पंचायत सांख्यिकी
-                    (Statistics)</h4>
-                <div class="row g-3 mb-4">
-                    <div class="col-md-4 col-6">
-                        <div class="stat-card p-3 d-flex justify-content-between align-items-center rounded">
-                            <div>
-                                <h3 class="fw-bold text-primary mb-0">{{ $details->total_population ?? 0 }}</h3>
-                                <small class="text-muted">कुल जनसंख्या</small>
-                            </div>
-                            <i class="fas fa-users stat-icon text-primary opacity-25"></i>
-                        </div>
-                    </div>
-
-                    <div class="col-md-4 col-6">
-                        <div class="stat-card p-3 d-flex justify-content-between align-items-center rounded">
-                            <div>
-                                <h3 class="fw-bold text-success mb-0">{{ $details->male_population ?? 0 }}</h3>
-                                <small class="text-muted">पुरुष जनसंख्या</small>
-                            </div>
-                            <i class="fas fa-male stat-icon text-success opacity-25"></i>
-                        </div>
-                    </div>
-
-                    <div class="col-md-4 col-6">
-                        <div class="stat-card p-3 d-flex justify-content-between align-items-center rounded">
-                            <div>
-                                <h3 class="fw-bold text-info mb-0">{{ $details->female_population ?? 0 }}</h3>
-                                <small class="text-muted">महिला जनसंख्या</small>
-                            </div>
-                            <i class="fas fa-female stat-icon text-info opacity-25"></i>
-                        </div>
-                    </div>
-
-                    <div class="col-md-4 col-6">
-                        <div class="stat-card p-3 d-flex justify-content-between align-items-center rounded">
-                            <div>
-                                <h3 class="fw-bold text-warning mb-0">{{ $details->literacy_rate ?? '0%' }}</h3>
-                                <small class="text-muted">साक्षरता दर</small>
-                            </div>
-                            <i class="fas fa-book-reader stat-icon text-warning opacity-25"></i>
-                        </div>
-                    </div>
-
-                    <div class="col-md-4 col-6">
-                        <div class="stat-card p-3 d-flex justify-content-between align-items-center rounded">
-                            <div>
-                                <h3 class="fw-bold text-danger mb-0">{{ $details->total_families ?? 0 }}</h3>
-                                <small class="text-muted">कुल परिवार</small>
-                            </div>
-                            <i class="fas fa-home stat-icon text-danger opacity-25"></i>
-                        </div>
-                    </div>
-
-                    <div class="col-md-4 col-6">
-                        <div class="stat-card p-3 d-flex justify-content-between align-items-center rounded">
-                            <div>
-                                <h3 class="fw-bold text-dark mb-0">{{ $details->sc_st_population ?? 0 }}</h3>
-                                <small class="text-muted">SC/ST जनसंख्या</small>
-                            </div>
-                            <i class="fas fa-user-friends stat-icon text-dark opacity-25"></i>
-                        </div>
-                    </div>
-                </div>
-
-                @if ($details->video_url)
-                    <div class="card shadow-sm border-0 mb-4">
-                        <div class="card-header bg-white fw-bold"><i class="fas fa-video me-2"></i> वीडियो गैलरी</div>
-                        <div class="card-body">
-                            <div class="ratio ratio-16x9 rounded overflow-hidden">
-                                <iframe src="{{ $details->video_url }}" title="Panchayat Video"
-                                    allowfullscreen></iframe>
-                            </div>
-                        </div>
-                    </div>
-                @endif
-
-                @if ($details->map_embed_code)
-                    <div class="card shadow-sm border-0">
-                        <div class="card-header bg-white fw-bold"><i class="fas fa-map-marker-alt me-2"></i> पंचायत का
-                            नक्शा</div>
-                        <div class="card-body p-0">
-                            <div class="ratio ratio-21x9">
-                                {!! $details->map_embed_code !!}
-                            </div>
-                        </div>
-                    </div>
-                @endif
+               
 
             </div>
 
@@ -397,7 +308,7 @@
                     <div class="card-body">
                         <h5 class="fw-bold"><i class="fas fa-headset me-2"></i> सहायता केंद्र</h5>
                         <p class="small mb-2">किसी भी समस्या के लिए संपर्क करें:</p>
-                        <h4 class="fw-bold mb-0">{{ $details->pradhan_contact ?? 'Not Available' }}</h4>
+                        <h4 class="fw-bold mb-0">{{ $details->contact_phone ?? 'Not Available' }}</h4>
 
                         @if ($details->contact_email)
                             <div class="mt-2 small"><i class="fas fa-envelope me-1"></i>

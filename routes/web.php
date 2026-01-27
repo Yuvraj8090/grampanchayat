@@ -31,6 +31,7 @@ use App\Http\Controllers\PublicPanchayatController;
 | This allows anyone to visit: yoursite.com/panchayat/1
 */
 Route::get('/panchayat/{id}', [PublicPanchayatController::class, 'show'])->name('public.panchayat.show');
+Route::get('/{id}/pradhan-message', [PublicPanchayatController::class, 'pradhanMessage'])->name('public.pradhan_message.show');
 
 
 /*
