@@ -21,6 +21,24 @@ use App\Models\User;
 | Web Routes
 |--------------------------------------------------------------------------
 */
+use App\Http\Controllers\PanchayatDetailController;
+use App\Http\Controllers\PublicPanchayatController; 
+
+/*
+|--------------------------------------------------------------------------
+| Public Routes (No Login Required)
+|--------------------------------------------------------------------------
+| This allows anyone to visit: yoursite.com/panchayat/1
+*/
+Route::get('/panchayat/{id}', [PublicPanchayatController::class, 'show'])->name('public.panchayat.show');
+
+
+/*
+|--------------------------------------------------------------------------
+| Admin Routes (Login Required)
+|--------------------------------------------------------------------------
+| These are for the Admin to edit the data.
+*/
 
 Route::get('/', function () {
     return view('welcome');
@@ -57,16 +75,22 @@ Route::middleware([
     Route::prefix('admin')->name('admin.')->group(function () {
         
         // User Management
+        Route::get('/get-locations', [UserController::class, 'getLocations'])->name('get.locations');
         Route::resource('users', UserController::class)->except(['show']);
         Route::resource('states', StateController::class)->except(['show']);
         
         // Role Management
         Route::resource('roles', RoleController::class)->except(['show']);
+ // Show the Edit Form
+    Route::get('/panchayat/{id}/manage-website', [PanchayatDetailController::class, 'edit'])
+        ->name('panchayat.details.edit');
 
+    // Save the Data
+    Route::post('/panchayat/{id}/manage-website', [PanchayatDetailController::class, 'update'])
+        ->name('panchayat.details.update');
         // Geographic Management
         Route::resource('districts', DistrictController::class)->except(['show']);
         Route::resource('blocks', BlockController::class)->except(['show']);
-        
         // Panchayat Management 
         // Note: We removed except(['show']) here because your 'View' modal needs this route
         Route::resource('panchayats', PanchayatController::class);

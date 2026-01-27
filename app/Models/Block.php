@@ -17,6 +17,6 @@ class Block extends Model
 
     public function panchayats(): HasMany
     {
-        return $this->hasMany(Panchayat::class)->orderBy('name');
+        return $this->hasMany(Panchayat::class);
     }
 }

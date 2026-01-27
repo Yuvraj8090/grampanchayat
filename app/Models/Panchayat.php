@@ -10,18 +10,13 @@ class Panchayat extends Model
     protected $fillable = ['block_id', 'name', 'panchayat_id', 'status', 'vpo_name', 'address'];
 
     /**
-     * Relationship to Block
+     * Relationship: A Panchayat belongs to a Block.
      */
     public function block(): BelongsTo
     {
         return $this->belongsTo(Block::class);
     }
 
-    /**
-     * Optimization: Get District directly from Panchayat via Block
-     */
-    public function district()
-    {
-        return $this->block->district();
-    }
+    // REMOVED the faulty district() method.
+    // We will access it as: $panchayat->block->district
 }

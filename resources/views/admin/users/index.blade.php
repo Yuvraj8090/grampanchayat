@@ -20,6 +20,10 @@
                 ['data' => 'name', 'title' => 'Name'],
                 ['data' => 'email', 'title' => 'Email'],
                 ['data' => 'role_name', 'name' => 'role.name', 'title' => 'Role'],
+                
+                // NEW COLUMN HERE
+                ['data' => 'locations', 'title' => 'Assigned Area', 'orderable' => false, 'searchable' => false],
+
                 ['data' => 'created_at_formatted', 'name' => 'created_at', 'title' => 'Created At'],
                 ['data' => 'action', 'title' => 'Actions', 'orderable' => false, 'searchable' => false, 'class' => 'text-end']
             ]"
