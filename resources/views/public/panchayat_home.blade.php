@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ $panchayat->name }} | Govt of Uttarakhand</title>
+    <title>{{ $panchayat->name }} | ग्राम पंचायत</title>
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
@@ -177,25 +177,28 @@
         </div>
     </div>
 
-    <header class="brand-header">
-        <div class="container">
-            <div class="row align-items-center"
-                style="background: url('https://grampanchayat.org/images/back.jpg') no-repeat center center; 
+   <header class="brand-header">
+    <div class="container">
+        <div class="row align-items-center"
+            style="background: url('https://grampanchayat.org/images/back.jpg') no-repeat center center; 
             background-size: cover; 
             min-height: 150px;">
 
-                <div class="col-md-9 d-flex align-items-center gap-3">
-                    <div class="p-3 rounded" >
-                        <h2 class="mb-0 fw-bold text-dark" style="line-height: 1.2;">{{ $panchayat->name }}</h2>
-                        <h5 class="text-secondary mb-0">
-                            Block: {{ $panchayat->block?->name ?? 'N/A' }} |
-                            District: {{ $panchayat->block?->district?->name ?? 'N/A' }}
-                        </h5>
-                    </div>
+            <div class="col-md-9 d-flex align-items-center gap-3">
+                <div class="p-3 rounded">
+                    <h2 class="mb-0 fw-bold text-dark" style="line-height: 1.2;">
+                        {{ $panchayat->name }}
+                    </h2>
+                    <h5 class="text-secondary mb-0">
+                        ब्लॉक: {{ $panchayat->block?->name ?? 'N/A' }} |
+                        ज़िला: {{ $panchayat->block?->district?->name ?? 'N/A' }}
+                    </h5>
                 </div>
             </div>
         </div>
-    </header>
+    </div>
+</header>
+
 
     <nav class="navbar navbar-expand-lg navbar-custom sticky-top shadow-sm">
         <div class="container">
