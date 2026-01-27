@@ -1,233 +1,165 @@
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
-
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <title>
-        @if (isset($header) && $header)
-        {{ $header }} - {{ 'Gram Panchayat Admin' }}
-        @else
-        Gram Panchayat Admin
-        @endif
+        {{ isset($header) ? $header . ' - ' : '' }} Gram Panchayat Admin
     </title>
 
-    <link rel="preconnect" href="https://fonts.bunny.net">
-    <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
-
-
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-
+   
     @vite(['resources/css/app.scss', 'resources/js/app.js'])
- 
-    <style>
-       
-        body {
-            font-family: 'Figtree', sans-serif;
-            background-color: #f8f9fa;
-            overflow-x: hidden;
-        }
+    
 
-        /* Sidebar Styling */
+    <style>
+        body { font-family: 'Figtree', sans-serif; background-color: #f8f9fa; }
+
+        /* --- Sidebar Custom Logic (Bootstrap doesn't do "push" sidebars natively) --- */
+        #wrapper { overflow-x: hidden; }
+        
         #sidebar-wrapper {
             min-height: 100vh;
-            margin-left: -15rem;
-            transition: margin .25s ease-out;
-            background-color: #212529;
-            color: white;
-            border-right: 1px solid #333;
+            width: 16rem;
+            margin-left: -16rem; /* Hidden by default on mobile */
+            transition: margin 0.25s ease-out;
+            position: fixed;
+            z-index: 1000;
         }
 
-        #sidebar-wrapper .sidebar-heading {
-            padding: 1.2rem 1rem;
-            font-size: 1.2rem;
-            font-weight: bold;
-            color: #fff;
-            border-bottom: 1px solid #333;
-            background-color: #1a1d20;
-        }
-
-        #sidebar-wrapper .list-group {
-            width: 15rem;
-        }
-
-        #sidebar-wrapper .list-group-item {
-            background-color: transparent;
-            color: #ccc;
-            border: none;
-            padding: 0.8rem 1.25rem;
-            font-size: 0.95rem;
-            border-left: 4px solid transparent;
-        }
-
-        #sidebar-wrapper .list-group-item:hover {
-            background-color: #343a40;
-            color: #fff;
-            border-left-color: #6c757d;
-        }
-
-        #sidebar-wrapper .list-group-item.active {
-            background-color: #343a40;
-            color: #fff;
-            font-weight: 600;
-            border-left-color: #0d6efd;
-            /* Highlight active link */
-        }
-
-        #sidebar-wrapper .list-group-item i {
-            width: 25px;
-            /* Align icons */
-        }
-
-        /* Navbar & Content */
         #page-content-wrapper {
             width: 100%;
-            display: flex;
-            flex-direction: column;
-            min-height: 100vh;
+            transition: margin 0.25s ease-out;
         }
 
-        .navbar {
-            box-shadow: 0 2px 4px rgba(0, 0, 0, .05);
-        }
-
-        /* Responsive Toggling */
-        #wrapper.toggled #sidebar-wrapper {
-            margin-left: 0;
-        }
-
+        /* Desktop View: Sidebar is visible */
         @media (min-width: 768px) {
-            #sidebar-wrapper {
-                margin-left: 0;
-            }
-
-            #page-content-wrapper {
-                min-width: 0;
-                width: 100%;
-            }
-
-            #wrapper.toggled #sidebar-wrapper {
-                margin-left: -15rem;
-            }
+            #sidebar-wrapper { margin-left: 0; }
+            #page-content-wrapper { margin-left: 16rem; }
+            
+            /* Toggled State: Hide sidebar */
+            #wrapper.toggled #sidebar-wrapper { margin-left: -16rem; }
+            #wrapper.toggled #page-content-wrapper { margin-left: 0; }
         }
+
+        /* Mobile View: Sidebar is hidden */
+        @media (max-width: 767.98px) {
+            /* Toggled State: Show sidebar */
+            #wrapper.toggled #sidebar-wrapper { margin-left: 0; }
+        }
+
+        /* Custom Sidebar Colors */
+        .sidebar-dark { background-color: #212529; color: #adb5bd; }
+        .sidebar-dark .list-group-item { background: transparent; color: #adb5bd; border: none; }
+        .sidebar-dark .list-group-item:hover { background-color: #343a40; color: #fff; }
+        .sidebar-dark .list-group-item.active { background-color: #0d6efd; color: #fff; font-weight: 600; }
+        .sidebar-heading { background-color: #1a1d20; color: white; border-bottom: 1px solid #343a40; }
     </style>
 
     @livewireStyles
 </head>
-
 <body>
 
     <div class="d-flex" id="wrapper">
 
-        <div id="sidebar-wrapper">
-            <div class="sidebar-heading text-center">
-                <i class="fa-solid fa-landmark me-2"></i> Panchayat Admin
+        <div class="sidebar-dark border-end" id="sidebar-wrapper">
+            <div class="sidebar-heading text-center py-4 fs-5 fw-bold text-uppercase tracking-wider">
+                <i class="fa-solid fa-landmark me-2 text-primary"></i> Panchayat
             </div>
 
-            <div class="list-group list-group-flush mt-2">
-                <a href="{{ route('dashboard') }}"
-                    class="list-group-item list-group-item-action {{ request()->routeIs('dashboard') ? 'active' : '' }}">
-                    <i class="fa-solid fa-gauge"></i> Dashboard
+            <div class="list-group list-group-flush my-3">
+                <a href="{{ route('dashboard') }}" 
+                   class="list-group-item list-group-item-action px-4 py-3 {{ request()->routeIs('dashboard') ? 'active' : '' }}">
+                    <i class="fa-solid fa-gauge me-3"></i> Dashboard
                 </a>
 
-                <div class="sidebar-subheading text-muted text-uppercase small fw-bold px-3 mt-3 mb-1">Access Control
+                <div class="small fw-bold text-uppercase px-4 mt-4 mb-2 text-secondary opacity-75" style="font-size: 0.75rem;">
+                    Access Control
                 </div>
 
-                <a href="{{ route('admin.users.index') }}"
-                    class="list-group-item list-group-item-action {{ request()->routeIs('admin.users.*') ? 'active' : '' }}">
-                    <i class="fa-solid fa-users"></i> Users
+                <a href="{{ route('admin.users.index') }}" 
+                   class="list-group-item list-group-item-action px-4 py-2 {{ request()->routeIs('admin.users.*') ? 'active' : '' }}">
+                    <i class="fa-solid fa-users me-3"></i> Users
+                </a>
+                <a href="{{ route('admin.roles.index') }}" 
+                   class="list-group-item list-group-item-action px-4 py-2 {{ request()->routeIs('admin.roles.*') ? 'active' : '' }}">
+                    <i class="fa-solid fa-shield-halved me-3"></i> Roles
                 </a>
 
-                <a href="{{ route('admin.roles.index') }}"
-                    class="list-group-item list-group-item-action {{ request()->routeIs('admin.roles.*') ? 'active' : '' }}">
-                    <i class="fa-solid fa-shield-halved"></i> Roles
+                <div class="small fw-bold text-uppercase px-4 mt-4 mb-2 text-secondary opacity-75" style="font-size: 0.75rem;">
+                    Master Data
+                </div>
+
+                <a href="{{ route('admin.states.index') }}" 
+                   class="list-group-item list-group-item-action px-4 py-2 {{ request()->routeIs('admin.states.*') ? 'active' : '' }}">
+                    <i class="fa-solid fa-map me-3"></i> States
+                </a>
+                <a href="{{ route('admin.districts.index') }}" 
+                   class="list-group-item list-group-item-action px-4 py-2 {{ request()->routeIs('admin.districts.*') ? 'active' : '' }}">
+                    <i class="fa-solid fa-map-location-dot me-3"></i> Districts
+                </a>
+                <a href="{{ route('admin.blocks.index') }}" 
+                   class="list-group-item list-group-item-action px-4 py-2 {{ request()->routeIs('admin.blocks.*') ? 'active' : '' }}">
+                    <i class="fa-solid fa-cubes-stacked me-3"></i> Blocks
+                </a>
+                <a href="{{ route('admin.panchayats.index') }}" 
+                   class="list-group-item list-group-item-action px-4 py-2 {{ request()->routeIs('admin.panchayats.*') ? 'active' : '' }}">
+                    <i class="fa-solid fa-gopuram me-3"></i> Panchayats
                 </a>
 
-                <div class="sidebar-subheading text-muted text-uppercase small fw-bold px-3 mt-3 mb-1">Master Data</div>
+                <div class="small fw-bold text-uppercase px-4 mt-4 mb-2 text-secondary opacity-75" style="font-size: 0.75rem;">
+                    Services
+                </div>
 
-                <a href="{{ route('admin.states.index') }}"
-                    class="list-group-item list-group-item-action {{ request()->routeIs('admin.states.*') ? 'active' : '' }}">
-                    <i class="fa-solid fa-map-location-dot"></i> States
+                <a href="#" class="list-group-item list-group-item-action px-4 py-2">
+                    <i class="fa-solid fa-file-contract me-3"></i> Certificates
                 </a>
-                <a href="{{ route('admin.districts.index') }}"
-                    class="list-group-item list-group-item-action {{ request()->routeIs('admin.districts.*') ? 'active' : '' }}">
-                    <i class="fa-solid fa-map-location-dot"></i> Districts
-                </a>
-
-                <a href="{{ route('admin.blocks.index') }}"
-                    class="list-group-item list-group-item-action {{ request()->routeIs('admin.blocks.*') ? 'active' : '' }}">
-                    <i class="fa-solid fa-cubes-stacked"></i> Blocks
-                </a>
-
-                <a href="{{ route('admin.panchayats.index') }}"
-                    class="list-group-item list-group-item-action {{ request()->routeIs('admin.panchayats.*') ? 'active' : '' }}">
-                    <i class="fa-solid fa-gopuram"></i> Panchayats
-                </a>
-
-                <div class="sidebar-subheading text-muted text-uppercase small fw-bold px-3 mt-3 mb-1">Services</div>
-
-                <a href="#" class="list-group-item list-group-item-action">
-                    <i class="fa-solid fa-file-contract"></i> Certificates
-                </a>
-                <a href="#" class="list-group-item list-group-item-action">
-                    <i class="fa-solid fa-bullhorn"></i> Complaints
+                <a href="#" class="list-group-item list-group-item-action px-4 py-2">
+                    <i class="fa-solid fa-bullhorn me-3"></i> Complaints
                 </a>
             </div>
         </div>
-
         <div id="page-content-wrapper">
-            <nav class="navbar navbar-expand-lg navbar-light bg-white border-bottom sticky-top">
+            
+            <nav class="navbar navbar-expand-lg navbar-light bg-white border-bottom shadow-sm sticky-top px-3">
                 <div class="container-fluid">
-                    <button class="btn btn-sm btn-outline-secondary" id="sidebarToggle">
-                        <i class="fa-solid fa-bars"></i>
+                    <button class="btn btn-light border" id="sidebarToggle">
+                        <i class="fas fa-bars"></i>
                     </button>
 
-                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-                        data-bs-target="#navbarSupportedContent">
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent">
                         <span class="navbar-toggler-icon"></span>
                     </button>
 
                     <div class="collapse navbar-collapse" id="navbarSupportedContent">
                         <ul class="navbar-nav ms-auto mt-2 mt-lg-0 align-items-center">
-
+                            
                             <li class="nav-item me-3">
-                                <a class="nav-link position-relative" href="#">
+                                <a class="nav-link position-relative text-secondary" href="#">
                                     <i class="fa-regular fa-bell fa-lg"></i>
-                                    <span
-                                        class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
-                                        style="font-size: 0.6rem;">
-                                        3
-                                    </span>
+                                    <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" style="font-size: 0.6rem;">3</span>
                                 </a>
                             </li>
 
                             <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle d-flex align-items-center" href="#"
-                                    id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                     @if (Laravel\Jetstream\Jetstream::managesProfilePhotos())
-                                    <img class="rounded-circle me-2 border"
-                                        style="width:32px; height:32px; object-fit:cover;"
-                                        src="{{ Auth::user()->profile_photo_url }}" alt="{{ Auth::user()->name }}" />
+                                        <img class="rounded-circle me-2 border object-fit-cover" width="35" height="35" src="{{ Auth::user()->profile_photo_url }}" alt="{{ Auth::user()->name }}" />
                                     @else
-                                    <div class="rounded-circle bg-secondary text-white d-flex justify-content-center align-items-center me-2"
-                                        style="width:32px; height:32px; font-size: 14px;">
-                                        {{ substr(Auth::user()->name, 0, 1) }}
-                                    </div>
+                                        <div class="rounded-circle bg-primary text-white d-flex justify-content-center align-items-center me-2 fw-bold" style="width: 35px; height: 35px;">
+                                            {{ substr(Auth::user()->name, 0, 1) }}
+                                        </div>
                                     @endif
-                                    <span class="fw-semibold text-dark">{{ Auth::user()->name }}</span>
+                                    <span class="fw-semibold text-dark d-none d-lg-block">{{ Auth::user()->name }}</span>
                                 </a>
-                                <ul class="dropdown-menu dropdown-menu-end shadow-sm" aria-labelledby="navbarDropdown">
-                                    <li><a class="dropdown-item" href="{{ route('profile.show') }}">Profile</a></li>
-                                    <li>
-                                        <hr class="dropdown-divider">
-                                    </li>
+                                <ul class="dropdown-menu dropdown-menu-end shadow border-0" aria-labelledby="navbarDropdown">
+                                    <li><a class="dropdown-item" href="{{ route('profile.show') }}"><i class="fas fa-user-circle me-2 text-secondary"></i> Profile</a></li>
+                                    <li><hr class="dropdown-divider"></li>
                                     <li>
                                         <form method="POST" action="{{ route('logout') }}">
                                             @csrf
-                                            <a class="dropdown-item text-danger" href="{{ route('logout') }}"
-                                                onclick="event.preventDefault(); this.closest('form').submit();">
+                                            <a class="dropdown-item text-danger" href="{{ route('logout') }}" onclick="event.preventDefault(); this.closest('form').submit();">
                                                 <i class="fa-solid fa-right-from-bracket me-2"></i> Log Out
                                             </a>
                                         </form>
@@ -240,25 +172,25 @@
             </nav>
 
             @if (isset($header))
-            <div class="bg-white shadow-sm border-bottom py-3">
-                <div class="container-fluid">
-                    <h5 class="m-0 fw-bold text-dark">{{ $header }}</h5>
+                <div class="bg-white border-bottom py-3 px-4 shadow-sm">
+                    <h5 class="mb-0 fw-bold text-dark">{{ $header }}</h5>
                 </div>
-            </div>
             @endif
 
-            <div class="container-fluid p-4">
+            <main class="container-fluid p-4">
                 <x-banner />
                 {{ $slot }}
-            </div>
+            </main>
+
         </div>
-    </div>
-    <div id="toast-container"></div>
+        </div>
     @stack('modals')
 
     @livewireScripts
 
+
     <script>
+        // Toggle Logic for Sidebar
         window.addEventListener('DOMContentLoaded', event => {
             const sidebarToggle = document.body.querySelector('#sidebarToggle');
             if (sidebarToggle) {
@@ -270,5 +202,4 @@
         });
     </script>
 </body>
-
 </html>
