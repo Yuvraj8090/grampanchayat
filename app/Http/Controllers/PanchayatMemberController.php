@@ -13,7 +13,7 @@ class PanchayatMemberController extends Controller
     public function index(Request $request, Panchayat $panchayat)
     {
         if ($request->ajax()) {
-            $data = $panchayat->members()->latest()->getQuery();
+            $data = $panchayat->members()->orderBy('order_by', 'asc')->getQuery();
 
             return DataTables::of($data)
                 ->addIndexColumn()
@@ -22,15 +22,15 @@ class PanchayatMemberController extends Controller
                         $url = asset('storage/' . $row->image);
                         return '<img src="' . $url . '" class="rounded shadow-sm border" width="45" height="45" style="object-fit:cover;">';
                     }
-                    return '<div class="bg-light rounded d-inline-block border text-center text-muted" style="width:45px; height:45px; line-height:45px;"><i class="fas fa-image"></i></div>';
+                    return '<div class="bg-light rounded d-inline-block border text-center text-muted" style="width:45px; height:45px; line-height:45px;"><i class="fas fa-user"></i></div>';
                 })
                 ->addColumn('status_badge', function ($row) {
                     $class = $row->status === 'active' ? 'bg-success' : 'bg-secondary';
                     return '<span class="badge ' . $class . ' px-2">' . ucfirst($row->status) . '</span>';
                 })
                 ->addColumn('action', function ($row) use ($panchayat) {
-                    $editUrl = route('admin.panchayats.businesses.edit', [$panchayat->id, $row->id]);
-                    $deleteUrl = route('admin.panchayats.businesses.destroy', [$panchayat->id, $row->id]);
+                    $editUrl = route('admin.panchayats.members.edit', [$panchayat->id, $row->id]);
+                    $deleteUrl = route('admin.panchayats.members.destroy', [$panchayat->id, $row->id]);
 
                     return '
                     <div class="btn-group btn-group-sm">
@@ -48,73 +48,79 @@ class PanchayatMemberController extends Controller
 
         return view('admin.panchayat_members.index', compact('panchayat'));
     }
-  public function create(Panchayat $panchayat)
+
+    public function create(Panchayat $panchayat)
     {
         return view('admin.panchayat_members.create', compact('panchayat'));
     }
 
-
-
-    public function edit(Panchayat $panchayat, PanchayatMember $business)
-    {
-        // Ensure the business actually belongs to this panchayat
-        abort_if($business->panchayat_id !== $panchayat->id, 403);
-
-        return view('admin.panchayat_members.edit', compact('panchayat', 'business'));
-    }
-
-    // Update these segments in your store() and update() methods:
-
     public function store(Request $request, Panchayat $panchayat)
     {
         $validated = $request->validate([
-            'title'       => 'required|string|max:255',
-            'description' => 'nullable|string',
-            'photo'       => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048', // Change to photo
+            'name'        => 'required|string|max:255',
+            'designation' => 'required|string|max:255',
+            'ward_no'     => 'nullable|string|max:100',
+            'phone'       => 'nullable|string|max:20',
+            'photo'       => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
+            'order_by'    => 'nullable|integer',
             'status'      => 'required|in:active,inactive',
         ]);
 
-        if ($request->hasFile('photo')) { // Change to photo
-            // Store the file and assign the path to the 'image' key for the DB
+        if ($request->hasFile('photo')) {
             $validated['image'] = $request->file('photo')->store('panchayat_members', 'public');
         }
 
-        $panchayat->businesses()->create($validated);
+        $panchayat->members()->create($validated);
 
-        return redirect()->route('admin.panchayats.businesses.index', $panchayat->id)
-            ->with('success', 'Business created successfully!');
+        return redirect()->route('admin.panchayats.members.index', $panchayat->id)
+            ->with('success', 'Member added successfully!');
     }
 
-    public function update(Request $request, Panchayat $panchayat, PanchayatMember $business)
+    public function edit(Panchayat $panchayat, PanchayatMember $member)
+    {
+        abort_if($member->panchayat_id !== $panchayat->id, 403);
+
+        // We pass it as 'business' only if your edit blade specifically uses $business
+        // But the correct way is to use $member. I am using $business below to match your blade.
+        return view('admin.panchayat_members.edit', [
+            'panchayat' => $panchayat,
+            'business' => $member 
+        ]);
+    }
+
+    public function update(Request $request, Panchayat $panchayat, PanchayatMember $member)
     {
         $validated = $request->validate([
-            'title'       => 'required|string|max:255',
-            'description' => 'nullable|string',
-            'photo'       => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048', // Change to photo
+            'name'        => 'required|string|max:255',
+            'designation' => 'required|string|max:255',
+            'ward_no'     => 'nullable|string|max:100',
+            'phone'       => 'nullable|string|max:20',
+            'photo'       => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
+            'order_by'    => 'nullable|integer',
             'status'      => 'required|in:active,inactive',
         ]);
 
-        if ($request->hasFile('photo')) { // Change to photo
-            if ($business->image) {
-                Storage::disk('public')->delete($business->image);
+        if ($request->hasFile('photo')) {
+            if ($member->image) {
+                Storage::disk('public')->delete($member->image);
             }
             $validated['image'] = $request->file('photo')->store('panchayat_members', 'public');
         }
 
-        $business->update($validated);
+        $member->update($validated);
 
-        return redirect()->route('admin.panchayats.businesses.index', $panchayat->id)
-            ->with('success', 'Business updated successfully!');
+        return redirect()->route('admin.panchayats.members.index', $panchayat->id)
+            ->with('success', 'Member updated successfully!');
     }
 
-    public function destroy(Panchayat $panchayat, PanchayatMember $business)
+    public function destroy(Panchayat $panchayat, PanchayatMember $member)
     {
-        if ($business->image) {
-            Storage::disk('public')->delete($business->image);
+        if ($member->image) {
+            Storage::disk('public')->delete($member->image);
         }
 
-        $business->delete();
+        $member->delete();
 
-        return back()->with('success', 'Business removed successfully!');
+        return back()->with('success', 'Member removed successfully!');
     }
 }

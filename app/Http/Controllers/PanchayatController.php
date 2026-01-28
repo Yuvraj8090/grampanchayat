@@ -43,6 +43,8 @@ class PanchayatController extends Controller
             ->addColumn('action', function ($row) {
                 // URLs
                 $businessUrl = route('admin.panchayats.businesses.index', $row->id);
+                $membersUrl  = route('admin.panchayats.members.index', $row->id);
+                
                 $galleryUrl  = route('admin.panchayats.gallery.index', $row->id);
                 $placesUrl   = route('admin.panchayats.places.index', $row->id);
                 $detailsUrl  = route('admin.panchayat.details.edit', $row->id);
@@ -51,6 +53,9 @@ class PanchayatController extends Controller
 
                 return '
                 <div class="btn-group btn-group-sm" role="group">
+                <a href="' . $membersUrl . '" class="btn btn-outline-primary" title="Tourist Places">
+                        <i class="fas fa-mountain"></i>
+                    </a>
                     <a href="' . $placesUrl . '" class="btn btn-outline-primary" title="Tourist Places">
                         <i class="fas fa-mountain"></i>
                     </a>
