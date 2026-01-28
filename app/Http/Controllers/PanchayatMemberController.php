@@ -46,6 +46,75 @@ class PanchayatMemberController extends Controller
                 ->make(true);
         }
 
-        return view('admin.panchayat_businesses.index', compact('panchayat'));
+        return view('admin.panchayat_members.index', compact('panchayat'));
+    }
+  public function create(Panchayat $panchayat)
+    {
+        return view('admin.panchayat_members.create', compact('panchayat'));
+    }
+
+
+
+    public function edit(Panchayat $panchayat, PanchayatMember $business)
+    {
+        // Ensure the business actually belongs to this panchayat
+        abort_if($business->panchayat_id !== $panchayat->id, 403);
+
+        return view('admin.panchayat_members.edit', compact('panchayat', 'business'));
+    }
+
+    // Update these segments in your store() and update() methods:
+
+    public function store(Request $request, Panchayat $panchayat)
+    {
+        $validated = $request->validate([
+            'title'       => 'required|string|max:255',
+            'description' => 'nullable|string',
+            'photo'       => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048', // Change to photo
+            'status'      => 'required|in:active,inactive',
+        ]);
+
+        if ($request->hasFile('photo')) { // Change to photo
+            // Store the file and assign the path to the 'image' key for the DB
+            $validated['image'] = $request->file('photo')->store('panchayat_members', 'public');
+        }
+
+        $panchayat->businesses()->create($validated);
+
+        return redirect()->route('admin.panchayats.businesses.index', $panchayat->id)
+            ->with('success', 'Business created successfully!');
+    }
+
+    public function update(Request $request, Panchayat $panchayat, PanchayatMember $business)
+    {
+        $validated = $request->validate([
+            'title'       => 'required|string|max:255',
+            'description' => 'nullable|string',
+            'photo'       => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048', // Change to photo
+            'status'      => 'required|in:active,inactive',
+        ]);
+
+        if ($request->hasFile('photo')) { // Change to photo
+            if ($business->image) {
+                Storage::disk('public')->delete($business->image);
+            }
+            $validated['image'] = $request->file('photo')->store('panchayat_members', 'public');
+        }
+
+        $business->update($validated);
+
+        return redirect()->route('admin.panchayats.businesses.index', $panchayat->id)
+            ->with('success', 'Business updated successfully!');
+    }
+
+    public function destroy(Panchayat $panchayat, PanchayatMember $business)
+    {
+        if ($business->image) {
+            Storage::disk('public')->delete($business->image);
+        }
+
+        $business->delete();
+
+        return back()->with('success', 'Business removed successfully!');
     }
 }

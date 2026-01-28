@@ -24,6 +24,7 @@ use App\Models\User;
 |--------------------------------------------------------------------------
 */
 use App\Http\Controllers\PanchayatDetailController;
+use App\Http\Controllers\PanchayatMemberController;
 use App\Http\Controllers\PublicPanchayatController;
 
 /*
@@ -77,6 +78,9 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
 
 Route::prefix('panchayats/{panchayat}')->name('panchayats.')->group(function () {
     Route::resource('businesses', PanchayatBusinessController::class);
+});
+Route::prefix('panchayats/{panchayat}')->name('panchayats.')->group(function () {
+    Route::resource('members', PanchayatMemberController::class);
 });
             Route::prefix('/panchayats')
                 ->name('panchayats.')
