@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Panchayat extends Model
@@ -16,6 +17,10 @@ class Panchayat extends Model
     {
         return $this->belongsTo(Block::class);
     }
+public function places(): HasMany
+{
+    return $this->hasMany(PanchayatPlace::class);
+}
 
     // REMOVED the faulty district() method.
     // We will access it as: $panchayat->block->district
