@@ -11,7 +11,7 @@ use App\Http\Controllers\RoleController;
 use App\Http\Controllers\StateController;
 use App\Http\Controllers\PanchayatPlaceController;
 use App\Http\Controllers\GalleryController;
-
+use App\Http\Controllers\PanchayatBusinessController;
 // Models
 use App\Models\District;
 use App\Models\Block;
@@ -72,6 +72,11 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
     Route::prefix('admin')
         ->name('admin.')
         ->group(function () {
+            
+
+Route::prefix('panchayats/{panchayatId}')->name('panchayats.')->group(function () {
+    Route::resource('businesses', PanchayatBusinessController::class);
+});
             Route::prefix('/panchayats')
                 ->name('panchayats.')
                 ->group(function () {

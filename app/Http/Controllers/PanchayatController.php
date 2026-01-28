@@ -41,6 +41,7 @@ class PanchayatController extends Controller
                     return '<span class="badge bg-info text-white">' . $row->places_count . ' Places</span>';
                 })
                 ->addColumn('action', function ($row) {
+                    $businesUrl = route('admin.panchayats.businesses.index', $row->id);
                     $galleryUrl = route('admin.panchayats.gallery.index', $row->id);
                     $editUrl = route('admin.panchayats.edit', $row->id);
                     $editUrl = route('admin.panchayats.edit', $row->id);
@@ -50,6 +51,11 @@ class PanchayatController extends Controller
 
                     return '
                     <div class="d-flex gap-2 justify-content-end">
+                    <a href="' .
+                        $businesUrl .
+                        '" class="btn btn-sm btn-outline-dark" title="Manage Tourist Places">
+                            <i class="fas fa-map-marked-alt"></i>
+                        </a>
                     <a href="' .
                         $galleryUrl .
                         '" class="btn btn-sm btn-outline-dark" title="Manage Tourist Places">

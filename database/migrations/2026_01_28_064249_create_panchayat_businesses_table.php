@@ -13,12 +13,15 @@ return new class extends Migration
     {
         Schema::create('panchayat_businesses', function (Blueprint $table) {
             $table->id();
+             $table->foreignId('panchayat_id')
+                  ->constrained('panchayats')
+                  ->onDelete('cascade'); 
             $table->string('title'); // Business Name
             $table->text('description')->nullable(); // Details
             $table->string('image')->nullable(); // Image Path
 
             // Status: true for Active, false for Inactive
-            $table->boolean('is_active')->default(true);
+           $table->enum('status', ['active', 'inactive'])->default('active');
 
             $table->timestamps();
         });
