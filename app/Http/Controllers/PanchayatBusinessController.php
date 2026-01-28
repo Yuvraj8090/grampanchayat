@@ -10,19 +10,20 @@ use Yajra\DataTables\Facades\DataTables;
 
 class PanchayatBusinessController extends Controller
 {
-    public function index(Request $request, $panchayatId)
+    /**
+     * List all businesses for a specific Panchayat.
+     */
+    public function index(Request $request, Panchayat $panchayat)
     {
-        $panchayat = Panchayat::findOrFail($panchayatId);
-
         if ($request->ajax()) {
-            $data = $panchayat->businesses()->latest(); 
+            // Use relationship and getQuery() for DataTables efficiency
+            $data = $panchayat->businesses()->latest()->getQuery();
 
             return DataTables::of($data)
                 ->addIndexColumn()
                 ->addColumn('photo_display', function ($row) {
                     if ($row->image) {
-                        $url = asset('storage/' . $row->image);
-                        return '<img src="' . $url . '" class="rounded border" width="50" height="50" style="object-fit:cover;">';
+                        return '<img src="' . asset('storage/' . $row->image) . '" class="rounded border" width="50" height="50" style="object-fit:cover;">';
                     }
                     return '<span class="text-muted small">No Image</span>';
                 })
@@ -30,23 +31,15 @@ class PanchayatBusinessController extends Controller
                     $badgeClass = $row->status === 'active' ? 'bg-success' : 'bg-secondary';
                     return '<span class="badge ' . $badgeClass . '">' . ucfirst($row->status) . '</span>';
                 })
-                ->editColumn('created_at', function ($row) {
-                    return $row->created_at->format('d M, Y');
-                })
-                ->addColumn('action', function ($row) use ($panchayatId) {
-                    $editUrl = route('admin.panchayats.businesses.edit', [$panchayatId, $row->id]);
-                    $deleteUrl = route('admin.panchayats.businesses.destroy', [$panchayatId, $row->id]);
-                    $csrf = csrf_field();
-                    $method = method_field('DELETE');
-
+                ->editColumn('created_at', fn($row) => $row->created_at->format('d M, Y'))
+                ->addColumn('action', function ($row) use ($panchayat) {
                     return '
                         <div class="d-flex gap-2 justify-content-end">
-                            <a href="' . $editUrl . '" class="btn btn-sm btn-outline-primary">
+                            <a href="' . route('admin.panchayats.businesses.edit', [$panchayat->id, $row->id]) . '" class="btn btn-sm btn-outline-primary">
                                 <i class="fas fa-edit"></i>
                             </a>
-                            <form action="' . $deleteUrl . '" method="POST" onsubmit="return confirm(\'Are you sure you want to delete this business?\')">
-                                ' . $csrf . '
-                                ' . $method . '
+                            <form action="' . route('admin.panchayats.businesses.destroy', [$panchayat->id, $row->id]) . '" method="POST" onsubmit="return confirm(\'Delete this business?\')">
+                                ' . csrf_field() . method_field('DELETE') . '
                                 <button type="submit" class="btn btn-sm btn-outline-danger">
                                     <i class="fas fa-trash"></i>
                                 </button>
@@ -60,74 +53,65 @@ class PanchayatBusinessController extends Controller
         return view('admin.panchayat_businesses.index', compact('panchayat'));
     }
 
-    public function create($panchayatId)
+    public function create(Panchayat $panchayat)
     {
-        $panchayat = Panchayat::findOrFail($panchayatId);
         return view('admin.panchayat_businesses.create', compact('panchayat'));
     }
 
-    public function store(Request $request, $panchayatId)
+    public function store(Request $request, Panchayat $panchayat)
     {
-        $request->validate([
+        $validated = $request->validate([
             'title'       => 'required|string|max:255',
             'description' => 'nullable|string',
-            
             'image'       => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
             'status'      => 'required|in:active,inactive',
         ]);
 
-        $data = $request->except(['image']);
-        $data['panchayat_id'] = $panchayatId;
-
         if ($request->hasFile('image')) {
-            $data['image'] = $request->file('image')->store('panchayat_businesses', 'public');
+            $validated['image'] = $request->file('image')->store('panchayat_businesses', 'public');
         }
 
-        PanchayatBusiness::create($data);
+        // Create through relationship to auto-fill panchayat_id
+        $panchayat->businesses()->create($validated);
 
-        return redirect()->route('admin.panchayats.businesses.index', $panchayatId)
+        return redirect()->route('admin.panchayats.businesses.index', $panchayat->id)
                          ->with('success', 'New business added successfully!');
     }
 
-    public function edit($panchayatId, $id)
+    public function edit(Panchayat $panchayat, PanchayatBusiness $business)
     {
-        $panchayat = Panchayat::findOrFail($panchayatId);
-        $business = PanchayatBusiness::where('panchayat_id', $panchayatId)->findOrFail($id);
+        // Safety check: ensure business belongs to the panchayat
+        abort_if($business->panchayat_id !== $panchayat->id, 404);
 
         return view('admin.panchayat_businesses.edit', compact('panchayat', 'business'));
     }
 
-    public function update(Request $request, $panchayatId, $id)
+    public function update(Request $request, Panchayat $panchayat, PanchayatBusiness $business)
     {
-        $business = PanchayatBusiness::where('panchayat_id', $panchayatId)->findOrFail($id);
-
-        $request->validate([
+        $validated = $request->validate([
             'title'       => 'required|string|max:255',
             'description' => 'nullable|string',
-            
             'image'       => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
             'status'      => 'required|in:active,inactive',
         ]);
 
-        $data = $request->except(['image']);
-
         if ($request->hasFile('image')) {
+            // Delete old file if a new one is uploaded
             if ($business->image) {
                 Storage::disk('public')->delete($business->image);
             }
-            $data['image'] = $request->file('image')->store('panchayat_businesses', 'public');
+            $validated['image'] = $request->file('image')->store('panchayat_businesses', 'public');
         }
 
-        $business->update($data);
+        $business->update($validated);
 
-        return redirect()->route('admin.panchayats.businesses.index', $panchayatId)
+        return redirect()->route('admin.panchayats.businesses.index', $panchayat->id)
                          ->with('success', 'Business updated successfully!');
     }
 
-    public function destroy($panchayatId, $id)
+    public function destroy(Panchayat $panchayat, PanchayatBusiness $business)
     {
-        $business = PanchayatBusiness::where('panchayat_id', $panchayatId)->findOrFail($id);
-
+        // Delete image file before deleting the record
         if ($business->image) {
             Storage::disk('public')->delete($business->image);
         }

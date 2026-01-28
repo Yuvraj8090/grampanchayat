@@ -5,16 +5,12 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Support\Facades\Storage;
 
 class PanchayatBusiness extends Model
 {
     use HasFactory;
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array<int, string>
-     */
     protected $fillable = [
         'panchayat_id',
         'title',
@@ -24,7 +20,15 @@ class PanchayatBusiness extends Model
     ];
 
     /**
-     * Get the panchayat that owns the business.
+     * Get the full URL for the business image.
+     */
+    public function getImageUrlAttribute(): ?string
+    {
+        return $this->image ? asset('storage/' . $this->image) : null;
+    }
+
+    /**
+     * Relationship: Business belongs to a Panchayat.
      */
     public function panchayat(): BelongsTo
     {
