@@ -33,53 +33,56 @@
                                 ग्राम पंचायत में चल रहे मुख्य व्यवसाय
                             </div>
 
-                           
+
 
                             <p class="text-muted text-center mx-auto" style="max-width: 900px; line-height: 1.8;">
-                                उत्तराखंड, उत्तर भारत में स्थित एक बहुत ही खूबसूरत और शांत पर्यटन केंद्र है । इस जगह का शुमार देश की उन चुनिन्दा जगहों में है जोअपनी सुन्दरता के चलते दुनिया भर के पर्यटकों को अपनी ओर आकर्षित करती है।  'देवताओं की भूमि' के रूप में जाना जाने वाला उत्तराखंड अपने शांत वातावरण, मनमोहक दृश्यों और खूबसूरती के कारण पृथ्वी का स्वर्ग माना जाता है।
+                                उत्तराखंड, उत्तर भारत में स्थित एक बहुत ही खूबसूरत और शांत पर्यटन केंद्र है । इस जगह का
+                                शुमार देश की उन चुनिन्दा जगहों में है जोअपनी सुन्दरता के चलते दुनिया भर के पर्यटकों को
+                                अपनी ओर आकर्षित करती है। 'देवताओं की भूमि' के रूप में जाना जाने वाला उत्तराखंड अपने शांत
+                                वातावरण, मनमोहक दृश्यों और खूबसूरती के कारण पृथ्वी का स्वर्ग माना जाता है।
                             </p>
                         </div>
                         @forelse($panchayat->businesses as $business)
 
-                            <div class="col-12 mb-4">
-                                <div class="row align-items-start place-row">
-                                    <div class="col-md-3">
-                                        <div class="place-img-container shadow-sm border p-2 bg-white rounded">
-                                            @if ($business->image)
-                                                <img src="{{ asset('storage/' . $business->image) }}"
-                                                    class="img-fluid rounded w-100"
-                                                    style="height: 180px; object-fit: cover;" alt="{{ $business->title }}">
-                                            @else
-                                                <div class="bg-light d-flex align-items-center justify-content-center rounded"
-                                                    style="height: 180px;">
-                                                    <i class="fas fa-mountain fa-3x text-muted"></i>
-                                                </div>
-                                            @endif
+                        <div class="col-12 mb-4">
+                            <div class="row align-items-start place-row">
+                                <div class="col-md-3">
+                                    <div class="place-img-container shadow-sm border p-2 bg-white rounded">
+                                        @if ($business->image)
+                                        <img src="{{ asset('storage/' . $business->image) }}"
+                                            class="img-fluid rounded w-100" style="height: 180px; object-fit: cover;"
+                                            alt="{{ $business->title }}">
+                                        @else
+                                        <div class="bg-light d-flex align-items-center justify-content-center rounded"
+                                            style="height: 180px;">
+                                            <i class="fas fa-mountain fa-3x text-muted"></i>
                                         </div>
+                                        @endif
+                                    </div>
+                                </div>
+
+                                <div class="col-md-9">
+                                    <div class="place-title-banner px-4 py-2 text-white fw-bold mb-3 d-inline-block w-75 shadow-sm"
+                                        style="background: #0084ff; border-radius: 0 50px 50px 0; font-size: 1.25rem;">
+                                        {{ $business->title }}
                                     </div>
 
-                                    <div class="col-md-9">
-                                        <div class="place-title-banner px-4 py-2 text-white fw-bold mb-3 d-inline-block w-75 shadow-sm"
-                                            style="background: #0084ff; border-radius: 0 50px 50px 0; font-size: 1.25rem;">
-                                            {{ $business->title }}
-                                        </div>
+                                    <div class="place-description text-dark mt-2"
+                                        style="line-height: 1.7; text-align: justify;">
 
-                                        <div class="place-description text-dark mt-2"
-                                            style="line-height: 1.7; text-align: justify;">
-                                            
-                                            {!! $business->description !!}
-                                        </div>
+                                        {!! $business->description !!}
                                     </div>
                                 </div>
                             </div>
+                        </div>
                         @empty
-                            <div class="col-12 text-center py-5">
-                                <div class="p-4 bg-light rounded border border-dashed">
-                                    <i class="fas fa-info-circle fa-2x text-muted mb-2"></i>
-                                    <p class="mb-0 text-muted">इस पंचायत के लिए अभी कोई पर्यटन स्थल नहीं जोड़े गए हैं।
-                                    </p>
-                                </div>
+                        <div class="col-12 text-center py-5">
+                            <div class="p-4 bg-light rounded border border-dashed">
+                                <i class="fas fa-info-circle fa-2x text-muted mb-2"></i>
+                                <p class="mb-0 text-muted">इस पंचायत के लिए अभी कोई पर्यटन स्थल नहीं जोड़े गए हैं।
+                                </p>
                             </div>
+                        </div>
                         @endforelse
                     </div>
                 </div>
@@ -121,13 +124,13 @@
                         <h4 class="fw-bold mb-0">{{ $details->pradhan_contact ?? 'Not Available' }}</h4>
 
                         @if ($details->contact_email)
-                            <div class="mt-2 small"><i class="fas fa-envelope me-1"></i>
-                                {{ $details->contact_email }}</div>
+                        <div class="mt-2 small"><i class="fas fa-envelope me-1"></i>
+                            {{ $details->contact_email }}</div>
                         @endif
 
                         @if ($details->address)
-                            <div class="mt-1 small text-white-50"><i class="fas fa-map-marker-alt me-1"></i>
-                                {{ $details->address }}</div>
+                        <div class="mt-1 small text-white-50"><i class="fas fa-map-marker-alt me-1"></i>
+                            {{ $details->address }}</div>
                         @endif
                     </div>
                 </div>

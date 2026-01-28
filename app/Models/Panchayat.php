@@ -29,4 +29,8 @@ class Panchayat extends Model
     {
         return $this->hasMany(PanchayatBusiness::class);
     }
+    public function members(): HasMany
+    {
+        return $this->hasMany(PanchayatMember::class);
+    }
 }
