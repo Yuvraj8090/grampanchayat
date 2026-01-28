@@ -17,15 +17,16 @@ class Panchayat extends Model
     {
         return $this->belongsTo(Block::class);
     }
-public function places(): HasMany
-{
-    return $this->hasMany(PanchayatPlace::class);
-}
-public function galleries(): HasMany
-{
-    return $this->hasMany(Gallery::class);
-}
-
-    // REMOVED the faulty district() method.
-    // We will access it as: $panchayat->block->district
+    public function places(): HasMany
+    {
+        return $this->hasMany(PanchayatPlace::class);
+    }
+    public function galleries(): HasMany
+    {
+        return $this->hasMany(Gallery::class);
+    }
+    public function businesses(): HasMany
+    {
+        return $this->hasMany(PanchayatBusiness::class);
+    }
 }
