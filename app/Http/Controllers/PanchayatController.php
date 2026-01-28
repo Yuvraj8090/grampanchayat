@@ -14,77 +14,83 @@ class PanchayatController extends Controller
      * Display a listing of the resource.
      */
     public function index(Request $request)
-{
-    if ($request->ajax()) {
-        // Eager load relationships and count related records efficiently
-        $data = Panchayat::with(['block.district'])
-            ->withCount(['places', 'businesses']) // Added business count for extra insight
-            ->select('panchayats.*');
+    {
+        if ($request->ajax()) {
+            // Eager load relationships and count all related entities in one go
+            $data = Panchayat::with(['block.district'])
+                ->withCount(['places', 'businesses', 'members'])
+                ->select('panchayats.*');
 
-        return DataTables::of($data)
-            ->addIndexColumn()
-            ->addColumn('location', function ($row) {
-                $district = $row->block->district->name ?? 'N/A';
-                $block = $row->block->name ?? 'N/A';
-                return "<strong>$district</strong> <i class='fas fa-chevron-right mx-1 text-muted' style='font-size: 0.8rem;'></i> $block";
-            })
-            ->editColumn('status', function ($row) {
-                $statusMap = [
-                    'active'    => 'bg-success',
-                    'suspended' => 'bg-danger',
-                    'pending'   => 'bg-warning text-dark',
-                ];
-                $class = $statusMap[$row->status] ?? 'bg-secondary';
-                return '<span class="badge ' . $class . ' shadow-sm">' . ucfirst($row->status) . '</span>';
-            })
-            ->addColumn('places_count', function ($row) {
-                return '<span class="badge bg-info text-white"><i class="fas fa-map-marker-alt me-1"></i> ' . $row->places_count . '</span>';
-            })
-            ->addColumn('action', function ($row) {
-                // URLs
-                $businessUrl = route('admin.panchayats.businesses.index', $row->id);
-                $membersUrl  = route('admin.panchayats.members.index', $row->id);
-                
-                $galleryUrl  = route('admin.panchayats.gallery.index', $row->id);
-                $placesUrl   = route('admin.panchayats.places.index', $row->id);
-                $detailsUrl  = route('admin.panchayat.details.edit', $row->id);
-                $editUrl     = route('admin.panchayats.edit', $row->id);
-                $viewUrl     = route('public.panchayat.show', $row->id);
+            return DataTables::of($data)
+                ->addIndexColumn()
+                ->addColumn('location', function ($row) {
+                    $district = $row->block->district->name ?? 'N/A';
+                    $block = $row->block->name ?? 'N/A';
+                    return "<strong>$district</strong> <i class='fas fa-angle-double-right mx-1 text-muted'></i> $block";
+                })
+                ->editColumn('status', function ($row) {
+                    $statusMap = [
+                        'active'    => 'bg-success',
+                        'suspended' => 'bg-danger',
+                        'pending'   => 'bg-warning text-dark',
+                    ];
+                    $class = $statusMap[$row->status] ?? 'bg-secondary';
+                    return '<span class="badge ' . $class . ' shadow-sm px-2">' . ucfirst($row->status) . '</span>';
+                })
+                ->addColumn('stats', function ($row) {
+                    // Combined stats column for a cleaner table look
+                    return '
+                    <small class="d-block"><i class="fas fa-users text-primary me-1"></i> Members: ' . $row->members_count . '</small>
+                    <small class="d-block"><i class="fas fa-map-marked-alt text-info me-1"></i> Places: ' . $row->places_count . '</small>
+                    <small class="d-block"><i class="fas fa-store text-success me-1"></i> Business: ' . $row->businesses_count . '</small>
+                ';
+                })
+                ->addColumn('action', function ($row) {
+                    // Define routes clearly
+                    $routes = [
+                        'members'  => route('admin.panchayats.members.index', $row->id),
+                        'places'   => route('admin.panchayats.places.index', $row->id),
+                        'business' => route('admin.panchayats.businesses.index', $row->id),
+                        'gallery'  => route('admin.panchayats.gallery.index', $row->id),
+                        'details'  => route('admin.panchayat.details.edit', $row->id),
+                        'edit'     => route('admin.panchayats.edit', $row->id),
+                        'view'     => route('public.panchayat.show', $row->id),
+                    ];
 
-                return '
-                <div class="btn-group btn-group-sm" role="group">
-                <a href="' . $membersUrl . '" class="btn btn-outline-primary" title="Tourist Places">
-                        <i class="fas fa-mountain"></i>
+                    return '
+                <div class="btn-group btn-group-sm shadow-sm" role="group">
+                    <a href="' . $routes['members'] . '" class="btn btn-outline-dark" title="Manage Members">
+                        <i class="fas fa-users-cog"></i>
                     </a>
-                    <a href="' . $placesUrl . '" class="btn btn-outline-primary" title="Tourist Places">
-                        <i class="fas fa-mountain"></i>
+                    <a href="' . $routes['places'] . '" class="btn btn-outline-dark" title="Tourist Places">
+                        <i class="fas fa-map-signs"></i>
                     </a>
-                    <a href="' . $businessUrl . '" class="btn btn-outline-primary" title="Local Businesses">
-                        <i class="fas fa-store"></i>
+                    <a href="' . $routes['business'] . '" class="btn btn-outline-dark" title="Local Businesses">
+                        <i class="fas fa-shuttle-van"></i>
                     </a>
-                    <a href="' . $galleryUrl . '" class="btn btn-outline-primary" title="Photo Gallery">
-                        <i class="fas fa-images"></i>
+                    <a href="' . $routes['gallery'] . '" class="btn btn-outline-dark" title="Photo Gallery">
+                        <i class="fas fa-camera-retro"></i>
                     </a>
-                    <a href="' . $detailsUrl . '" class="btn btn-outline-success" title="Website Details">
-                        <i class="fas fa-info-circle"></i>
+                    <a href="' . $routes['details'] . '" class="btn btn-outline-success" title="Website/Pradhan Details">
+                        <i class="fas fa-file-invoice"></i>
                     </a>
-                    <a href="' . $editUrl . '" class="btn btn-outline-warning" title="Settings">
-                        <i class="fas fa-user-cog"></i>
+                    <a href="' . $routes['edit'] . '" class="btn btn-outline-primary" title="General Settings">
+                        <i class="fas fa-cog"></i>
                     </a>
-                    <a href="' . $viewUrl . '" target="_blank" class="btn btn-outline-info" title="Preview Public Site">
-                        <i class="fas fa-eye"></i>
+                    <a href="' . $routes['view'] . '" target="_blank" class="btn btn-outline-info" title="View Public Profile">
+                        <i class="fas fa-external-link-alt"></i>
                     </a>
-                    <button type="button" class="btn btn-outline-danger" onclick="deletePanchayat(' . $row->id . ')" title="Delete">
+                    <button type="button" class="btn btn-outline-danger" onclick="deletePanchayat(' . $row->id . ')" title="Delete Panchayat">
                         <i class="fas fa-trash-alt"></i>
                     </button>
                 </div>';
-            })
-            ->rawColumns(['location', 'status', 'places_count', 'action'])
-            ->make(true);
-    }
+                })
+                ->rawColumns(['location', 'status', 'stats', 'action'])
+                ->make(true);
+        }
 
-    return view('admin.panchayats.index');
-}
+        return view('admin.panchayats.index');
+    }
     /**
      * Show the form for creating a new resource.
      */
