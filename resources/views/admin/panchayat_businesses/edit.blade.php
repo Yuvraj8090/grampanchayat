@@ -36,10 +36,7 @@
                                     </select>
                                 </div>
 
-                                <div class="col-12">
-                                    <label class="form-label fw-bold">Business Address</label>
-                                    <input type="text" name="address" class="form-control" value="{{ $business->address }}">
-                                </div>
+                               
 
                                 <div class="col-12">
                                     <label class="form-label fw-bold">Description</label>

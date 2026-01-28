@@ -28,7 +28,7 @@
                 ['data' => 'DT_RowIndex', 'title' => 'No', 'orderable' => false, 'searchable' => false, 'width' => '5%'],
                 ['data' => 'photo_display', 'title' => 'Logo/Photo', 'orderable' => false, 'searchable' => false],
                 ['data' => 'title', 'title' => 'Business Name'],
-                ['data' => 'address', 'title' => 'Location'],
+                
                 ['data' => 'status_badge', 'name' => 'status', 'title' => 'Status', 'class' => 'text-center'],
                 ['data' => 'created_at', 'title' => 'Joined On'],
                 ['data' => 'action', 'title' => 'Actions', 'orderable' => false, 'searchable' => false, 'class' => 'text-end']

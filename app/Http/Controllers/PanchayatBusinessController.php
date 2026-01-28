@@ -20,8 +20,8 @@ class PanchayatBusinessController extends Controller
             return DataTables::of($data)
                 ->addIndexColumn()
                 ->addColumn('photo_display', function ($row) {
-                    if ($row->photo) {
-                        $url = asset('storage/' . $row->photo);
+                    if ($row->image) {
+                        $url = asset('storage/' . $row->image);
                         return '<img src="' . $url . '" class="rounded border" width="50" height="50" style="object-fit:cover;">';
                     }
                     return '<span class="text-muted small">No Image</span>';
@@ -71,16 +71,16 @@ class PanchayatBusinessController extends Controller
         $request->validate([
             'title'       => 'required|string|max:255',
             'description' => 'nullable|string',
-            'address'     => 'nullable|string|max:255',
-            'photo'       => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
+            
+            'image'       => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
             'status'      => 'required|in:active,inactive',
         ]);
 
-        $data = $request->except(['photo']);
+        $data = $request->except(['image']);
         $data['panchayat_id'] = $panchayatId;
 
-        if ($request->hasFile('photo')) {
-            $data['photo'] = $request->file('photo')->store('panchayat_businesses', 'public');
+        if ($request->hasFile('image')) {
+            $data['image'] = $request->file('image')->store('panchayat_businesses', 'public');
         }
 
         PanchayatBusiness::create($data);
@@ -104,18 +104,18 @@ class PanchayatBusinessController extends Controller
         $request->validate([
             'title'       => 'required|string|max:255',
             'description' => 'nullable|string',
-            'address'     => 'nullable|string|max:255',
-            'photo'       => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
+            
+            'image'       => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
             'status'      => 'required|in:active,inactive',
         ]);
 
-        $data = $request->except(['photo']);
+        $data = $request->except(['image']);
 
-        if ($request->hasFile('photo')) {
-            if ($business->photo) {
-                Storage::disk('public')->delete($business->photo);
+        if ($request->hasFile('image')) {
+            if ($business->image) {
+                Storage::disk('public')->delete($business->image);
             }
-            $data['photo'] = $request->file('photo')->store('panchayat_businesses', 'public');
+            $data['image'] = $request->file('image')->store('panchayat_businesses', 'public');
         }
 
         $business->update($data);
@@ -128,8 +128,8 @@ class PanchayatBusinessController extends Controller
     {
         $business = PanchayatBusiness::where('panchayat_id', $panchayatId)->findOrFail($id);
 
-        if ($business->photo) {
-            Storage::disk('public')->delete($business->photo);
+        if ($business->image) {
+            Storage::disk('public')->delete($business->image);
         }
         
         $business->delete();

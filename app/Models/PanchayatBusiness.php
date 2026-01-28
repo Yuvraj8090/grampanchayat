@@ -19,8 +19,7 @@ class PanchayatBusiness extends Model
         'panchayat_id',
         'title',
         'description',
-        'photo',
-        'address',
+        'image',
         'status',
     ];
 
