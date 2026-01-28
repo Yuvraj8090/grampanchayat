@@ -19,7 +19,9 @@
 
                                 <div class="col-md-6">
                                     <label class="form-label fw-bold">Business Photo / Logo</label>
-                                    <input type="file" name="photo" class="form-control" accept="image/*">
+                                    <label class="form-label fw-bold">Update Photo</label>
+<input type="file" name="photo" class="form-control" accept="image/*">
+
                                     <small class="text-muted">Max 2MB (jpg, png, webp)</small>
                                 </div>
 

@@ -20,12 +20,13 @@
 
                                 <div class="col-md-6">
                                     <label class="form-label fw-bold">Update Photo</label>
-                                    <input type="file" name="photo" class="form-control" accept="image/*">
-                                    @if($business->photo)
-                                        <div class="mt-2">
-                                            <img src="{{ asset('storage/' . $business->photo) }}" width="80" class="rounded border shadow-sm">
-                                        </div>
-                                    @endif
+<input type="file" name="photo" class="form-control" accept="image/*">
+
+@if($business->image) 
+    <div class="mt-2">
+        <img src="{{ asset('storage/' . $business->image) }}" width="80" class="rounded border shadow-sm">
+    </div>
+@endif
                                 </div>
 
                                 <div class="col-md-6">

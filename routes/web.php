@@ -74,7 +74,7 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
         ->group(function () {
             
 
-Route::prefix('panchayats/{panchayatId}')->name('panchayats.')->group(function () {
+Route::prefix('panchayats/{panchayat}')->name('panchayats.')->group(function () {
     Route::resource('businesses', PanchayatBusinessController::class);
 });
             Route::prefix('/panchayats')

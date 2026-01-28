@@ -14,90 +14,72 @@ class PanchayatController extends Controller
      * Display a listing of the resource.
      */
     public function index(Request $request)
-    {
-        if ($request->ajax()) {
-            // Eager load block/district and COUNT the related places in one query
-            $data = Panchayat::with(['block.district'])
-                ->withCount('places')
-                ->select('panchayats.*');
+{
+    if ($request->ajax()) {
+        // Eager load relationships and count related records efficiently
+        $data = Panchayat::with(['block.district'])
+            ->withCount(['places', 'businesses']) // Added business count for extra insight
+            ->select('panchayats.*');
 
-            return DataTables::of($data)
-                ->addIndexColumn()
-                ->addColumn('location', function ($row) {
-                    $district = $row->block->district->name ?? 'N/A';
-                    $block = $row->block->name ?? 'N/A';
-                    return "<strong>$district</strong> <i class='fas fa-angle-right mx-1 text-muted'></i> $block";
-                })
-                ->editColumn('status', function ($row) {
-                    $class = match ($row->status) {
-                        'active' => 'bg-success',
-                        'suspended' => 'bg-danger',
-                        default => 'bg-warning text-dark',
-                    };
-                    return '<span class="badge ' . $class . '">' . ucfirst($row->status) . '</span>';
-                })
-                ->addColumn('places_count', function ($row) {
-                    // Shows the count of places added (e.g., "5 Places")
-                    return '<span class="badge bg-info text-white">' . $row->places_count . ' Places</span>';
-                })
-                ->addColumn('action', function ($row) {
-                    $businesUrl = route('admin.panchayats.businesses.index', $row->id);
-                    $galleryUrl = route('admin.panchayats.gallery.index', $row->id);
-                    $editUrl = route('admin.panchayats.edit', $row->id);
-                    $editUrl = route('admin.panchayats.edit', $row->id);
-                    $sitedetailsUrl = route('admin.panchayat.details.edit', $row->id);
-                    $sitePlacesUrl = route('admin.panchayats.places.index', $row->id); // Fixed the variable name here
-                    $viewUrl = route('public.panchayat.show', $row->id);
+        return DataTables::of($data)
+            ->addIndexColumn()
+            ->addColumn('location', function ($row) {
+                $district = $row->block->district->name ?? 'N/A';
+                $block = $row->block->name ?? 'N/A';
+                return "<strong>$district</strong> <i class='fas fa-chevron-right mx-1 text-muted' style='font-size: 0.8rem;'></i> $block";
+            })
+            ->editColumn('status', function ($row) {
+                $statusMap = [
+                    'active'    => 'bg-success',
+                    'suspended' => 'bg-danger',
+                    'pending'   => 'bg-warning text-dark',
+                ];
+                $class = $statusMap[$row->status] ?? 'bg-secondary';
+                return '<span class="badge ' . $class . ' shadow-sm">' . ucfirst($row->status) . '</span>';
+            })
+            ->addColumn('places_count', function ($row) {
+                return '<span class="badge bg-info text-white"><i class="fas fa-map-marker-alt me-1"></i> ' . $row->places_count . '</span>';
+            })
+            ->addColumn('action', function ($row) {
+                // URLs
+                $businessUrl = route('admin.panchayats.businesses.index', $row->id);
+                $galleryUrl  = route('admin.panchayats.gallery.index', $row->id);
+                $placesUrl   = route('admin.panchayats.places.index', $row->id);
+                $detailsUrl  = route('admin.panchayat.details.edit', $row->id);
+                $editUrl     = route('admin.panchayats.edit', $row->id);
+                $viewUrl     = route('public.panchayat.show', $row->id);
 
-                    return '
-                    <div class="d-flex gap-2 justify-content-end">
-                    <a href="' .
-                        $businesUrl .
-                        '" class="btn btn-sm btn-outline-dark" title="Manage Tourist Places">
-                            <i class="fas fa-map-marked-alt"></i>
-                        </a>
-                    <a href="' .
-                        $galleryUrl .
-                        '" class="btn btn-sm btn-outline-dark" title="Manage Tourist Places">
-                            <i class="fas fa-map-marked-alt"></i>
-                        </a>
-                        <a href="' .
-                        $sitePlacesUrl .
-                        '" class="btn btn-sm btn-outline-dark" title="Manage Tourist Places">
-                            <i class="fas fa-map-marked-alt"></i>
-                        </a>
-
-                        <a href="' .
-                        $sitedetailsUrl .
-                        '" class="btn btn-sm btn-outline-success" title="Edit Website/Pradhan Info">
-                            <i class="fas fa-laptop-house"></i>
-                        </a>
-
-                        <a href="' .
-                        $editUrl .
-                        '" class="btn btn-sm btn-outline-primary" title="Settings">
-                            <i class="fas fa-cog"></i>
-                        </a>
-
-                        <a href="' .
-                        $viewUrl .
-                        '" target="_blank" class="btn btn-sm btn-outline-info" title="View Site">
-                            <i class="fas fa-external-link-alt"></i>
-                        </a>
-
-                        <button class="btn btn-sm btn-outline-danger" onclick="deletePanchayat(' .
-                        $row->id .
-                        ')" title="Delete">
-                            <i class="fas fa-trash"></i>
-                        </button>
-                    </div>';
-                })
-                ->rawColumns(['location', 'status', 'places_count', 'action'])
-                ->make(true);
-        }
-
-        return view('admin.panchayats.index');
+                return '
+                <div class="btn-group btn-group-sm" role="group">
+                    <a href="' . $placesUrl . '" class="btn btn-outline-primary" title="Tourist Places">
+                        <i class="fas fa-mountain"></i>
+                    </a>
+                    <a href="' . $businessUrl . '" class="btn btn-outline-primary" title="Local Businesses">
+                        <i class="fas fa-store"></i>
+                    </a>
+                    <a href="' . $galleryUrl . '" class="btn btn-outline-primary" title="Photo Gallery">
+                        <i class="fas fa-images"></i>
+                    </a>
+                    <a href="' . $detailsUrl . '" class="btn btn-outline-success" title="Website Details">
+                        <i class="fas fa-info-circle"></i>
+                    </a>
+                    <a href="' . $editUrl . '" class="btn btn-outline-warning" title="Settings">
+                        <i class="fas fa-user-cog"></i>
+                    </a>
+                    <a href="' . $viewUrl . '" target="_blank" class="btn btn-outline-info" title="Preview Public Site">
+                        <i class="fas fa-eye"></i>
+                    </a>
+                    <button type="button" class="btn btn-outline-danger" onclick="deletePanchayat(' . $row->id . ')" title="Delete">
+                        <i class="fas fa-trash-alt"></i>
+                    </button>
+                </div>';
+            })
+            ->rawColumns(['location', 'status', 'places_count', 'action'])
+            ->make(true);
     }
+
+    return view('admin.panchayats.index');
+}
     /**
      * Show the form for creating a new resource.
      */
