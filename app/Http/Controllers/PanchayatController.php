@@ -41,6 +41,8 @@ class PanchayatController extends Controller
                     return '<span class="badge bg-info text-white">' . $row->places_count . ' Places</span>';
                 })
                 ->addColumn('action', function ($row) {
+                    $galleryUrl = route('admin.panchayats.gallery.index', $row->id);
+                    $editUrl = route('admin.panchayats.edit', $row->id);
                     $editUrl = route('admin.panchayats.edit', $row->id);
                     $sitedetailsUrl = route('admin.panchayat.details.edit', $row->id);
                     $sitePlacesUrl = route('admin.panchayats.places.index', $row->id); // Fixed the variable name here
@@ -48,6 +50,11 @@ class PanchayatController extends Controller
 
                     return '
                     <div class="d-flex gap-2 justify-content-end">
+                    <a href="' .
+                        $galleryUrl .
+                        '" class="btn btn-sm btn-outline-dark" title="Manage Tourist Places">
+                            <i class="fas fa-map-marked-alt"></i>
+                        </a>
                         <a href="' .
                         $sitePlacesUrl .
                         '" class="btn btn-sm btn-outline-dark" title="Manage Tourist Places">

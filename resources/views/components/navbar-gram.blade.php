@@ -58,15 +58,15 @@
                     </li>
 
                     <li class="nav-item">
-                        <a class="nav-link {{ request()->routeIs('public.tourism.*') ? 'active' : '' }}" href="#">
-                            पर्यटन स्थल
+                        <a class="nav-link {{ request()->routeIs('public.tourist_places.show') ? 'active' : '' }}" href="{{ route('public.tourist_places.show', $panchayat->id) }}">
+                           मुख्य स्थल
                         </a>
                     </li>
 
                     <li class="nav-item">
-                        <a class="nav-link {{ request()->routeIs('public.development.*') ? 'active' : '' }}"
-                            href="#">
-                            विकास कार्य
+                        <a class="nav-link {{ request()->routeIs('public.gallery.images') ? 'active' : '' }}"
+                            href="{{ route('public.gallery.images', $panchayat->id) }}">
+                            गैलरी
                         </a>
                     </li>
 
@@ -77,12 +77,7 @@
                         </a>
                     </li>
 
-                    <li class="nav-item">
-                        <a class="nav-link {{ request()->routeIs('public.gallery.*') ? 'active' : '' }}"
-                            href="#">
-                            फोटो गैलरी
-                        </a>
-                    </li>
+                   
 
                     <li class="nav-item">
                         <a class="nav-link {{ request()->routeIs('public.contact.*') ? 'active' : '' }}"

@@ -21,6 +21,10 @@ public function places(): HasMany
 {
     return $this->hasMany(PanchayatPlace::class);
 }
+public function galleries(): HasMany
+{
+    return $this->hasMany(Gallery::class);
+}
 
     // REMOVED the faulty district() method.
     // We will access it as: $panchayat->block->district

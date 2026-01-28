@@ -43,5 +43,33 @@ class PublicPanchayatController extends Controller
 
     return view('public.panchayat_tourist_places', compact('panchayat', 'details','places'));
 }
+public function gallery($panchayatid)
+{
+    $panchayat = Panchayat::with(['block.district.state'])->findOrFail($panchayatid);
+    $details = PanchayatDetail::where('panchayat_id', $panchayatid)->firstOrNew();
+
+    // PERFORMANCE FIX: Use paginate(24) instead of get().
+    // This loads only 24 images per page.
+    $galleries = $panchayat->galleries()
+        ->where('type', 'image')
+        ->latest()
+        ->paginate(24); 
+
+    return view('public.panchayat_gallery', compact('panchayat', 'details', 'galleries'));
+}
+public function video($panchayatid)
+{
+    $panchayat = Panchayat::with(['block.district.state'])->findOrFail($panchayatid);
+    $details = PanchayatDetail::where('panchayat_id', $panchayatid)->firstOrNew();
+
+    // PERFORMANCE FIX: Use paginate(24) instead of get().
+    // This loads only 24 images per page.
+    $galleries = $panchayat->galleries()
+        ->where('type', 'image')
+        ->latest()
+        ->paginate(24); 
+
+    return view('public.panchayat_gallery', compact('panchayat', 'details', 'galleries'));
+}
 
 }
