@@ -76,6 +76,12 @@
                             वीडियो
                         </a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link {{ request()->routeIs('public.business.show') ? 'active' : '' }}"
+                            href="{{ route('public.business.show', $panchayat->id) }}">
+                            ग्राम्य व्यवसाय
+                        </a>
+                    </li>
 
                    
 
