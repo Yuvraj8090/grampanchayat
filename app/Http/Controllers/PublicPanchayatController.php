@@ -38,6 +38,16 @@ class PublicPanchayatController extends Controller
 
         return view('public.panchayat_business', compact('panchayat', 'details', 'business'));
     }
+    public function members($panchayatid)
+    {
+        $panchayat = Panchayat::with(['block.district.state'])->findOrFail($panchayatid);
+        $details = PanchayatDetail::where('panchayat_id', $panchayatid)->firstOrNew();
+       $members = $panchayat->members()->where('status', 'active')
+    ->orderBy('order_by', 'asc') // 0 or 1 will come first
+    ->get(); // Changed to get() if you aren't paginating places
+
+        return view('public.panchayat_members', compact('panchayat', 'details', 'members'));
+    }
 
     // 1. PHOTO GALLERY ROUTE
     public function gallery($panchayatid)

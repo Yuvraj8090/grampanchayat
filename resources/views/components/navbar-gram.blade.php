@@ -82,6 +82,12 @@
                         ग्रामीण व्यवसाय
                     </a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link  {{ request()->routeIs('public.members.show') ? 'active' : '' }}"
+                        href="{{ route('public.members.show', $panchayat->id) }}">
+                        पंचायत प्रतिनिधि
+                    </a>
+                </li>
 
 
 

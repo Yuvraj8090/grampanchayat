@@ -40,6 +40,9 @@ Route::get('/{id}/gallery', [PublicPanchayatController::class, 'gallery'])->name
 Route::get('/{id}/video', [PublicPanchayatController::class, 'video'])->name('public.gallery.videos');
 Route::get('/{id}/business', [PublicPanchayatController::class, 'business'])->name('public.business.show');
 
+Route::get('/{id}/members', [PublicPanchayatController::class, 'members'])->name('public.members.show');
+
+
 /*
 |--------------------------------------------------------------------------
 | Admin Routes (Login Required)
