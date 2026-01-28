@@ -71,9 +71,9 @@
                     </li>
 
                     <li class="nav-item">
-                        <a class="nav-link {{ request()->routeIs('public.members.*') ? 'active' : '' }}"
-                            href="#">
-                            प्रतिनिधि मंडल
+                        <a class="nav-link {{ request()->routeIs('public.gallery.videos') ? 'active' : '' }}"
+                            href="{{ route('public.gallery.videos', $panchayat->id) }}">
+                            वीडियो
                         </a>
                     </li>
 

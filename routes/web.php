@@ -36,6 +36,7 @@ Route::get('/{id}/panchayat', [PublicPanchayatController::class, 'show'])->name(
 Route::get('/{id}/pradhan-message', [PublicPanchayatController::class, 'pradhanMessage'])->name('public.pradhan_message.show');
 Route::get('/{id}/tourist-places', [PublicPanchayatController::class, 'touristPlaces'])->name('public.tourist_places.show');
 Route::get('/{id}/gallery', [PublicPanchayatController::class, 'gallery'])->name('public.gallery.images');
+Route::get('/{id}/video', [PublicPanchayatController::class, 'video'])->name('public.gallery.videos');
 
 /*
 |--------------------------------------------------------------------------

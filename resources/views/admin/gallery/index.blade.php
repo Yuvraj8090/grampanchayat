@@ -15,36 +15,73 @@
 
         <div class="row g-4">
             <div class="col-md-4">
-                <div class="card shadow-sm border-0 sticky-top" style="top: 20px; z-index: 1;">
-                    <div class="card-header bg-primary text-white">
-                        <i class="fas fa-cloud-upload-alt me-2"></i> Upload Media
-                    </div>
-                    <div class="card-body">
-                        <form action="{{ route('admin.panchayats.gallery.store', $panchayat->id) }}" method="POST"
-                            enctype="multipart/form-data">
-                            @csrf
-                            <div class="mb-3">
-                                <label class="form-label fw-bold">Select Images</label>
-                                <input type="file" name="files[]" class="form-control" multiple required>
-                                <small class="text-muted d-block mt-1">Max size: 5MB per image.</small>
-                            </div>
-                            <div class="mb-3">
-                                <label class="form-label fw-bold">Default Caption</label>
-                                <input type="text" name="caption" class="form-control"
-                                    placeholder="e.g. Village Fair 2024">
-                            </div>
-                            <div class="form-check form-switch mb-3">
-                                <input class="form-check-input" type="checkbox" name="is_featured" id="uploadFeatured">
-                                <label class="form-check-label" for="uploadFeatured">Mark as Featured (Home
-                                    Slider)</label>
-                            </div>
-                            <button type="submit" class="btn btn-primary w-100">
-                                <i class="fas fa-plus-circle me-1"></i> Upload Images
-                            </button>
-                        </form>
+    <div class="card shadow-sm border-0 sticky-top" style="top: 20px; z-index: 1;">
+        <div class="card-header bg-primary text-white">
+            <i class="fas fa-cloud-upload-alt me-2"></i> Upload Media
+        </div>
+        <div class="card-body">
+            <form action="{{ route('admin.panchayats.gallery.store', $panchayat->id) }}" method="POST" enctype="multipart/form-data">
+                @csrf
+                
+                <div class="mb-3">
+                    <label class="form-label fw-bold">Media Type</label>
+                    <select name="media_type" id="mediaTypeSelector" class="form-select">
+                        <option value="image">Photo Gallery</option>
+                        <option value="video">YouTube Video</option>
+                    </select>
+                </div>
+
+                <div id="imageInputSection">
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Select Images</label>
+                        <input type="file" name="files[]" class="form-control" multiple accept="image/*">
+                        <small class="text-muted d-block mt-1">Max size: 5MB per image.</small>
                     </div>
                 </div>
-            </div>
+
+                <div id="videoInputSection" style="display: none;">
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">YouTube Video URL</label>
+                        <input type="text" name="video_url" class="form-control" placeholder="e.g. https://youtu.be/l8Jb5oHgDPg">
+                        <small class="text-muted d-block mt-1">Supports share links and standard URLs.</small>
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label fw-bold">Caption</label>
+                    <input type="text" name="caption" class="form-control" placeholder="Title for this media">
+                </div>
+
+                <div class="form-check form-switch mb-3">
+                    <input class="form-check-input" type="checkbox" name="is_featured" id="uploadFeatured">
+                    <label class="form-check-label" for="uploadFeatured">Mark as Featured</label>
+                </div>
+
+                <button type="submit" class="btn btn-primary w-100">
+                    <i class="fas fa-plus-circle me-1"></i> Add to Gallery
+                </button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const selector = document.getElementById('mediaTypeSelector');
+        const imageSection = document.getElementById('imageInputSection');
+        const videoSection = document.getElementById('videoInputSection');
+
+        selector.addEventListener('change', function() {
+            if (this.value === 'video') {
+                imageSection.style.display = 'none';
+                videoSection.style.display = 'block';
+            } else {
+                imageSection.style.display = 'block';
+                videoSection.style.display = 'none';
+            }
+        });
+    });
+</script>
 
             <div class="col-md-8">
                 <div class="card shadow-sm border-0">

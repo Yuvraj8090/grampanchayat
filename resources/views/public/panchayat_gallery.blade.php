@@ -1,6 +1,6 @@
 <x-guest-layout>
     <x-slot name="header">
-        {{ $panchayat->name }} - चित्र वीर्घा
+        {{ $panchayat->name }} - {{ $pageTitle }}
     </x-slot>
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.css" />
@@ -25,34 +25,56 @@
                         <div class="col-12 text-center mb-5">
                             <div class="d-inline-block px-4 py-2 bg-warning text-white fw-bold rounded-end shadow-sm mb-3"
                                 style="background: linear-gradient(90deg, #ff8c00 0%, #ffae42 100%); border-bottom-right-radius: 50px !important; position: relative; left: -20px;">
-                                ग्राम पंचायत चित्र वीर्घा (Gallery)
+                                {{ $pageTitle }}
                             </div>
                             <h2 class="fw-bold text-dark">ग्राम पंचायत की झलकियाँ</h2>
-                            <p class="text-muted">हमारे गांव के विकास कार्यों, कार्यक्रमों और प्राकृतिक सुंदरता की तस्वीरें।</p>
+                            <p class="text-muted">{{ $pageDesc }}</p>
                         </div>
 
                         <div class="row g-3">
-                            @forelse($galleries as $image)
+                            @forelse($galleries as $item)
                                 <div class="col-6 col-md-4">
                                     <div class="gallery-item position-relative overflow-hidden rounded shadow-sm border">
-                                        <a href="{{ asset('storage/' . $image->path) }}" 
-                                           data-fancybox="gallery" 
-                                           data-caption="{{ $image->caption ?? 'Panchayat Image' }}">
-                                            
-                                            <img src="{{ asset('storage/' . $image->path) }}" 
-                                                 alt="{{ $image->caption }}"
-                                                 loading="lazy"
-                                                 class="img-fluid w-100 gallery-img"
-                                                 style="height: 200px; object-fit: cover; transition: transform 0.3s ease;">
-                                            
-                                            <div class="gallery-overlay d-flex align-items-center justify-content-center">
-                                                <i class="fas fa-search-plus text-white fa-2x"></i>
-                                            </div>
-                                        </a>
+                                        
+                                        @if($item->type === 'video')
+                                            {{-- VIDEO: Shows YouTube Thumb, Opens Video in Iframe Lightbox --}}
+                                            <a href="https://www.youtube.com/watch?v={{ $item->path }}" 
+                                               data-fancybox="gallery" 
+                                               data-caption="{{ $item->caption ?? 'Video' }}">
+                                                
+                                                <img src="https://img.youtube.com/vi/{{ $item->path }}/mqdefault.jpg" 
+                                                     class="img-fluid w-100 gallery-img" 
+                                                     style="height: 200px; object-fit: cover;"
+                                                     loading="lazy" 
+                                                     alt="Video Thumbnail">
+                                                
+                                                <div class="gallery-overlay d-flex align-items-center justify-content-center">
+                                                    <i class="fas fa-play-circle text-white fa-3x opacity-75 drop-shadow"></i>
+                                                </div>
+                                            </a>
+                                        @else
+                                            {{-- IMAGE: Shows Image, Opens Image in Lightbox --}}
+                                            <a href="{{ asset('storage/' . $item->path) }}" 
+                                               data-fancybox="gallery" 
+                                               data-caption="{{ $item->caption ?? 'Panchayat Image' }}">
+                                                
+                                                <img src="{{ asset('storage/' . $item->path) }}" 
+                                                     class="img-fluid w-100 gallery-img" 
+                                                     style="height: 200px; object-fit: cover;"
+                                                     loading="lazy" 
+                                                     alt="Gallery Image">
+                                                
+                                                <div class="gallery-overlay d-flex align-items-center justify-content-center">
+                                                    <i class="fas fa-search-plus text-white fa-2x drop-shadow"></i>
+                                                </div>
+                                            </a>
+                                        @endif
+                                        
                                     </div>
-                                    @if($image->caption)
+                                    
+                                    @if($item->caption)
                                         <div class="text-center mt-1">
-                                            <small class="text-muted fw-bold">{{ Str::limit($image->caption, 25) }}</small>
+                                            <small class="text-muted fw-bold">{{ Str::limit($item->caption, 25) }}</small>
                                         </div>
                                     @endif
                                 </div>
@@ -60,7 +82,7 @@
                                 <div class="col-12 text-center py-5">
                                     <div class="p-4 bg-light rounded border border-dashed">
                                         <i class="fas fa-images fa-3x text-muted mb-2"></i>
-                                        <p class="mb-0 text-muted">अभी कोई तस्वीर उपलब्ध नहीं है।</p>
+                                        <p class="mb-0 text-muted">इस श्रेणी में अभी कोई डेटा उपलब्ध नहीं है।</p>
                                     </div>
                                 </div>
                             @endforelse
@@ -74,7 +96,7 @@
                 </div>
             </div>
 
-            <div class="col-lg-4">
+<div class="col-lg-4">
 
                 <div class="sidebar-box shadow-sm rounded overflow-hidden">
                     <div class="sidebar-title">
@@ -108,7 +130,7 @@
                     <div class="card-body">
                         <h5 class="fw-bold"><i class="fas fa-headset me-2"></i> सहायता केंद्र</h5>
                         <p class="small mb-2">किसी भी समस्या के लिए संपर्क करें:</p>
-                        <h4 class="fw-bold mb-0">{{ $details->pradhan_contact ?? 'Not Available' }}</h4>
+                        <h4 class="fw-bold mb-0">{{ $details->contact_phone ?? 'Not Available' }}</h4>
 
                         @if ($details->contact_email)
                             <div class="mt-2 small"><i class="fas fa-envelope me-1"></i>
@@ -126,7 +148,7 @@
         </div>
     </div>
 
-    <footer class="footer">
+ <footer class="footer">
         <div class="container pb-4">
             <div class="row g-4">
                 <div class="col-md-4">
@@ -181,60 +203,28 @@
             </div>
         </div>
     </footer>
-    <script>
-        // Set Current Date
-        const dateOptions = {
-            weekday: 'long',
-            year: 'numeric',
-            month: 'long',
-            day: 'numeric'
-        };
-        document.getElementById('currentDate').textContent = new Date().toLocaleDateString('hi-IN', dateOptions);
-    </script>
 
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.umd.js"></script>
+    
     <script>
         document.addEventListener("DOMContentLoaded", function() {
-            // Bind Fancybox to all elements with data-fancybox="gallery"
             Fancybox.bind('[data-fancybox="gallery"]', {
-                Thumbs : {
-                    type: "modern"
-                },
-                Toolbar: {
-                    display: {
-                        left: ["infobar"],
-                        middle: [],
-                        right: ["slideshow", "thumbs", "close"],
-                    },
-                },
+                Thumbs : { type: "modern" },
+                Toolbar: { display: { left: ["infobar"], middle: [], right: ["slideshow", "thumbs", "close"] } },
+                Html: { video: { autoplay: true } }
             });
         });
     </script>
 
     <style>
-        .gallery-item {
-            cursor: pointer;
-        }
-        .gallery-item:hover .gallery-img {
-            transform: scale(1.1);
-        }
-        .gallery-overlay {
-            position: absolute;
-            top: 0; left: 0; right: 0; bottom: 0;
-            background: rgba(0,0,0,0.3);
-            opacity: 0;
-            transition: opacity 0.3s ease;
-        }
-        .gallery-item:hover .gallery-overlay {
-            opacity: 1;
-        }
-        /* Pagination Customization */
-        .page-item.active .page-link {
-            background-color: #ff8c00;
-            border-color: #ff8c00;
-        }
-        .page-link {
-            color: #333;
-        }
+        .gallery-item { cursor: pointer; transition: transform 0.3s ease; }
+        .gallery-item:hover { transform: translateY(-2px); }
+        .gallery-item:hover .gallery-img { transform: scale(1.05); transition: transform 0.5s ease; }
+        .gallery-overlay { position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.4); opacity: 0; transition: opacity 0.3s ease; }
+        .gallery-item:hover .gallery-overlay { opacity: 1; }
+        .drop-shadow { text-shadow: 0 2px 4px rgba(0,0,0,0.5); }
+        .page-item.active .page-link { background-color: #ff8c00; border-color: #ff8c00; }
+        .page-link { color: #333; }
     </style>
 </x-guest-layout>
