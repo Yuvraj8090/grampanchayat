@@ -14,44 +14,58 @@ class PanchayatController extends Controller
      * Display a listing of the resource.
      */
     public function index(Request $request)
-    {
-        if ($request->ajax()) {
-            // High speed eager loading: Panchayat -> Block -> District
-            $data = Panchayat::with('block.district')->select('panchayats.*');
-            
-            return DataTables::of($data)
-                ->addIndexColumn()
-                ->addColumn('location', function($row){
-                    // Ensure relations exist to avoid errors
-                    $district = $row->block->district->name ?? 'N/A';
-                    $block = $row->block->name ?? 'N/A';
-                    return $district . ' > ' . $block;
-                })
-                ->editColumn('status', function($row){
-                    $class = match($row->status) {
-                        'active' => 'bg-success',
-                        'suspended' => 'bg-danger',
-                        default => 'bg-warning text-dark'
-                    };
-                    return '<span class="badge '.$class.'">'.ucfirst($row->status).'</span>';
-                })
-                ->addColumn('action', function($row){
-                    // Added Delete button to the actions
-                    $editUrl = route('admin.panchayats.edit', $row->id);
-                    // Use a form or dedicated JS for delete to prevent CSRF issues, 
-                    // here is a simple button setup for your existing JS structure.
-                    return '
-                        <div class="d-flex gap-2">
-                            <a href="'.$editUrl.'" class="btn btn-sm btn-outline-primary"><i class="fas fa-edit"></i></a>
-                            <button class="btn btn-sm btn-outline-info" onclick="viewPanchayatDetails('.$row->id.')"><i class="fas fa-eye"></i></button>
-                            <button class="btn btn-sm btn-outline-danger" onclick="deletePanchayat('.$row->id.')"><i class="fas fa-trash"></i></button>
-                        </div>';
-                })
-                ->rawColumns(['status', 'action'])
-                ->make(true);
-        }
-        return view('admin.panchayats.index');
+{
+    if ($request->ajax()) {
+        // Eager load everything needed for the table
+        $data = Panchayat::with(['block.district'])->select('panchayats.*');
+        
+        return DataTables::of($data)
+            ->addIndexColumn()
+            ->addColumn('location', function($row){
+                $district = $row->block->district->name ?? 'N/A';
+                $block = $row->block->name ?? 'N/A';
+                return "<strong>$district</strong> <i class='fas fa-angle-right mx-1'></i> $block";
+            })
+            ->editColumn('status', function($row){
+                $class = match($row->status) {
+                    'active' => 'bg-success',
+                    'suspended' => 'bg-danger',
+                    default => 'bg-warning text-dark'
+                };
+                return '<span class="badge '.$class.'">'.ucfirst($row->status).'</span>';
+            })
+            ->addColumn('action', function($row){
+                // Route for basic panchayat info (ID, Block, etc)
+                $editUrl = route('admin.panchayats.edit', $row->id);
+                // Route for the Website/Pradhan Message details
+                $sitedetailsUrl = route('admin.panchayat.details.edit', $row->id);
+                // Public View URL
+                $viewUrl = route('public.panchayat.show', $row->id);
+                
+                return '
+                    <div class="d-flex gap-2">
+                        <a href="'.$editUrl.'" class="btn btn-sm btn-outline-primary" title="Edit Panchayat Settings">
+                            <i class="fas fa-cog"></i>
+                        </a>
+                        
+                        <a href="'.$sitedetailsUrl.'" class="btn btn-sm btn-outline-success" title="Edit Website Details">
+                            <i class="fas fa-laptop-house"></i>
+                        </a>
+
+                        <a href="'.$viewUrl.'" target="_blank" class="btn btn-sm btn-outline-info" title="View Public Website">
+                            <i class="fas fa-external-link-alt"></i>
+                        </a>
+
+                        <button class="btn btn-sm btn-outline-danger" onclick="deletePanchayat('.$row->id.')" title="Delete">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </div>';
+            })
+            ->rawColumns(['location', 'status', 'action']) // 'location' now has HTML (icon)
+            ->make(true);
     }
+    return view('admin.panchayats.index');
+}
 
     /**
      * Show the form for creating a new resource.
