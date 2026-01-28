@@ -33,6 +33,7 @@ use App\Http\Controllers\PublicPanchayatController;
 */
 Route::get('/{id}/panchayat', [PublicPanchayatController::class, 'show'])->name('public.panchayat.show');
 Route::get('/{id}/pradhan-message', [PublicPanchayatController::class, 'pradhanMessage'])->name('public.pradhan_message.show');
+Route::get('/{id}/tourist-places', [PublicPanchayatController::class, 'touristPlaces'])->name('public.tourist_places.show');
 
 /*
 |--------------------------------------------------------------------------
